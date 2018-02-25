@@ -5,8 +5,50 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LibraryManagementSystem"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
+        Title="MainWindow" 
+        MinHeight="400" MinWidth="600"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Menu VerticalAlignment="Stretch" Grid.Row="0">
+            <MenuItem Header="File">
+                <MenuItem Header="New">
+                    <MenuItem Header="Publication"/>
+                    <MenuItem Header="Book" IsEnabled="False"/>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Actions">
+                <MenuItem Header="Book Taken"/>
+                <MenuItem Header="Book Returned"/>
+            </MenuItem>
+            <MenuItem Header="Edit">
+                <MenuItem Header="1"/>
+            </MenuItem>
+            <MenuItem Header="Settings">
+                <MenuItem Header="1"/>
+            </MenuItem>
+        </Menu>
+
+        <!--
+        <ToolBarTray HorizontalAlignment="Stretch" VerticalAlignment="Top" IsLocked="False" >
+            <ToolBar Band="0" BandIndex="0" >
+                <TextBox Text="baabaabab"/>
+                <Menu>
+                    <MenuItem Header="choice!">
+                        <RadioButton Content="1"/>
+                        <RadioButton Content="2"/>
+                    </MenuItem>
+                </Menu>
+            </ToolBar>
+        </ToolBarTray> 
+        -->
+
+        <Frame Grid.Row="1" Name="MainView" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" NavigationUIVisibility="Hidden"/>
     </Grid>
+
 </Window>
