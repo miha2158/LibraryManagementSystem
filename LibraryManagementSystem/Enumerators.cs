@@ -9,7 +9,7 @@
 
     public enum WriterType
     {
-        Teacher,
+        HseTeacher,
         Other
     }
 

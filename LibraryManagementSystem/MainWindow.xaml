@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LibraryManagementSystem"
         mc:Ignorable="d"
-        Title="MainWindow" 
+        Title="Библиотека" 
         MinHeight="400" MinWidth="600"
         WindowStartupLocation="CenterScreen">
 
@@ -16,20 +16,20 @@
         </Grid.RowDefinitions>
 
         <Menu VerticalAlignment="Stretch" Grid.Row="0">
-            <MenuItem Header="File">
-                <MenuItem Header="New">
-                    <MenuItem Header="Publication"/>
-                    <MenuItem Header="Book" IsEnabled="False"/>
+            <MenuItem Header="Файл">
+                <MenuItem Header="Новый">
+                    <MenuItem Header="Публикация"/>
+                    <MenuItem Header="Книга" IsEnabled="False"/>
                 </MenuItem>
             </MenuItem>
-            <MenuItem Header="Actions">
-                <MenuItem Header="Book Taken"/>
-                <MenuItem Header="Book Returned"/>
+            <MenuItem Header="Действия">
+                <MenuItem Header="Публикацию взяли"/>
+                <MenuItem Header="Публикацию вернули"/>
             </MenuItem>
-            <MenuItem Header="Edit">
+            <MenuItem Header="Изменить">
                 <MenuItem Header="1"/>
             </MenuItem>
-            <MenuItem Header="Settings">
+            <MenuItem Header="Настройки">
                 <MenuItem Header="1"/>
             </MenuItem>
         </Menu>
