@@ -62,10 +62,10 @@
     </ApplicationDefinition>
     <Compile Include="Author.cs" />
     <Compile Include="Enumerators.cs" />
-    <Compile Include="Model1.Designer.cs">
+    <Compile Include="PublicationsDatebase.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.edmx</DependentUpon>
+      <DependentUpon>PublicationsDatebase.edmx</DependentUpon>
     </Compile>
     <Compile Include="Publication.cs" />
     <Compile Include="Reader.cs" />
@@ -100,12 +100,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EntityDeploy Include="Model1.edmx">
+    <EntityDeploy Include="PublicationsDatebase.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
+      <LastGenOutput>PublicationsDatebase.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="Model1.edmx.diagram">
-      <DependentUpon>Model1.edmx</DependentUpon>
+    <None Include="PublicationsDatebase.edmx.diagram">
+      <DependentUpon>PublicationsDatebase.edmx</DependentUpon>
     </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
