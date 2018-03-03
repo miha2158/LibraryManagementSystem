@@ -71,6 +71,9 @@
     <Compile Include="ActualWindow.xaml.cs">
       <DependentUpon>ActualWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AddPublication.xaml.cs">
+      <DependentUpon>AddPublication.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Author.cs" />
     <Compile Include="Enumerators.cs" />
     <Compile Include="MainDatabase.Context.cs">
@@ -94,6 +97,10 @@
       <DependentUpon>MainDatabase.tt</DependentUpon>
     </Compile>
     <Page Include="ActualWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddPublication.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -21,10 +21,17 @@ namespace LibraryManagementSystem
             InitializeComponent();
         }
 
+        public AddPublication AddPublication = new AddPublication();
+
         public Page OnScreenContent;
         public void NavigateTo(Page destinationPage)
         {
             MainView.Navigate(OnScreenContent = destinationPage);
+        }
+
+        private void ActualWindow_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            NavigateTo(AddPublication);
         }
     }
 }

@@ -7,7 +7,9 @@
         mc:Ignorable="d"
         Title="Библиотека" 
         MinHeight="400" MinWidth="600"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        FontSize="20"
+        Loaded="ActualWindow_OnLoaded">
 
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid.RowDefinitions>
@@ -34,39 +36,10 @@
             </MenuItem>
         </Menu>
 
-        <!--
-        <ToolBarTray HorizontalAlignment="Stretch" VerticalAlignment="Top" IsLocked="False" >
-            <ToolBar Band="0" BandIndex="0" >
-                <TextBox Text="baabaabab"/>
-                <Menu>
-                    <MenuItem Header="choice!">
-                        <RadioButton Content="1"/>
-                        <RadioButton Content="2"/>
-                    </MenuItem>
-                </Menu>
-            </ToolBar>
-        </ToolBarTray> 
-        -->
-
         <Frame Grid.Row="1" Name="MainView" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                NavigationUIVisibility="Hidden"/>
+
         <Grid Grid.Row="1" Name="InterfaceProject">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="6*"/>
-            </Grid.RowDefinitions>
-            
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-
-            <Button Margin="20 10" Grid.Row="0" Grid.Column="0"/>
-            <Button Margin="20 10" Grid.Row="0" Grid.Column="1"/>
-            <Button Margin="20 10" Grid.Row="0" Grid.Column="2"/>
-
-            <DataGrid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"></DataGrid>
 
         </Grid>
     </Grid>
