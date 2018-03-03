@@ -16,9 +16,9 @@ namespace LibraryManagementSystem
     {
         public string Login { get; set; }
         public string Name { get; set; }
-        public string LastName { get; set; }
+        public string Last { get; set; }
         public string Patronimic { get; set; }
-        public string AccessLevel { get; set; }
-        public string PasswordHash { get; set; }
+        public byte AccessLevel { get; set; }
+        public long PaswordHash { get; set; }
     }
 }

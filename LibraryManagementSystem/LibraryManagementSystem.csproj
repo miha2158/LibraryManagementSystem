@@ -72,25 +72,25 @@
     </Compile>
     <Compile Include="Author.cs" />
     <Compile Include="Enumerators.cs" />
-    <Compile Include="PublicationsDatabase.Context.cs">
+    <Compile Include="MainDatabase.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>PublicationsDatabase.Context.tt</DependentUpon>
+      <DependentUpon>MainDatabase.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="PublicationsDatabase.cs">
+    <Compile Include="MainDatabase.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>PublicationsDatabase.tt</DependentUpon>
+      <DependentUpon>MainDatabase.tt</DependentUpon>
     </Compile>
-    <Compile Include="PublicationsDatabase.Designer.cs">
+    <Compile Include="MainDatabase.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>PublicationsDatabase.edmx</DependentUpon>
+      <DependentUpon>MainDatabase.edmx</DependentUpon>
     </Compile>
     <Compile Include="Publication.cs" />
     <Compile Include="Reader.cs" />
     <Compile Include="User.cs">
-      <DependentUpon>PublicationsDatabase.tt</DependentUpon>
+      <DependentUpon>MainDatabase.tt</DependentUpon>
     </Compile>
     <Page Include="ActualWindow.xaml">
       <SubType>Designer</SubType>
@@ -127,14 +127,14 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EntityDeploy Include="PublicationsDatabase.edmx">
+    <EntityDeploy Include="MainDatabase.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>PublicationsDatabase.Designer.cs</LastGenOutput>
+      <LastGenOutput>MainDatabase.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="packages.config" />
-    <None Include="PublicationsDatabase.edmx.diagram">
-      <DependentUpon>PublicationsDatabase.edmx</DependentUpon>
+    <None Include="MainDatabase.edmx.diagram">
+      <DependentUpon>MainDatabase.edmx</DependentUpon>
     </None>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -144,20 +144,20 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="PublicationsDatabase.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>PublicationsDatabase.Context.cs</LastGenOutput>
-      <DependentUpon>PublicationsDatabase.edmx</DependentUpon>
-    </Content>
-    <Content Include="PublicationsDatabase.edmx.sql" />
-    <Content Include="PublicationsDatabase.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>PublicationsDatabase.cs</LastGenOutput>
-      <DependentUpon>PublicationsDatabase.edmx</DependentUpon>
-    </Content>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+    <Content Include="MainDatabase.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MainDatabase.Context.cs</LastGenOutput>
+      <DependentUpon>MainDatabase.edmx</DependentUpon>
+    </Content>
+    <Content Include="MainDatabase.edmx.sql" />
+    <Content Include="MainDatabase.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MainDatabase.cs</LastGenOutput>
+      <DependentUpon>MainDatabase.edmx</DependentUpon>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -4,54 +4,54 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="Model1.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-  <EntityContainer Name="Model1StoreContainer">
-    <EntitySet Name="UserSet" EntityType="Model1.Store.UserSet" store:Type="Tables" Schema="dbo" />
+    <Schema Namespace="MainDatabase.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="MainDatabaseStoreContainer">
+    <EntitySet Name="UserSet" EntityType="MainDatabase.Store.UserSet" store:Type="Tables" Schema="dbo" />
   </EntityContainer>
   <EntityType Name="UserSet">
     <Key>
       <PropertyRef Name="Login" />
     </Key>
-    <Property Name="Login" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Login" Type="nvarchar(max)" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="LastName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Last" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Patronimic" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="AccessLevel" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="PasswordHash" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="AccessLevel" Type="tinyint" Nullable="false" />
+    <Property Name="PaswordHash" Type="bigint" Nullable="false" />
   </EntityType>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Model1" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
-        <EntityContainer Name="Model1Container" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="UserSet" EntityType="Model1.User" />
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="MainDatabase" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="MainDatabaseContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="UserSet" EntityType="MainDatabase.User" />
         </EntityContainer>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="Login" />
           </Key>
-          <Property Name="Login" Type="String" Nullable="false" />
+          <Property Name="Login" Type="String" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" />
-          <Property Name="LastName" Type="String" Nullable="false" />
+          <Property Name="Last" Type="String" Nullable="false" />
           <Property Name="Patronimic" Type="String" Nullable="false" />
-          <Property Name="AccessLevel" Type="String" Nullable="false" />
-          <Property Name="PasswordHash" Type="String" Nullable="false" />
+          <Property Name="AccessLevel" Type="Byte" Nullable="false" />
+          <Property Name="PaswordHash" Type="Int64" Nullable="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
     <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="Model1StoreContainer" CdmEntityContainer="Model1Container">
+  <EntityContainerMapping StorageEntityContainer="MainDatabaseStoreContainer" CdmEntityContainer="MainDatabaseContainer">
     <EntitySetMapping Name="UserSet">
-      <EntityTypeMapping TypeName="IsTypeOf(Model1.User)">
+      <EntityTypeMapping TypeName="IsTypeOf(MainDatabase.User)">
         <MappingFragment StoreEntitySet="UserSet">
           <ScalarProperty Name="Login" ColumnName="Login" />
           <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="Last" ColumnName="Last" />
           <ScalarProperty Name="Patronimic" ColumnName="Patronimic" />
           <ScalarProperty Name="AccessLevel" ColumnName="AccessLevel" />
-          <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+          <ScalarProperty Name="PaswordHash" ColumnName="PaswordHash" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

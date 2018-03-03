@@ -2,13 +2,13 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 03/03/2018 13:50:46
--- Generated from EDMX file: D:\Projects\LibraryManagementSystem\LibraryManagementSystem\PublicationsDatabase.edmx
+-- Date Created: 03/03/2018 14:36:17
+-- Generated from EDMX file: D:\Projects\LibraryManagementSystem\LibraryManagementSystem\MainDatabase.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [UsersTest];
+USE [MainDatabase];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
@@ -34,10 +34,10 @@ GO
 CREATE TABLE [dbo].[UserSet] (
     [Login] nvarchar(max)  NOT NULL,
     [Name] nvarchar(max)  NOT NULL,
-    [LastName] nvarchar(max)  NOT NULL,
+    [Last] nvarchar(max)  NOT NULL,
     [Patronimic] nvarchar(max)  NOT NULL,
-    [AccessLevel] nvarchar(max)  NOT NULL,
-    [PasswordHash] nvarchar(max)  NOT NULL
+    [AccessLevel] tinyint  NOT NULL,
+    [PaswordHash] bigint  NOT NULL
 );
 GO
 
