@@ -1,0 +1,53 @@
+﻿<Window x:Class="LibraryManagementSystem.ActualWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LibraryManagementSystem"
+        mc:Ignorable="d"
+        Title="Библиотека" 
+        MinHeight="400" MinWidth="600"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Menu VerticalAlignment="Stretch" Grid.Row="0">
+            <MenuItem Header="Файл">
+                <MenuItem Header="Новый">
+                    <MenuItem Header="Публикация"/>
+                    <MenuItem Header="Книга" IsEnabled="False"/>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Действия">
+                <MenuItem Header="Публикацию взяли"/>
+                <MenuItem Header="Публикацию вернули"/>
+            </MenuItem>
+            <MenuItem Header="Изменить">
+                <MenuItem Header="1"/>
+            </MenuItem>
+            <MenuItem Header="Настройки">
+                <MenuItem Header="1"/>
+            </MenuItem>
+        </Menu>
+
+        <!--
+        <ToolBarTray HorizontalAlignment="Stretch" VerticalAlignment="Top" IsLocked="False" >
+            <ToolBar Band="0" BandIndex="0" >
+                <TextBox Text="baabaabab"/>
+                <Menu>
+                    <MenuItem Header="choice!">
+                        <RadioButton Content="1"/>
+                        <RadioButton Content="2"/>
+                    </MenuItem>
+                </Menu>
+            </ToolBar>
+        </ToolBarTray> 
+        -->
+
+        <Frame Grid.Row="1" Name="MainView" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" NavigationUIVisibility="Hidden"/>
+    </Grid>
+</Window>

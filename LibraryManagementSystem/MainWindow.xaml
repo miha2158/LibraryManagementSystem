@@ -5,50 +5,33 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LibraryManagementSystem"
         mc:Ignorable="d"
-        Title="Библиотека" 
-        MinHeight="400" MinWidth="600"
+        Title="Логин" 
+        Height="300" Width="500"
+        ResizeMode="NoResize" 
+        FontSize="20"
         WindowStartupLocation="CenterScreen">
 
-    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Menu VerticalAlignment="Stretch" Grid.Row="0">
-            <MenuItem Header="Файл">
-                <MenuItem Header="Новый">
-                    <MenuItem Header="Публикация"/>
-                    <MenuItem Header="Книга" IsEnabled="False"/>
-                </MenuItem>
-            </MenuItem>
-            <MenuItem Header="Действия">
-                <MenuItem Header="Публикацию взяли"/>
-                <MenuItem Header="Публикацию вернули"/>
-            </MenuItem>
-            <MenuItem Header="Изменить">
-                <MenuItem Header="1"/>
-            </MenuItem>
-            <MenuItem Header="Настройки">
-                <MenuItem Header="1"/>
-            </MenuItem>
-        </Menu>
+        <TextBlock Grid.Row="0" Text="Вход" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Stretch" FontSize="30"/>
 
-        <!--
-        <ToolBarTray HorizontalAlignment="Stretch" VerticalAlignment="Top" IsLocked="False" >
-            <ToolBar Band="0" BandIndex="0" >
-                <TextBox Text="baabaabab"/>
-                <Menu>
-                    <MenuItem Header="choice!">
-                        <RadioButton Content="1"/>
-                        <RadioButton Content="2"/>
-                    </MenuItem>
-                </Menu>
-            </ToolBar>
-        </ToolBarTray> 
-        -->
+        <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" Orientation="Vertical" Margin="50 0">
+            <TextBlock Text="Логин" HorizontalAlignment="Center"/>
+            <TextBox Name="Login" TextAlignment="Left" KeyDown="LoginKeyDown" AcceptsReturn="False" AcceptsTab="False"/>
+        </StackPanel>
 
-        <Frame Grid.Row="1" Name="MainView" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" NavigationUIVisibility="Hidden"/>
+        <StackPanel Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Stretch" Orientation="Vertical" Margin="50 0">
+            <TextBlock Text="Пароль" HorizontalAlignment="Center"/>
+            <PasswordBox Name="Password" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" PasswordChar="●" KeyDown="LoginKeyDown"/>
+        </StackPanel>
+
+        <Button Name="LoginButton" Grid.Row="3" FontSize="20" Content="Войти" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="40 0" Click="Login_Click"/>
     </Grid>
 
 </Window>

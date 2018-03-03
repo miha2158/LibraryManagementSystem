@@ -34,10 +34,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Generator">
       <HintPath>..\..\Generator\Generator\bin\Debug\netcoreapp2.0\Generator.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -60,15 +67,35 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ActualWindow.xaml.cs">
+      <DependentUpon>ActualWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Author.cs" />
     <Compile Include="Enumerators.cs" />
-    <Compile Include="PublicationsDatebase.Designer.cs">
+    <Compile Include="PublicationsDatabase.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>PublicationsDatebase.edmx</DependentUpon>
+      <DependentUpon>PublicationsDatabase.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PublicationsDatabase.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PublicationsDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PublicationsDatabase.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PublicationsDatabase.edmx</DependentUpon>
     </Compile>
     <Compile Include="Publication.cs" />
     <Compile Include="Reader.cs" />
+    <Compile Include="User.cs">
+      <DependentUpon>PublicationsDatabase.tt</DependentUpon>
+    </Compile>
+    <Page Include="ActualWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -100,12 +127,13 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EntityDeploy Include="PublicationsDatebase.edmx">
+    <EntityDeploy Include="PublicationsDatabase.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>PublicationsDatebase.Designer.cs</LastGenOutput>
+      <LastGenOutput>PublicationsDatabase.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="PublicationsDatebase.edmx.diagram">
-      <DependentUpon>PublicationsDatebase.edmx</DependentUpon>
+    <None Include="packages.config" />
+    <None Include="PublicationsDatabase.edmx.diagram">
+      <DependentUpon>PublicationsDatabase.edmx</DependentUpon>
     </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -114,6 +142,22 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="PublicationsDatabase.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PublicationsDatabase.Context.cs</LastGenOutput>
+      <DependentUpon>PublicationsDatabase.edmx</DependentUpon>
+    </Content>
+    <Content Include="PublicationsDatabase.edmx.sql" />
+    <Content Include="PublicationsDatabase.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PublicationsDatabase.cs</LastGenOutput>
+      <DependentUpon>PublicationsDatabase.edmx</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

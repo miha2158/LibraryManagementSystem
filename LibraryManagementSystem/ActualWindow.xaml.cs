@@ -10,27 +10,20 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace LibraryManagementSystem
 {
-    public partial class MainWindow: Window
+    public partial class ActualWindow : Window
     {
-        public MainWindow()
+        public ActualWindow()
         {
             InitializeComponent();
         }
-
-        private void Login_Click(object sender, RoutedEventArgs e)
+        public Page OnScreenContent;
+        public void NavigateTo(Page destinationPage)
         {
-
-        }
-
-        private void LoginKeyDown(object sender, KeyEventArgs e)
-        {
-            if(e.Key == Key.Enter)
-                Login_Click(null, null);
+            MainView.Navigate(OnScreenContent = destinationPage);
         }
     }
 }
