@@ -20,6 +20,7 @@ namespace LibraryManagementSystem
         {
             InitializeComponent();
         }
+
         public Page OnScreenContent;
         public void NavigateTo(Page destinationPage)
         {

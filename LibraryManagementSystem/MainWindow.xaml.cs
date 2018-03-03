@@ -31,8 +31,25 @@ namespace LibraryManagementSystem
 
         private void LoginKeyDown(object sender, KeyEventArgs e)
         {
-            if(e.Key == Key.Enter)
+            if (e.Key != Key.Enter)
+                return;
+
+            bool a = Login.Text == string.Empty;
+            bool b = Password.Password == string.Empty;
+
+            if (!a && b)
+                Password.Focus();
+
+            if (a && !b)
+                Login.Focus();
+
+            if (!a && !b)
                 Login_Click(null, null);
+        }
+
+        private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            Login.Focus();
         }
     }
 }
