@@ -48,6 +48,26 @@
         </ToolBarTray> 
         -->
 
-        <Frame Grid.Row="1" Name="MainView" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" NavigationUIVisibility="Hidden"/>
+        <Frame Grid.Row="1" Name="MainView" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+               NavigationUIVisibility="Hidden"/>
+        <Grid Grid.Row="1" Name="InterfaceProject">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="6*"/>
+            </Grid.RowDefinitions>
+            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Button Margin="20 10" Grid.Row="0" Grid.Column="0"/>
+            <Button Margin="20 10" Grid.Row="0" Grid.Column="1"/>
+            <Button Margin="20 10" Grid.Row="0" Grid.Column="2"/>
+
+            <DataGrid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"></DataGrid>
+
+        </Grid>
     </Grid>
 </Window>

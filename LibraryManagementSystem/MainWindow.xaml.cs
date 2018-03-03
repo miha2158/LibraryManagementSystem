@@ -24,7 +24,9 @@ namespace LibraryManagementSystem
 
         private void Login_Click(object sender, RoutedEventArgs e)
         {
-
+            var window = new ActualWindow();
+            window.Show();
+            Close();
         }
 
         private void LoginKeyDown(object sender, KeyEventArgs e)
