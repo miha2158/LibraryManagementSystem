@@ -34,6 +34,10 @@
             <MenuItem Header="Настройки">
                 <MenuItem Header="1"/>
             </MenuItem>
+            <MenuItem Header="Окно">
+                <MenuItem Header="0" Click="ToPage0"/>
+                <MenuItem Header="1" Click="ToPage1"/>
+            </MenuItem>
         </Menu>
 
         <Frame Grid.Row="1" Name="MainView" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 

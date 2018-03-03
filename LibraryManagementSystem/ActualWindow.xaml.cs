@@ -21,7 +21,11 @@ namespace LibraryManagementSystem
             InitializeComponent();
         }
 
+        public TestPage TestPage = new TestPage();
         public AddPublication AddPublication = new AddPublication();
+
+        private void ToPage0(object sender, RoutedEventArgs e) => NavigateTo(TestPage);
+        private void ToPage1(object sender, RoutedEventArgs e) => NavigateTo(AddPublication);
 
         public Page OnScreenContent;
         public void NavigateTo(Page destinationPage)
@@ -33,5 +37,6 @@ namespace LibraryManagementSystem
         {
             NavigateTo(AddPublication);
         }
+
     }
 }
