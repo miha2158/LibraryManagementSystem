@@ -38,5 +38,21 @@ namespace LibraryManagementSystem
             NavigateTo(AddPublication);
         }
 
+        private void SearchBox_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            DummySearchText.Visibility = SearchBox.Text.Length == 0 ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private void DummySearchText_OnMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            SearchBox.Focus();
+        }
+
+        private void SearchBox_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Key != Key.Enter)
+                return;
+
+        }
     }
 }

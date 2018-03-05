@@ -24,5 +24,18 @@ namespace LibraryManagementSystem
         {
             InitializeComponent();
         }
+
+        private void SearchBox_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Key != Key.Enter)
+                return;
+
+            MessageBox.Show("how are you?", "hi!", MessageBoxButton.OK, MessageBoxImage.Question);
+        }
+
+        private void AddPublication_OnLoaded(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

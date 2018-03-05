@@ -33,23 +33,25 @@ namespace LibraryManagementSystem
         {
             if (e.Key != Key.Enter)
                 return;
-
-            bool a = Login.Text == string.Empty;
-            bool b = Password.Password == string.Empty;
-
-            if (!a && b)
-                Password.Focus();
-
-            if (a && !b)
-                Login.Focus();
-
-            if (!a && !b)
+            
+            if (Login.Text != string.Empty && Password.Password != string.Empty)
                 Login_Click(null, null);
+
+            if (Login.IsFocused)
+            {
+                Password.Focus();
+                return;
+            }
+
+            if (Password.IsFocused)
+                Login.Focus();
         }
 
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
             Login.Focus();
+
+            Login_Click(null, null);
         }
     }
 }

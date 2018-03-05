@@ -8,28 +8,10 @@
       MinHeight="350"
       MinWidth="550"
       Title="AddPublication"
-      FontSize="20">
+      FontSize="20"
+      Loaded="AddPublication_OnLoaded">
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-
-        <TextBlock Margin="20 10 5 10" Grid.Row="0" Grid.Column="0" Text="Поиск: " TextAlignment="Right"/>
-        <TextBox Margin="5 10 20 10" Grid.Row="0" Grid.Column="1" MaxLines="1" AcceptsReturn="False" AcceptsTab="False" Grid.ColumnSpan="2"/>
-
-        <Button Margin="20 5" Grid.Row="1" Grid.Column="0" Content="кнопка 1"/>
-        <Button Margin="20 5" Grid.Row="1" Grid.Column="1" Content="кнопка 2"/>
-        <Button Margin="20 5" Grid.Row="1" Grid.Column="2" Content="кнопка 3"/>
-
-        <DataGrid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"/>
+        <DataGrid Margin="1"/>
     </Grid>
 </Page>

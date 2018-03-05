@@ -26,7 +26,8 @@ namespace LibraryManagementSystem
         public Author Writer { get; set; } = new Author();
         public PublicationType Type { get; set; }
         public List<Reader> Readers { get; set; } = new List<Reader>();
-        public object Location { get; set; } = string.Empty;
+        public BookLocation PhysicalLocation { get; set; } = new BookLocation();
+        public Uri InternetLocation { get; set; } = new Uri("");
 
         public Publication() { }
         private Publication(string Name, Author Writer, PublicationType Type, DateTime DatePublished, string Publisher)
@@ -38,15 +39,15 @@ namespace LibraryManagementSystem
             this.Publisher = Publisher;
         }
 
-        public Publication(string Name, Author Writer, PublicationType Type, DateTime DatePublished, string Publisher, BookLocation Location):
+        public Publication(string Name, Author Writer, PublicationType Type, DateTime DatePublished, string Publisher, BookLocation PhysicalLocation) :
             this(Name, Writer, Type, DatePublished, Publisher)
         {
-            this.Location = Location;
+            this.PhysicalLocation = PhysicalLocation;
         }
-        public Publication(string Name, Author Writer, PublicationType Type, DateTime DatePublished, string Publisher, Uri Location) :
+        public Publication(string Name, Author Writer, PublicationType Type, DateTime DatePublished, string Publisher, Uri InternetLocation) :
             this(Name, Writer, Type, DatePublished, Publisher)
         {
-            this.Location = Location;
+            this.InternetLocation = InternetLocation;
         }
         
 

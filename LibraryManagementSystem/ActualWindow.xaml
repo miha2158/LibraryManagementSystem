@@ -10,6 +10,13 @@
         WindowStartupLocation="CenterScreen"
         FontSize="20"
         Loaded="ActualWindow_OnLoaded">
+    
+    <Window.Resources>
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="AcceptsReturn" Value="False"/>
+            <Setter Property="AcceptsTab" Value="False"/>
+        </Style>
+    </Window.Resources>
 
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid.RowDefinitions>
@@ -17,7 +24,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Menu VerticalAlignment="Stretch" Grid.Row="0">
+        <!--<Menu VerticalAlignment="Stretch" Grid.Row="0">
             <MenuItem Header="Файл">
                 <MenuItem Header="Новый">
                     <MenuItem Header="Публикация"/>
@@ -25,8 +32,7 @@
                 </MenuItem>
                 <MenuItem Header="Указать файл базы данных"/>
             </MenuItem>
-            <MenuItem Header="Изменить">
-                <MenuItem Header="1"/>
+            <MenuItem Header="Изменить" Click="ToPage0">
             </MenuItem>
             <MenuItem Header="Настройки">
                 <MenuItem Header="1"/>
@@ -35,7 +41,45 @@
                 <MenuItem Header="0" Click="ToPage0"/>
                 <MenuItem Header="1" Click="ToPage1"/>
             </MenuItem>
-        </Menu>
+        </Menu>-->
+        
+        <Grid Grid.Row="0" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <Grid.Resources>
+                <Style TargetType="{x:Type Control}" x:Key="BaseStyle1">
+                    <Setter Property="FontSize" Value="11"/>
+                </Style>
+                <Style TargetType="Button" BasedOn="{StaticResource BaseStyle1}">
+                    <Setter Property="Height" Value="20"/>
+                    <Setter Property="Width" Value="20"/>
+                </Style>
+            </Grid.Resources>
+
+            <StackPanel Orientation="Horizontal" Grid.Column="0">
+                <Button Content="N" ToolTip="Новый"/>
+                <Button Content="E" ToolTip="Редактировать"/>
+                <Button Content="D" ToolTip="Удалить"/>
+                <Button Content="R" ToolTip="Отчёты"/>
+                <Button Content="P" ToolTip="Настройки"/>
+            </StackPanel>
+
+            <Grid Grid.Column="1">
+                <TextBox Name="SearchBox" MinWidth="300" MaxLines="1" FontSize="11" VerticalContentAlignment="Center" 
+                         TextChanged="SearchBox_OnTextChanged" HorizontalAlignment="Stretch" KeyDown="SearchBox_OnKeyDown"/>
+                <TextBlock Name="DummySearchText" Foreground="DimGray" Text=" Поиск" VerticalAlignment="Center" FontSize="11" 
+                           MouseDown="DummySearchText_OnMouseDown" HorizontalAlignment="Stretch"/>
+            </Grid>
+
+            <StackPanel Orientation="Horizontal" Grid.Column="2">
+                <Button Width="Auto" Content="Найти"/>
+                <Button Width="Auto" Content="Показать все"/>
+            </StackPanel>
+        </Grid>
 
         <Frame Grid.Row="1" Name="MainView" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                NavigationUIVisibility="Hidden"/>
