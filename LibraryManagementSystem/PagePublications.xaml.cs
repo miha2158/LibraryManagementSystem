@@ -15,14 +15,16 @@ using System.Windows.Shapes;
 
 namespace LibraryManagementSystem
 {
-    /// <summary>
-    /// Interaction logic for TestPage.xaml
-    /// </summary>
-    public partial class TestPage: Page
+    public partial class PagePublications: Page
     {
-        public TestPage()
+        public PagePublications()
         {
             InitializeComponent();
+        }
+
+        private void This_OnLoaded(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

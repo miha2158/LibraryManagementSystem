@@ -60,9 +60,11 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="UIAutomationProvider" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -74,6 +76,9 @@
     </Compile>
     <Compile Include="AddPublication.xaml.cs">
       <DependentUpon>AddPublication.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PagePublications.xaml.cs">
+      <DependentUpon>PagePublications.xaml</DependentUpon>
     </Compile>
     <Compile Include="Author.cs" />
     <Compile Include="Enumerators.cs" />
@@ -92,11 +97,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MainDatabase.edmx</DependentUpon>
     </Compile>
+    <Compile Include="PageUsers.xaml.cs">
+      <DependentUpon>PageUsers.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Publication.cs" />
     <Compile Include="Reader.cs" />
-    <Compile Include="TestPage.xaml.cs">
-      <DependentUpon>TestPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="User.cs">
       <DependentUpon>MainDatabase.tt</DependentUpon>
     </Compile>
@@ -105,6 +110,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AddPublication.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PagePublications.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -120,7 +129,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="TestPage.xaml">
+    <Page Include="PageUsers.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

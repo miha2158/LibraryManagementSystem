@@ -10,32 +10,36 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Generator;
 
 namespace LibraryManagementSystem
 {
-    /// <summary>
-    /// Interaction logic for AddPublication.xaml
-    /// </summary>
-    public partial class AddPublication: Page
+    public partial class AddPublication : Window
     {
         public AddPublication()
         {
             InitializeComponent();
         }
 
-        private void SearchBox_OnKeyDown(object sender, KeyEventArgs e)
-        {
-            if(e.Key != Key.Enter)
-                return;
+        List<Reader> Items1 = new List<Reader>(0);
 
-            MessageBox.Show("how are you?", "hi!", MessageBoxButton.OK, MessageBoxImage.Question);
+        public void Click1(object sender, RoutedEventArgs e)
+        {
+            Items1.Add(Reader.FillBlanks((Gender)NewValue.Int(2)));
         }
 
         private void AddPublication_OnLoaded(object sender, RoutedEventArgs e)
         {
+            for (int i = 0; i < 10; i++)
+                Items1.Add(Reader.FillBlanks((Gender)NewValue.Int(2)));
 
+            List.ItemsSource = Items1;
+        }
+
+        private void Refresh_OnClick(object sender, RoutedEventArgs e)
+        {
+            List.ItemsSource = Items1;
         }
     }
 }

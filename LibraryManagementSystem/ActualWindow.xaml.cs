@@ -21,13 +21,13 @@ namespace LibraryManagementSystem
             InitializeComponent();
         }
 
-        public TestPage TestPage = new TestPage();
-        public AddPublication AddPublication = new AddPublication();
-
-        private void ToPage0(object sender, RoutedEventArgs e) => NavigateTo(TestPage);
-        private void ToPage1(object sender, RoutedEventArgs e) => NavigateTo(AddPublication);
-
         public Page OnScreenContent;
+        public PagePublications P1 = new PagePublications();
+        public PageUsers P2 = new PageUsers();
+
+        private void ToPage0(object sender, RoutedEventArgs e) => NavigateTo(P1);
+        private void ToPage1(object sender, RoutedEventArgs e) => NavigateTo(P2);
+
         public void NavigateTo(Page destinationPage)
         {
             MainView.Navigate(OnScreenContent = destinationPage);
@@ -35,7 +35,7 @@ namespace LibraryManagementSystem
 
         private void ActualWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
-            NavigateTo(AddPublication);
+            NavigateTo(P1);
         }
 
         private void SearchBox_OnTextChanged(object sender, TextChangedEventArgs e)
@@ -53,6 +53,12 @@ namespace LibraryManagementSystem
             if(e.Key != Key.Enter)
                 return;
 
+        }
+
+        private void New_OnClick(object sender, RoutedEventArgs e)
+        {
+            AddPublication p = new AddPublication();
+            p.ShowDialog();
         }
     }
 }
