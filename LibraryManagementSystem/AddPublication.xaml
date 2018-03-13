@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:LibraryManagementSystem"
         mc:Ignorable="d"
         Title="Добавить Публикацию" 
         MinHeight="600" Width="500"
@@ -15,9 +14,6 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-
-        <!--<local:CheckedListView x:Name="CheckedList1" Text="Штука" ButtonContent="Добавить"/>-->
-
         <Grid Grid.Row="0" Width="Auto">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
