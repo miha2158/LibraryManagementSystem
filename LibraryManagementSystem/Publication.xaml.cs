@@ -15,22 +15,23 @@ using Generator;
 
 namespace LibraryManagementSystem
 {
-    public partial class AddPublication : Window
+    public partial class NewPublication: Window
     {
-        public AddPublication()
+        public NewPublication()
         {
-            InitializeComponent();
         }
 
-        List<Reader> Items1 = new List<Reader>(0);
+        public List<Reader> Items1 = new List<Reader>(0);
 
         public void Click1(object sender, RoutedEventArgs e)
         {
             Items1.Add(Reader.FillBlanks((Gender)NewValue.Int(2)));
         }
 
-        private void AddPublication_OnLoaded(object sender, RoutedEventArgs e)
+        private void This_OnLoaded(object sender, RoutedEventArgs e)
         {
+            InitializeComponent();
+
             for (int i = 0; i < 10; i++)
                 Items1.Add(Reader.FillBlanks((Gender)NewValue.Int(2)));
 

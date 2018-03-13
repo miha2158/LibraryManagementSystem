@@ -74,8 +74,8 @@
     <Compile Include="ActualWindow.xaml.cs">
       <DependentUpon>ActualWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AddPublication.xaml.cs">
-      <DependentUpon>AddPublication.xaml</DependentUpon>
+    <Compile Include="Publication.xaml.cs">
+      <DependentUpon>Publication.xaml</DependentUpon>
     </Compile>
     <Compile Include="PagePublications.xaml.cs">
       <DependentUpon>PagePublications.xaml</DependentUpon>
@@ -109,7 +109,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AddPublication.xaml">
+    <Page Include="Publication.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

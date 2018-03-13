@@ -57,8 +57,8 @@ namespace LibraryManagementSystem
 
         private void New_OnClick(object sender, RoutedEventArgs e)
         {
-            AddPublication p = new AddPublication();
-            p.ShowDialog();
+            var p = new NewPublication();
+            p.Show();
         }
     }
 }
