@@ -15,16 +15,16 @@ using System.Windows.Shapes;
 
 namespace LibraryManagementSystem
 {
-    public partial class MainWindow: Window
+    public partial class WindowLogin: Window
     {
-        public MainWindow()
+        public WindowLogin()
         {
             InitializeComponent();
         }
 
         private void Login_Click(object sender, RoutedEventArgs e)
         {
-            var window = new ActualWindow();
+            var window = new WindowMain();
             window.Show();
             Close();
         }
@@ -50,8 +50,6 @@ namespace LibraryManagementSystem
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
             Login.Focus();
-
-            Login_Click(null, null);
         }
     }
 }

@@ -2,9 +2,9 @@
 {
     public enum AccessLevel
     {
+        Sutdent,
         Admin,
-        Teacher,
-        Sutdent
+        Teacher
     }
 
     public enum WriterType

@@ -63,6 +63,7 @@ namespace LibraryManagementSystem
                    Type == publication.Type;
         }
         public override string ToString() => $"{Name} - {Writer}, {DatePublished}, {Type}. {Publisher}";
+        public string Text => ToString();
         public override int GetHashCode() => ToString().GetHashCode();
     }
 }

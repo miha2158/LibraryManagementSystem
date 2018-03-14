@@ -14,9 +14,9 @@ using System.Windows.Shapes;
 
 namespace LibraryManagementSystem
 {
-    public partial class ActualWindow : Window
+    public partial class WindowMain: Window
     {
-        public ActualWindow()
+        public WindowMain()
         {
             InitializeComponent();
         }
@@ -50,15 +50,15 @@ namespace LibraryManagementSystem
 
         private void SearchBox_OnKeyDown(object sender, KeyEventArgs e)
         {
-            if(e.Key != Key.Enter)
+            if (e.Key != Key.Enter)
                 return;
 
         }
 
         private void New_OnClick(object sender, RoutedEventArgs e)
         {
-            var p = new NewPublication();
-            p.Show();
+            var p = new WindowAddEditPublication(this);
+            p.ShowDialog();
         }
     }
 }

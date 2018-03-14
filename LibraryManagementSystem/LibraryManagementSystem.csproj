@@ -14,6 +14,21 @@
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -41,8 +56,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="Generator">
-      <HintPath>..\..\Generator\Generator\bin\Debug\netcoreapp2.0\Generator.dll</HintPath>
+    <Reference Include="Generator, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Generator\Generator\bin\Debug\netcoreapp1.1\Generator.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -71,45 +87,30 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ActualWindow.xaml.cs">
-      <DependentUpon>ActualWindow.xaml</DependentUpon>
+    <Compile Include="WindowAddEditPublication.xaml.cs">
+      <DependentUpon>WindowAddEditPublication.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Publication.xaml.cs">
-      <DependentUpon>Publication.xaml</DependentUpon>
+    <Compile Include="WindowAddEditUser.xaml.cs">
+      <DependentUpon>WindowAddEditUser.xaml</DependentUpon>
     </Compile>
     <Compile Include="PagePublications.xaml.cs">
       <DependentUpon>PagePublications.xaml</DependentUpon>
     </Compile>
     <Compile Include="Author.cs" />
     <Compile Include="Enumerators.cs" />
-    <Compile Include="MainDatabase.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MainDatabase.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MainDatabase.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MainDatabase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MainDatabase.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MainDatabase.edmx</DependentUpon>
-    </Compile>
     <Compile Include="PageUsers.xaml.cs">
       <DependentUpon>PageUsers.xaml</DependentUpon>
     </Compile>
     <Compile Include="Publication.cs" />
     <Compile Include="Reader.cs" />
-    <Compile Include="User.cs">
-      <DependentUpon>MainDatabase.tt</DependentUpon>
+    <Compile Include="WindowMain.xaml.cs">
+      <DependentUpon>WindowMain.xaml</DependentUpon>
     </Compile>
-    <Page Include="ActualWindow.xaml">
+    <Page Include="WindowAddEditPublication.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Publication.xaml">
+    <Page Include="WindowAddEditUser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -117,7 +118,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="WindowLogin.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -125,11 +126,15 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="WindowLogin.xaml.cs">
+      <DependentUpon>WindowLogin.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Page Include="PageUsers.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowMain.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -152,13 +157,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EntityDeploy Include="MainDatabase.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>MainDatabase.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="MainDatabase.edmx.diagram">
-      <DependentUpon>MainDatabase.edmx</DependentUpon>
-    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -172,17 +170,16 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="MainDatabase.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>MainDatabase.Context.cs</LastGenOutput>
-      <DependentUpon>MainDatabase.edmx</DependentUpon>
-    </Content>
-    <Content Include="MainDatabase.edmx.sql" />
-    <Content Include="MainDatabase.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>MainDatabase.cs</LastGenOutput>
-      <DependentUpon>MainDatabase.edmx</DependentUpon>
-    </Content>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

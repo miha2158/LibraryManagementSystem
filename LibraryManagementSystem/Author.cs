@@ -16,12 +16,13 @@ namespace LibraryManagementSystem
 
         public new static Author FillBlanks(Gender gender)
         {
-            var p = (Author) Person.FillBlanks(gender);
+            Author p = (Author) Person.FillBlanks(gender);
             p.Patronimic = MaleFirstNames[NewValue.Int(MaleFirstNames.Count)] + (gender == Gender.Female? "овна": "ович");
             return p;
         }
 
         public override string ToString() => $"{Last} {First} {Patronimic}{(WriterType == WriterType.HseTeacher? " (ВШЭ)": string.Empty)}";
+        public string Text => ToString();
         public override int GetHashCode() => ToString().GetHashCode();
         public override bool Equals(object obj)
         {
