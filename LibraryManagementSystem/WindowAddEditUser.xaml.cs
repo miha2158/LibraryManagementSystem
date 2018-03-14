@@ -29,5 +29,11 @@ namespace LibraryManagementSystem
         {
 
         }
+
+        private void EventSetter_OnHandler(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+                ((TextBox) sender).MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+        }
     }
 }

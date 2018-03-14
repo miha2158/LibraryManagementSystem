@@ -1,11 +1,15 @@
-﻿using Generator;
+﻿using System.Collections.Generic;
+using Generator;
 
 namespace LibraryManagementSystem
 {
     public class Author: Person
     {
+        public new string First { get; set; } = string.Empty;
+        public new string Last { get; set; } = string.Empty;
         public string Patronimic { get; set; } = string.Empty;
         public WriterType WriterType = WriterType.Other;
+        public List<Publication> WrittenPublications = new List<Publication>();
 
         public Author() { }
         public Author(string First, string Last, string Patronimic, WriterType WriterType) : base(First, Last)
@@ -32,8 +36,5 @@ namespace LibraryManagementSystem
                    Patronimic == author.Patronimic &&
                    WriterType == author.WriterType;
         }
-
-        public static bool operator ==(Author a, object b) => a != null && a.Equals(b);
-        public static bool operator !=(Author a, object b) => !(a == b);
     }
 }

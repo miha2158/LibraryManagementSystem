@@ -1,0 +1,267 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DatabaseModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="DatabaseModelStoreContainer">
+    <EntitySet Name="DBReaderSet" EntityType="DatabaseModel.Store.DBReaderSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DBPublicationSet" EntityType="DatabaseModel.Store.DBPublicationSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DBAuthorSet" EntityType="DatabaseModel.Store.DBAuthorSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DBReaderDBPublication" EntityType="DatabaseModel.Store.DBReaderDBPublication" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DBAuthorDBPublication" EntityType="DatabaseModel.Store.DBAuthorDBPublication" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_DBReaderDBPublication_DBReader" Association="DatabaseModel.Store.FK_DBReaderDBPublication_DBReader">
+      <End Role="DBReader" EntitySet="DBReaderSet" />
+      <End Role="DBReaderDBPublication" EntitySet="DBReaderDBPublication" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DBReaderDBPublication_DBPublication" Association="DatabaseModel.Store.FK_DBReaderDBPublication_DBPublication">
+      <End Role="DBPublication" EntitySet="DBPublicationSet" />
+      <End Role="DBReaderDBPublication" EntitySet="DBReaderDBPublication" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DBAuthorDBPublication_DBAuthor" Association="DatabaseModel.Store.FK_DBAuthorDBPublication_DBAuthor">
+      <End Role="DBAuthor" EntitySet="DBAuthorSet" />
+      <End Role="DBAuthorDBPublication" EntitySet="DBAuthorDBPublication" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DBAuthorDBPublication_DBPublication" Association="DatabaseModel.Store.FK_DBAuthorDBPublication_DBPublication">
+      <End Role="DBPublication" EntitySet="DBPublicationSet" />
+      <End Role="DBAuthorDBPublication" EntitySet="DBAuthorDBPublication" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="DBReaderSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="First" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Last" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Patronimic" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="AccessLevel" Type="tinyint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DBPublicationSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="DatePublished" Type="datetime" Nullable="false" />
+    <Property Name="Publisher" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Type" Type="tinyint" Nullable="false" />
+    <Property Name="PhysicalLocation" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="InternetLocation" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DBAuthorSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="First" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Last" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Patronimic" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="WriterType" Type="tinyint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DBReaderDBPublication">
+    <Key>
+      <PropertyRef Name="Reader_Id" />
+      <PropertyRef Name="TakenPublications_Id" />
+    </Key>
+    <Property Name="Reader_Id" Type="int" Nullable="false" />
+    <Property Name="TakenPublications_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DBAuthorDBPublication">
+    <Key>
+      <PropertyRef Name="Writer_Id" />
+      <PropertyRef Name="WrittenPublications_Id" />
+    </Key>
+    <Property Name="Writer_Id" Type="int" Nullable="false" />
+    <Property Name="WrittenPublications_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_DBReaderDBPublication_DBReader">
+    <End Role="DBReader" Type="DatabaseModel.Store.DBReaderSet" Multiplicity="1" />
+    <End Role="DBReaderDBPublication" Type="DatabaseModel.Store.DBReaderDBPublication" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DBReader">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DBReaderDBPublication">
+        <PropertyRef Name="Reader_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DBReaderDBPublication_DBPublication">
+    <End Role="DBReaderDBPublication" Type="DatabaseModel.Store.DBReaderDBPublication" Multiplicity="*" />
+    <End Role="DBPublication" Type="DatabaseModel.Store.DBPublicationSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="DBPublication">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DBReaderDBPublication">
+        <PropertyRef Name="TakenPublications_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DBAuthorDBPublication_DBAuthor">
+    <End Role="DBAuthor" Type="DatabaseModel.Store.DBAuthorSet" Multiplicity="1" />
+    <End Role="DBAuthorDBPublication" Type="DatabaseModel.Store.DBAuthorDBPublication" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DBAuthor">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DBAuthorDBPublication">
+        <PropertyRef Name="Writer_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DBAuthorDBPublication_DBPublication">
+    <End Role="DBAuthorDBPublication" Type="DatabaseModel.Store.DBAuthorDBPublication" Multiplicity="*" />
+    <End Role="DBPublication" Type="DatabaseModel.Store.DBPublicationSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="DBPublication">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DBAuthorDBPublication">
+        <PropertyRef Name="WrittenPublications_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="DatabaseModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="DatabaseModelContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="DBReaderSet" EntityType="DatabaseModel.DBReader" />
+          <EntitySet Name="DBPublicationSet" EntityType="DatabaseModel.DBPublication" />
+          <EntitySet Name="DBAuthorSet" EntityType="DatabaseModel.DBAuthor" />
+          <AssociationSet Name="DBReaderDBPublication" Association="DatabaseModel.DBReaderDBPublication">
+            <End Role="DBReader" EntitySet="DBReaderSet" />
+            <End Role="DBPublication" EntitySet="DBPublicationSet" />
+          </AssociationSet>
+          <AssociationSet Name="DBAuthorDBPublication" Association="DatabaseModel.DBAuthorDBPublication">
+            <End Role="DBAuthor" EntitySet="DBAuthorSet" />
+            <End Role="DBPublication" EntitySet="DBPublicationSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="DBReader">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="First" Type="String" Nullable="false" />
+          <Property Name="Last" Type="String" Nullable="false" />
+          <Property Name="Patronimic" Type="String" Nullable="false" />
+          <Property Name="AccessLevel" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="TakenPublications" Relationship="DatabaseModel.DBReaderDBPublication" FromRole="DBReader" ToRole="DBPublication" />
+        </EntityType>
+        <EntityType Name="DBPublication">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="DatePublished" Type="DateTime" Nullable="false" />
+          <Property Name="Publisher" Type="String" Nullable="false" />
+          <Property Name="Type" Type="Byte" Nullable="false" />
+          <Property Name="PhysicalLocation" Type="String" Nullable="false" />
+          <Property Name="InternetLocation" Type="String" Nullable="false" />
+          <NavigationProperty Name="Reader" Relationship="DatabaseModel.DBReaderDBPublication" FromRole="DBPublication" ToRole="DBReader" />
+          <NavigationProperty Name="Writer" Relationship="DatabaseModel.DBAuthorDBPublication" FromRole="DBPublication" ToRole="DBAuthor" />
+        </EntityType>
+        <EntityType Name="DBAuthor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="First" Type="String" Nullable="false" />
+          <Property Name="Last" Type="String" Nullable="false" />
+          <Property Name="Patronimic" Type="String" Nullable="false" />
+          <Property Name="WriterType" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="WrittenPublications" Relationship="DatabaseModel.DBAuthorDBPublication" FromRole="DBAuthor" ToRole="DBPublication" />
+        </EntityType>
+        <Association Name="DBReaderDBPublication">
+          <End Type="DatabaseModel.DBReader" Role="DBReader" Multiplicity="*" />
+          <End Type="DatabaseModel.DBPublication" Role="DBPublication" Multiplicity="*" />
+        </Association>
+        <Association Name="DBAuthorDBPublication">
+          <End Type="DatabaseModel.DBAuthor" Role="DBAuthor" Multiplicity="*" />
+          <End Type="DatabaseModel.DBPublication" Role="DBPublication" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DatabaseModelStoreContainer" CdmEntityContainer="DatabaseModelContainer">
+    <EntitySetMapping Name="DBReaderSet">
+      <EntityTypeMapping TypeName="IsTypeOf(DatabaseModel.DBReader)">
+        <MappingFragment StoreEntitySet="DBReaderSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="First" ColumnName="First" />
+          <ScalarProperty Name="Last" ColumnName="Last" />
+          <ScalarProperty Name="Patronimic" ColumnName="Patronimic" />
+          <ScalarProperty Name="AccessLevel" ColumnName="AccessLevel" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DBPublicationSet">
+      <EntityTypeMapping TypeName="IsTypeOf(DatabaseModel.DBPublication)">
+        <MappingFragment StoreEntitySet="DBPublicationSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="DatePublished" ColumnName="DatePublished" />
+          <ScalarProperty Name="Publisher" ColumnName="Publisher" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="PhysicalLocation" ColumnName="PhysicalLocation" />
+          <ScalarProperty Name="InternetLocation" ColumnName="InternetLocation" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DBAuthorSet">
+      <EntityTypeMapping TypeName="IsTypeOf(DatabaseModel.DBAuthor)">
+        <MappingFragment StoreEntitySet="DBAuthorSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="First" ColumnName="First" />
+          <ScalarProperty Name="Last" ColumnName="Last" />
+          <ScalarProperty Name="Patronimic" ColumnName="Patronimic" />
+          <ScalarProperty Name="WriterType" ColumnName="WriterType" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="DBReaderDBPublication" TypeName="DatabaseModel.DBReaderDBPublication" StoreEntitySet="DBReaderDBPublication">
+      <EndProperty Name="DBReader">
+        <ScalarProperty Name="Id" ColumnName="Reader_Id" />
+      </EndProperty>
+      <EndProperty Name="DBPublication">
+        <ScalarProperty Name="Id" ColumnName="TakenPublications_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="DBAuthorDBPublication" TypeName="DatabaseModel.DBAuthorDBPublication" StoreEntitySet="DBAuthorDBPublication">
+      <EndProperty Name="DBAuthor">
+        <ScalarProperty Name="Id" ColumnName="Writer_Id" />
+      </EndProperty>
+      <EndProperty Name="DBPublication">
+        <ScalarProperty Name="Id" ColumnName="WrittenPublications_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

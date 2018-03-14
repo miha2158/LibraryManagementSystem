@@ -60,5 +60,11 @@ namespace LibraryManagementSystem
             var p = new WindowAddEditPublication(this);
             p.ShowDialog();
         }
+
+        private void New2_OnClick(object sender, RoutedEventArgs e)
+        {
+            var p = new WindowAddEditUser(this);
+            p.ShowDialog();
+        }
     }
 }

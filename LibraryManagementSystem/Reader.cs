@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Generator;
 
 namespace LibraryManagementSystem
@@ -9,6 +10,7 @@ namespace LibraryManagementSystem
         public new string Last { get; set; } = string.Empty;
         public string Patronimic { get; set; } = string.Empty;
         public AccessLevel AccessLevel { get; set; } = AccessLevel.Sutdent;
+        public List<Publication> TakenPublications = new List<Publication>();
 
         public Reader() { }
         public Reader(string First, string Last, string Patronimic, AccessLevel AccessLevel): base(First, Last)

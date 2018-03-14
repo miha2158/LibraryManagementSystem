@@ -37,14 +37,7 @@ namespace LibraryManagementSystem
             if (Login.Text != string.Empty && Password.Password != string.Empty)
                 Login_Click(null, null);
 
-            if (Login.IsFocused)
-            {
-                Password.Focus();
-                return;
-            }
-
-            if (Password.IsFocused)
-                Login.Focus();
+            ((Control)sender).MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
         }
 
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)

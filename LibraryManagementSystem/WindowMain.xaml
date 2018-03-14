@@ -12,7 +12,7 @@
         Loaded="ActualWindow_OnLoaded">
 
     <Window.Resources>
-        <Style TargetType="{x:Type TextBox}">
+        <Style TargetType="TextBox">
             <Setter Property="AcceptsReturn" Value="False"/>
             <Setter Property="AcceptsTab" Value="False"/>
         </Style>
@@ -62,7 +62,12 @@
             </Grid.Resources>
 
             <StackPanel Orientation="Horizontal" Grid.Column="0">
-                <Button Name="New" Content="N" ToolTip="Новый" Click="New_OnClick"/>
+                <Menu>
+                    <MenuItem Header="N" ToolTip="Новый">
+                        <MenuItem Header="Публикация" Click="New_OnClick"/>
+                        <MenuItem Header="Читатель" Click="New2_OnClick"/>
+                    </MenuItem>
+                </Menu>
                 <Button Name="Edit" Content="E" ToolTip="Редактировать"/>
                 <Button Name="Reports" Content="R" ToolTip="Отчёты"/>
                 <Button Name="Delete" Content="D" ToolTip="Удалить"/>

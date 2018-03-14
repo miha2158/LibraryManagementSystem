@@ -3,8 +3,8 @@
     public enum AccessLevel
     {
         Sutdent,
-        Admin,
-        Teacher
+        Teacher,
+        Admin
     }
 
     public enum WriterType

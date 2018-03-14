@@ -8,15 +8,55 @@
         Title="AddEditUser"
         FontSize="20"
         MinHeight="600" MinWidth="400"
-        Height="600" Width="400"
+        Height="800" Width="600"
         Loaded="AddEditUser_OnLoaded"
         WindowStartupLocation="CenterOwner">
 
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="Grid.Column" Value="0"/>
+            <Setter Property="TextAlignment" Value="Right"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="0 0 5 0"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Grid.Column" Value="1"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="AcceptsReturn" Value="False"/>
+            <Setter Property="AcceptsTab" Value="False"/>
+            <Setter Property="MaxLines" Value="1"/>
+            <Setter Property="Margin" Value="0 0 10 0"/>
+        </Style>
+    </Window.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        
+        <TextBlock Grid.Row="0" Text="Фамилия:"/>
+        <TextBlock Grid.Row="1" Text="Имя:"/>
+        <TextBlock Grid.Row="2" Text="Отчество:"/>
+        <TextBlock Grid.Row="3" Text="Роль:"/>
+        
+        <TextBox Grid.Row="0" KeyDown="EventSetter_OnHandler"/>
+        <TextBox Grid.Row="1" KeyDown="EventSetter_OnHandler"/>
+        <TextBox Grid.Row="2" KeyDown="EventSetter_OnHandler"/>
+        
+        <ComboBox Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Margin="0 0 10 0">
+            <ComboBoxItem Content="Студент"/>
+            <ComboBoxItem Content="Преподаватель"/>
+            <ComboBoxItem Content="Администратор" Visibility="Collapsed"/>
+        </ComboBox>
+
     </Grid>
 </Window>

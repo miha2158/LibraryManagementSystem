@@ -16,6 +16,8 @@ namespace LibraryManagementSystem
             this.Bookcase = Bookcase;
             this.Shelf = Shelf;
         }
+
+        public override string ToString() => $"{Room}, {Bookcase}, {Shelf}";
     }
 
     public class Publication
@@ -23,9 +25,9 @@ namespace LibraryManagementSystem
         public string Name { get; set; } = string.Empty;
         public DateTime DatePublished { get; set; }
         public string Publisher { get; set; } = string.Empty;
-        public Author Writer { get; set; } = new Author();
+        public List<Author> Writer { get; set; } = new List<Author>();
         public PublicationType Type { get; set; }
-        public List<Reader> Readers { get; set; } = new List<Reader>();
+        public List<Reader> Reader { get; set; } = new List<Reader>();
         public BookLocation PhysicalLocation { get; set; } = new BookLocation();
         public Uri InternetLocation { get; set; } = new Uri("");
 
@@ -33,7 +35,7 @@ namespace LibraryManagementSystem
         private Publication(string Name, Author Writer, PublicationType Type, DateTime DatePublished, string Publisher)
         {
             this.Name = Name;
-            this.Writer = Writer;
+            this.Writer.Add(Writer);
             this.Type = Type;
             this.DatePublished = DatePublished;
             this.Publisher = Publisher;
