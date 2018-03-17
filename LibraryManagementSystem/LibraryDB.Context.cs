@@ -13,10 +13,10 @@ namespace LibraryManagementSystem
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class DatabaseModelContainer : DbContext
+    public partial class LibraryDBContainer : DbContext
     {
-        public DatabaseModelContainer()
-            : base("name=DatabaseModelContainer")
+        public LibraryDBContainer()
+            : base("name=LibraryDBContainer")
         {
         }
     
@@ -25,8 +25,9 @@ namespace LibraryManagementSystem
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<DBReader> DBReaderSet { get; set; }
-        public virtual DbSet<DBPublication> DBPublicationSet { get; set; }
-        public virtual DbSet<DBAuthor> DBAuthorSet { get; set; }
+        public virtual DbSet<DbPublication> DbPublicationSet1 { get; set; }
+        public virtual DbSet<DbAuthor> DbAuthorSet1 { get; set; }
+        public virtual DbSet<DbBookLocation> DbBookLocationSet { get; set; }
+        public virtual DbSet<DbReader> DbReaderSet { get; set; }
     }
 }

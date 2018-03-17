@@ -64,9 +64,12 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Xml" />
     <Reference Include="UIAutomationProvider" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
@@ -77,13 +80,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="DBAuthor.cs">
+    <Compile Include="ClassBookLocation.cs" />
+    <Compile Include="ClassNewPerson.cs" />
+    <Compile Include="DbAuthor.cs">
       <DependentUpon>LibraryDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="DBPublication.cs">
+    <Compile Include="DbBookLocation.cs">
       <DependentUpon>LibraryDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="DBReader.cs">
+    <Compile Include="DbPublication.cs">
+      <DependentUpon>LibraryDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbReader.cs">
       <DependentUpon>LibraryDB.tt</DependentUpon>
     </Compile>
     <Compile Include="LibraryDB.Context.cs">
@@ -101,8 +109,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LibraryDB.edmx</DependentUpon>
     </Compile>
-    <Compile Include="PageAuthors.xaml.cs">
-      <DependentUpon>PageAuthors.xaml</DependentUpon>
+    <Compile Include="LibraryDB1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LibraryDB.edmx</DependentUpon>
     </Compile>
     <Compile Include="WindowAddEditPublication.xaml.cs">
       <DependentUpon>WindowAddEditPublication.xaml</DependentUpon>
@@ -120,13 +130,12 @@
     </Compile>
     <Compile Include="ClassPublication.cs" />
     <Compile Include="ClassReader.cs" />
+    <Compile Include="WindowLocation.xaml.cs">
+      <DependentUpon>WindowLocation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WindowMain.xaml.cs">
       <DependentUpon>WindowMain.xaml</DependentUpon>
     </Compile>
-    <Page Include="PageAuthors.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="WindowAddEditPublication.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -136,6 +145,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PagePublications.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowLocation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -180,7 +193,7 @@
     </EmbeddedResource>
     <EntityDeploy Include="LibraryDB.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>LibraryDB.Designer.cs</LastGenOutput>
+      <LastGenOutput>LibraryDB1.Designer.cs</LastGenOutput>
     </EntityDeploy>
     <None Include="LibraryDB.edmx.diagram">
       <DependentUpon>LibraryDB.edmx</DependentUpon>

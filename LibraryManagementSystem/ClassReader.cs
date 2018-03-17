@@ -4,49 +4,33 @@ using Generator;
 
 namespace LibraryManagementSystem
 {
-    public class Reader: Person
-    {
-        public new string First { get; set; } = string.Empty;
-        public new string Last { get; set; } = string.Empty;
-        public string Patronimic { get; set; } = string.Empty;
-        public AccessLevel AccessLevel { get; set; } = AccessLevel.Sutdent;
-        public List<Publication> TakenPublications = new List<Publication>();
 
-        public Reader() { }
-        public Reader(string First, string Last, string Patronimic, AccessLevel AccessLevel): base(First, Last)
+    public class Reader: NewPerson
+    {
+        public static HashSet<string> Groups;
+
+        public AccessLevel AccessLevel { get; set; } = AccessLevel.Sutdent;
+        public string Group { get; set; } = string.Empty;
+        public HashSet<Publication> TakenPublications = new HashSet<Publication>();
+
+        public Reader(): base() { }
+        public Reader(string First, string Last, string Patronimic): base(First, Last, Patronimic)
         {
-            this.Patronimic = Patronimic;
             this.AccessLevel = AccessLevel;
+        }
+        public Reader(string First, string Last, string Patronimic, string Group) : base(First, Last, Patronimic)
+        {
+            AccessLevel = AccessLevel.Sutdent;
+            this.Group = Group;
         }
 
         public new static Reader FillBlanks() => FillBlanks((Gender) NewValue.Int(2));
         public new static Reader FillBlanks(Gender gender)
         {
-            var b = Person.FillBlanks(gender);
-            Reader p = new Reader
+            var p = NewPerson.FillBlanks(gender);
+            return new Reader(p.First, p.Last, p.Patronimic)
             {
-                First = b.First,
-                Last = b.Last
-            };
-
-            p.Patronimic = MaleFirstNames[NewValue.Int(MaleFirstNames.Count)] + (gender == Gender.Female ? "овна" : "ович");
-            return p;
-        }
-
-
-        public static implicit operator Reader(DBReader item)
-        {
-            return new Reader(item.First, item.Last, item.Patronimic, (AccessLevel)item.AccessLevel);
-        }
-        public static implicit operator DBReader(Reader item)
-        {
-            return new DBReader()
-            {
-                First = item.First,
-                Last = item.First,
-                Patronimic = item.Patronimic, 
-                AccessLevel = (byte)item.AccessLevel,
-                TakenPublications = new HashSet<DBPublication>(item.TakenPublications.Cast<DBPublication>())
+                AccessLevel = (AccessLevel)NewValue.Int(2)
             };
         }
 

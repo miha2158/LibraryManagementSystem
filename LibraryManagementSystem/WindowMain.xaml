@@ -24,25 +24,6 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <!--<Menu VerticalAlignment="Stretch" Grid.Row="0">
-            <MenuItem Header="Файл">
-                <MenuItem Header="Новый">
-                    <MenuItem Header="Публикация"/>
-                    <MenuItem Header="Книга" IsEnabled="False"/>
-                </MenuItem>
-                <MenuItem Header="Указать файл базы данных"/>
-            </MenuItem>
-            <MenuItem Header="Изменить" Click="ToPage0">
-            </MenuItem>
-            <MenuItem Header="Настройки">
-                <MenuItem Header="1"/>
-            </MenuItem>
-            <MenuItem Header="Окно">
-                <MenuItem Header="0" Click="ToPage0"/>
-                <MenuItem Header="1" Click="ToPage1"/>
-            </MenuItem>
-        </Menu>-->
-
         <Grid Grid.Row="0" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -56,33 +37,21 @@
                 </Style>
                 <Style TargetType="Button" BasedOn="{StaticResource BaseStyle1}">
                     <Setter Property="Height" Value="20"/>
-                    <Setter Property="Width" Value="20"/>
+                    <Setter Property="Width" Value="Auto"/>
                     <Setter Property="Margin" Value="1 0"/>
                 </Style>
             </Grid.Resources>
 
-            <StackPanel Orientation="Horizontal" Grid.Column="0">
-                <Menu>
-                    <MenuItem Header="N" ToolTip="Новый">
-                        <MenuItem Header="Публикация" Click="NewPublication"/>
-                        <MenuItem Header="Читатель" Click="NewUser"/>
-                        <MenuItem Header="Автор" Click="NewAuthor"/>
-                    </MenuItem>
-                </Menu>
-                <Button Name="Edit" Content="E" ToolTip="Редактировать"/>
-                <Button Name="Delete" Content="D" ToolTip="Удалить" Margin="1 0 5 0"/>
-                <Button Name="Reports" Content="R" ToolTip="Отчёты" Margin="5 0 1 0"/>
-                <Button Name="Preferences" Content="P" ToolTip="Настройки"/>
-                <Menu>
-                    <MenuItem Name="Window" Header="W" ToolTip="Окно">
-                        <MenuItem Header="Публикации" Click="ToPagePublications"/>
-                        <MenuItem Header="Пользователи" Click="ToPageUsers"/>
-                        <MenuItem Header="Авторы" Click="ToPageAuthors"/>
-                    </MenuItem>
-                </Menu>
-            </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Добавить" Click="NewPublication"/>
+                    <Button Content="Правка" Click="EditPublication"/>
+                    <Button Name="Reports" Content="Отчёт"/>
+                    <Button Name="Preferences" Content="Настройки"/>
+                    <Button Content="Публикации" Click="ToPagePublications"/>
+                    <Button Content="Читатели" Click="ToPageUsers"/>
+                </StackPanel>
 
-            <Grid Grid.Column="1">
+                <Grid Grid.Column="1">
                 <TextBox Name="SearchBox" MinWidth="300" MaxLines="1" FontSize="11" VerticalContentAlignment="Center" 
                          TextChanged="SearchBox_OnTextChanged" HorizontalAlignment="Stretch" KeyDown="SearchBox_OnKeyDown"/>
                 <TextBlock Name="DummySearchText" Foreground="DimGray" Text=" Поиск" VerticalAlignment="Center" FontSize="11" 

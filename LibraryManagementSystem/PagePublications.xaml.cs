@@ -22,8 +22,9 @@ namespace LibraryManagementSystem
             InitializeComponent();
         }
 
-        public void Update()
+        public new void UpdateLayout()
         {
+            ((Page)this).UpdateLayout();
             DataGrid.ItemsSource = null;
         }
 

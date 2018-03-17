@@ -12,26 +12,28 @@ namespace LibraryManagementSystem
     using System;
     using System.Collections.Generic;
     
-    public partial class DBPublication
+    public partial class DbPublication
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public DBPublication()
+        public DbPublication()
         {
-            this.Reader = new HashSet<DBReader>();
-            this.Writer = new HashSet<DBAuthor>();
+            this.Authors = new HashSet<DbAuthor>();
+            this.PhysicalLocations = new HashSet<DbBookLocation>();
+            this.Readers = new HashSet<DbReader>();
         }
     
         public int Id { get; set; }
         public string Name { get; set; }
         public System.DateTime DatePublished { get; set; }
+        public byte PublicationType { get; set; }
         public string Publisher { get; set; }
-        public byte Type { get; set; }
-        public string PhysicalLocation { get; set; }
         public string InternetLocation { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DBReader> Reader { get; set; }
+        public virtual ICollection<DbAuthor> Authors { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DBAuthor> Writer { get; set; }
+        public virtual ICollection<DbBookLocation> PhysicalLocations { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DbReader> Readers { get; set; }
     }
 }

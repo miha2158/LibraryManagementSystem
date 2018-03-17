@@ -12,12 +12,12 @@ namespace LibraryManagementSystem
     using System;
     using System.Collections.Generic;
     
-    public partial class DBReader
+    public partial class DbReader
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public DBReader()
+        public DbReader()
         {
-            this.TakenPublications = new HashSet<DBPublication>();
+            this.Publications = new HashSet<DbPublication>();
         }
     
         public int Id { get; set; }
@@ -25,8 +25,10 @@ namespace LibraryManagementSystem
         public string Last { get; set; }
         public string Patronimic { get; set; }
         public byte AccessLevel { get; set; }
+        public string Group { get; set; }
     
+        public virtual DbBookLocation PhysicalLocation { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DBPublication> TakenPublications { get; set; }
+        public virtual ICollection<DbPublication> Publications { get; set; }
     }
 }

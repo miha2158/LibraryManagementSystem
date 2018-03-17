@@ -4,47 +4,24 @@ using Generator;
 
 namespace LibraryManagementSystem
 {
-    public class Author: Person
+    public class Author: NewPerson
     {
-        public new string First { get; set; } = string.Empty;
-        public new string Last { get; set; } = string.Empty;
-        public string Patronimic { get; set; } = string.Empty;
-        public WriterType WriterType = WriterType.Other;
-        public List<Publication> WrittenPublications = new List<Publication>();
+        public WriterType WriterType { get; set; } = WriterType.Other;
+        public HashSet<Publication> WrittenPublications = new HashSet<Publication>();
 
         public Author() { }
-        public Author(string First, string Last, string Patronimic, WriterType WriterType) : base(First, Last)
+        public Author(string First, string Last, string Patronimic, WriterType WriterType) : base(First, Last, Patronimic)
         {
-            this.Patronimic = Patronimic;
             this.WriterType = WriterType;
         }
 
+        public new static Author FillBlanks() => FillBlanks((Gender)NewValue.Int(2));
         public new static Author FillBlanks(Gender gender)
         {
-            Author p = (Author) Person.FillBlanks(gender);
-            p.Patronimic = MaleFirstNames[NewValue.Int(MaleFirstNames.Count)] + (gender == Gender.Female? "овна": "ович");
-            return p;
+            var p = NewPerson.FillBlanks(gender);
+            return new Author(p.First, p.Last, p.Patronimic, (WriterType)NewValue.Int(2));
         }
-
-        public static implicit operator Author(DBAuthor item)
-        {
-            return new Author(item.First, item.Last, item.Patronimic, (WriterType)item.WriterType)
-            {
-                WrittenPublications = item.WrittenPublications.Cast<Publication>().ToList()
-            };
-        }
-        public static implicit operator DBAuthor(Author item)
-        {
-            return new DBAuthor()
-            {
-                First = item.First,
-                Last =  item.Last,
-                Patronimic = item.Patronimic,
-                WriterType = (byte)item.WriterType,
-                WrittenPublications = new HashSet<DBPublication>(item.WrittenPublications.Cast<DBPublication>())
-            };
-        }
-
+        
         public override string ToString() => $"{Last} {First} {Patronimic}{(WriterType == WriterType.HseTeacher? " (ВШЭ)": string.Empty)}";
         public string Text => ToString();
         public override int GetHashCode() => ToString().GetHashCode();

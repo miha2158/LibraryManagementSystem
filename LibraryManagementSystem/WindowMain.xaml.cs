@@ -22,16 +22,15 @@ namespace LibraryManagementSystem
         }
 
         public Page OnScreenContent;
-        public PagePublications pPublications = new PagePublications();
-        public PageUsers pUsers = new PageUsers();
-        public PageAuthors pAuthors = new PageAuthors();
+        public static PagePublications pPublications = new PagePublications();
+        public static PageUsers pUsers = new PageUsers();
 
         private void ToPagePublications(object sender, RoutedEventArgs e) => NavigateTo(pPublications);
         private void ToPageUsers(object sender, RoutedEventArgs e) => NavigateTo(pUsers);
-        private void ToPageAuthors(object sender, RoutedEventArgs e) => NavigateTo(pAuthors);
 
         public void NavigateTo(Page destinationPage)
         {
+            destinationPage.UpdateLayout();
             MainView.Navigate(OnScreenContent = destinationPage);
         }
 
@@ -63,16 +62,9 @@ namespace LibraryManagementSystem
             p.ShowDialog();
         }
 
-        private void NewUser(object sender, RoutedEventArgs e)
+        private void EditPublication(object sender, RoutedEventArgs e)
         {
-            var p = new WindowAddEditUserAuthor(this);
-            p.ShowDialog();
-        }
 
-        private void NewAuthor(object sender, RoutedEventArgs e)
-        {
-            var p = new WindowAddEditUserAuthor(this, false);
-            p.ShowDialog();
         }
     }
 }
