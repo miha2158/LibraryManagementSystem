@@ -63,6 +63,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
@@ -76,40 +77,61 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DBAuthor.cs">
+      <DependentUpon>LibraryDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBPublication.cs">
+      <DependentUpon>LibraryDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBReader.cs">
+      <DependentUpon>LibraryDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="LibraryDB.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>LibraryDB.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LibraryDB.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LibraryDB.tt</DependentUpon>
     </Compile>
     <Compile Include="LibraryDB.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>LibraryDB.edmx</DependentUpon>
     </Compile>
+    <Compile Include="PageAuthors.xaml.cs">
+      <DependentUpon>PageAuthors.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WindowAddEditPublication.xaml.cs">
       <DependentUpon>WindowAddEditPublication.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WindowAddEditUser.xaml.cs">
-      <DependentUpon>WindowAddEditUser.xaml</DependentUpon>
+    <Compile Include="WindowAddEditUserAuthor.xaml.cs">
+      <DependentUpon>WindowAddEditUserAuthor.xaml</DependentUpon>
     </Compile>
     <Compile Include="PagePublications.xaml.cs">
       <DependentUpon>PagePublications.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Author.cs" />
+    <Compile Include="ClassAuthor.cs" />
     <Compile Include="Enumerators.cs" />
     <Compile Include="PageUsers.xaml.cs">
       <DependentUpon>PageUsers.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Publication.cs" />
-    <Compile Include="Reader.cs" />
+    <Compile Include="ClassPublication.cs" />
+    <Compile Include="ClassReader.cs" />
     <Compile Include="WindowMain.xaml.cs">
       <DependentUpon>WindowMain.xaml</DependentUpon>
     </Compile>
+    <Page Include="PageAuthors.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="WindowAddEditPublication.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="WindowAddEditUser.xaml">
+    <Page Include="WindowAddEditUserAuthor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -193,8 +215,14 @@
     <Content Include="LibraryDB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>LibraryDB.Context.cs</LastGenOutput>
+      <DependentUpon>LibraryDB.edmx</DependentUpon>
     </Content>
     <Content Include="LibraryDB.edmx.sql" />
+    <Content Include="LibraryDB.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>LibraryDB.cs</LastGenOutput>
+      <DependentUpon>LibraryDB.edmx</DependentUpon>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

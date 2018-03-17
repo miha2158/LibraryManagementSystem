@@ -22,11 +22,13 @@ namespace LibraryManagementSystem
         }
 
         public Page OnScreenContent;
-        public PagePublications P1 = new PagePublications();
-        public PageUsers P2 = new PageUsers();
+        public PagePublications pPublications = new PagePublications();
+        public PageUsers pUsers = new PageUsers();
+        public PageAuthors pAuthors = new PageAuthors();
 
-        private void ToPage0(object sender, RoutedEventArgs e) => NavigateTo(P1);
-        private void ToPage1(object sender, RoutedEventArgs e) => NavigateTo(P2);
+        private void ToPagePublications(object sender, RoutedEventArgs e) => NavigateTo(pPublications);
+        private void ToPageUsers(object sender, RoutedEventArgs e) => NavigateTo(pUsers);
+        private void ToPageAuthors(object sender, RoutedEventArgs e) => NavigateTo(pAuthors);
 
         public void NavigateTo(Page destinationPage)
         {
@@ -35,7 +37,7 @@ namespace LibraryManagementSystem
 
         private void ActualWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
-            NavigateTo(P1);
+            NavigateTo(pPublications);
         }
 
         private void SearchBox_OnTextChanged(object sender, TextChangedEventArgs e)
@@ -55,15 +57,21 @@ namespace LibraryManagementSystem
 
         }
 
-        private void New_OnClick(object sender, RoutedEventArgs e)
+        private void NewPublication(object sender, RoutedEventArgs e)
         {
             var p = new WindowAddEditPublication(this);
             p.ShowDialog();
         }
 
-        private void New2_OnClick(object sender, RoutedEventArgs e)
+        private void NewUser(object sender, RoutedEventArgs e)
         {
-            var p = new WindowAddEditUser(this);
+            var p = new WindowAddEditUserAuthor(this);
+            p.ShowDialog();
+        }
+
+        private void NewAuthor(object sender, RoutedEventArgs e)
+        {
+            var p = new WindowAddEditUserAuthor(this, false);
             p.ShowDialog();
         }
     }

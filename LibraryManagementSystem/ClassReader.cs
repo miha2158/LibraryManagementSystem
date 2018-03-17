@@ -33,6 +33,23 @@ namespace LibraryManagementSystem
             return p;
         }
 
+
+        public static implicit operator Reader(DBReader item)
+        {
+            return new Reader(item.First, item.Last, item.Patronimic, (AccessLevel)item.AccessLevel);
+        }
+        public static implicit operator DBReader(Reader item)
+        {
+            return new DBReader()
+            {
+                First = item.First,
+                Last = item.First,
+                Patronimic = item.Patronimic, 
+                AccessLevel = (byte)item.AccessLevel,
+                TakenPublications = new HashSet<DBPublication>(item.TakenPublications.Cast<DBPublication>())
+            };
+        }
+
         public override string ToString() => $"{Last} {First} {Patronimic}, {AccessLevel}";
         public string Text => ToString();
         public override int GetHashCode() => ToString().GetHashCode();

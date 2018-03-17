@@ -64,18 +64,20 @@
             <StackPanel Orientation="Horizontal" Grid.Column="0">
                 <Menu>
                     <MenuItem Header="N" ToolTip="Новый">
-                        <MenuItem Header="Публикация" Click="New_OnClick"/>
-                        <MenuItem Header="Читатель" Click="New2_OnClick"/>
+                        <MenuItem Header="Публикация" Click="NewPublication"/>
+                        <MenuItem Header="Читатель" Click="NewUser"/>
+                        <MenuItem Header="Автор" Click="NewAuthor"/>
                     </MenuItem>
                 </Menu>
                 <Button Name="Edit" Content="E" ToolTip="Редактировать"/>
-                <Button Name="Reports" Content="R" ToolTip="Отчёты"/>
-                <Button Name="Delete" Content="D" ToolTip="Удалить"/>
+                <Button Name="Delete" Content="D" ToolTip="Удалить" Margin="1 0 5 0"/>
+                <Button Name="Reports" Content="R" ToolTip="Отчёты" Margin="5 0 1 0"/>
                 <Button Name="Preferences" Content="P" ToolTip="Настройки"/>
                 <Menu>
                     <MenuItem Name="Window" Header="W" ToolTip="Окно">
-                        <MenuItem Header="1" Click="ToPage0"/>
-                        <MenuItem Header="2" Click="ToPage1"/>
+                        <MenuItem Header="Публикации" Click="ToPagePublications"/>
+                        <MenuItem Header="Пользователи" Click="ToPageUsers"/>
+                        <MenuItem Header="Авторы" Click="ToPageAuthors"/>
                     </MenuItem>
                 </Menu>
             </StackPanel>

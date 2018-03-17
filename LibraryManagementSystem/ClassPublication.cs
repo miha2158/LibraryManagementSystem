@@ -1,20 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace LibraryManagementSystem
 {
     public class BookLocation
     {
-        public string Room { get; set; }
-        public string Bookcase { get; set; }
-        public string Shelf { get; set; }
+        public string Room { get; set; } = string.Empty;
+        public string Bookcase { get; set; } = string.Empty;
+        public string Shelf { get; set; } = string.Empty;
 
         public BookLocation() { }
-        public BookLocation(string Room, string Bookcase, string Shelf)
+        public BookLocation(string Room, string Bookcase, string Shelf) : this()
         {
             this.Room = Room;
             this.Bookcase = Bookcase;
             this.Shelf = Shelf;
+        }
+        public BookLocation(string All): this()
+        {
+            var p = All.Split(new[] {',', ' '}, 3, StringSplitOptions.RemoveEmptyEntries);
+            if (p.Length > 0)
+                Room = p[0];
+            if (p.Length > 1)
+                Bookcase = p[1];
+            if (p.Length > 2)
+                Shelf = p[2];
         }
 
         public override string ToString() => $"{Room}, {Bookcase}, {Shelf}";
@@ -32,13 +43,22 @@ namespace LibraryManagementSystem
         public Uri InternetLocation { get; set; } = new Uri("");
 
         public Publication() { }
-        private Publication(string Name, Author Writer, PublicationType Type, DateTime DatePublished, string Publisher)
+        public Publication(string Name, PublicationType Type, DateTime DatePublished, string Publisher)
         {
             this.Name = Name;
-            this.Writer.Add(Writer);
             this.Type = Type;
             this.DatePublished = DatePublished;
             this.Publisher = Publisher;
+        }
+        public Publication(string Name, Author Writer, PublicationType Type, DateTime DatePublished, string Publisher):
+            this(Name, Type, DatePublished, Publisher)
+        {
+            this.Writer.Add(Writer);
+        }
+        public Publication(string Name, IEnumerable<Author> Writer, PublicationType Type, DateTime DatePublished, string Publisher) :
+            this(Name, Type, DatePublished, Publisher)
+        {
+            this.Writer.AddRange(Writer);
         }
 
         public Publication(string Name, Author Writer, PublicationType Type, DateTime DatePublished, string Publisher, BookLocation PhysicalLocation) :
@@ -51,8 +71,28 @@ namespace LibraryManagementSystem
         {
             this.InternetLocation = InternetLocation;
         }
-        
 
+        public static implicit operator Publication(DBPublication item)
+        {
+            return new Publication(item.Name, item.Writer.Cast<Author>(), (PublicationType)item.Type, item.DatePublished, item.Publisher)
+            {
+                Reader = item.Reader.Cast<Reader>().ToList()
+            };
+        }
+        public static implicit operator DBPublication(Publication item)
+        {
+            return new DBPublication()
+            {
+                DatePublished = item.DatePublished,
+                InternetLocation = item.InternetLocation.AbsolutePath,
+                Name = item.Name,
+                PhysicalLocation = item.ToString(),
+                Publisher = item.Publisher,
+                Type = (byte)item.Type,
+                Reader = new HashSet<DBReader>(item.Reader.Cast<DBReader>()),
+                Writer = new HashSet<DBAuthor>(item.Writer.Cast<DBAuthor>())
+            };
+        }
 
         public override bool Equals(object obj)
         {

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Generator;
 
 namespace LibraryManagementSystem
@@ -23,6 +24,25 @@ namespace LibraryManagementSystem
             Author p = (Author) Person.FillBlanks(gender);
             p.Patronimic = MaleFirstNames[NewValue.Int(MaleFirstNames.Count)] + (gender == Gender.Female? "овна": "ович");
             return p;
+        }
+
+        public static implicit operator Author(DBAuthor item)
+        {
+            return new Author(item.First, item.Last, item.Patronimic, (WriterType)item.WriterType)
+            {
+                WrittenPublications = item.WrittenPublications.Cast<Publication>().ToList()
+            };
+        }
+        public static implicit operator DBAuthor(Author item)
+        {
+            return new DBAuthor()
+            {
+                First = item.First,
+                Last =  item.Last,
+                Patronimic = item.Patronimic,
+                WriterType = (byte)item.WriterType,
+                WrittenPublications = new HashSet<DBPublication>(item.WrittenPublications.Cast<DBPublication>())
+            };
         }
 
         public override string ToString() => $"{Last} {First} {Patronimic}{(WriterType == WriterType.HseTeacher? " (ВШЭ)": string.Empty)}";

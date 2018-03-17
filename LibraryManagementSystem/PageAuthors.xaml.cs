@@ -10,30 +10,29 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace LibraryManagementSystem
 {
-    public partial class WindowAddEditUser: Window
+    /// <summary>
+    /// Interaction logic for PageAuthors.xaml
+    /// </summary>
+    public partial class PageAuthors: Page
     {
-        public WindowAddEditUser()
+        public PageAuthors()
         {
             InitializeComponent();
         }
-        public WindowAddEditUser(Window Owner): this()
+
+        public void Update()
         {
-            this.Owner = Owner;
+            DataGrid.ItemsSource = null;
         }
 
-        private void AddEditUser_OnLoaded(object sender, RoutedEventArgs e)
+        private void This_OnLoaded(object sender, RoutedEventArgs e)
         {
 
-        }
-
-        private void EventSetter_OnHandler(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-                ((TextBox) sender).MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
         }
     }
 }

@@ -22,6 +22,11 @@ namespace LibraryManagementSystem
             InitializeComponent();
         }
 
+        public void Update()
+        {
+            DataGrid.ItemsSource = null;
+        }
+
         private void This_OnLoaded(object sender, RoutedEventArgs e)
         {
 

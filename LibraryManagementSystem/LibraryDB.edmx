@@ -156,7 +156,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
           <Property Name="Name" Type="String" Nullable="false" />
           <Property Name="DatePublished" Type="DateTime" Nullable="false" />
           <Property Name="Publisher" Type="String" Nullable="false" />
