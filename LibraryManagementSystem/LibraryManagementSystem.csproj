@@ -76,15 +76,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="DatabaseModel.Context.cs">
+    <Compile Include="LibraryDB.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DatabaseModel.Context.tt</DependentUpon>
+      <DependentUpon>LibraryDB.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="DatabaseModel.Designer.cs">
+    <Compile Include="LibraryDB.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DatabaseModel.edmx</DependentUpon>
+      <DependentUpon>LibraryDB.edmx</DependentUpon>
     </Compile>
     <Compile Include="WindowAddEditPublication.xaml.cs">
       <DependentUpon>WindowAddEditPublication.xaml</DependentUpon>
@@ -156,12 +156,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EntityDeploy Include="DatabaseModel.edmx">
+    <EntityDeploy Include="LibraryDB.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>DatabaseModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>LibraryDB.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="DatabaseModel.edmx.diagram">
-      <DependentUpon>DatabaseModel.edmx</DependentUpon>
+    <None Include="LibraryDB.edmx.diagram">
+      <DependentUpon>LibraryDB.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -190,11 +190,11 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DatabaseModel.Context.tt">
+    <Content Include="LibraryDB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>DatabaseModel.Context.cs</LastGenOutput>
+      <LastGenOutput>LibraryDB.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="DatabaseModel.edmx.sql" />
+    <Content Include="LibraryDB.edmx.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
