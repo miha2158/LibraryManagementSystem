@@ -9,26 +9,27 @@ namespace LibraryManagementSystem
     {
         public static ObservableCollection<DbPublication> All => Ex.Lib.DbPublicationSet1.Local;
         public static IEnumerable<string> AllPublishers => All.Select(e => e.Publisher).Distinct();
-        public static IEnumerable<string> AllDisciplines => All.SelectMany(e => e.Discipline).Select(e => e.Name).Distinct();
+        public static IEnumerable<DbDiscipline> AllDisciplines => Ex.Lib.DbDisciplineSet.Local.Distinct();
 
 
         public ePublicationType Type { get; set; }
         public IEnumerable<DbReader> Readers => PhysicalLocations.Where(e => e.IsTaken).Select(e => e.Reader).Distinct();
 
-        public DbPublication(string Name, ePublicationType Type, DateTime DatePublished, string Publisher)
+        public DbPublication(string Name, ePublicationType Type, eBookPublication BookPublication, DateTime DatePublished, string Publisher)
         {
             this.Name = Name;
             this.Type = Type;
+            this.BookPublication = BookPublication.e();
             this.DatePublished = DatePublished;
             this.Publisher = Publisher;
         }
-        public DbPublication(string Name, DbAuthor Author, ePublicationType Type, DateTime DatePublished, string Publisher):
-            this(Name, Type, DatePublished, Publisher)
+        public DbPublication(string Name, DbAuthor Author, ePublicationType Type, eBookPublication BookPublication, DateTime DatePublished, string Publisher):
+            this(Name, Type, BookPublication, DatePublished, Publisher)
         {
             this.Authors.Add(Author);
         }
-        public DbPublication(string Name, IEnumerable<DbAuthor> Authors, ePublicationType Type, DateTime DatePublished, string Publisher) :
-            this(Name, Type, DatePublished, Publisher)
+        public DbPublication(string Name, IEnumerable<DbAuthor> Authors, ePublicationType Type, eBookPublication BookPublication, DateTime DatePublished, string Publisher) :
+            this(Name, Type, BookPublication, DatePublished, Publisher)
         {
             this.Authors.Union(Authors);
         }
@@ -47,6 +48,4 @@ namespace LibraryManagementSystem
         public string Text => ToString();
         public override int GetHashCode() => ToString().GetHashCode();
     }
-
-
 }

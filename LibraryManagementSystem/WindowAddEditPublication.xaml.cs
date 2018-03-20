@@ -60,9 +60,13 @@ namespace LibraryManagementSystem
 
         private void LocationButton_OnClick(object sender, RoutedEventArgs e)
         {
+
+            Publication = new DbPublication(NameBox.Text, AuthorList.SelectedItems.Cast<DbAuthor>(), ePublicationType.None, eBookPublication.None, PublishDatePicker.DisplayDate, Publisher.Text);
             var p = new WindowEditLocation(this);
             p.ShowDialog();
         }
+
+        public DbPublication Publication;
 
         private void PubNumber_OnKeyDown(object sender, KeyEventArgs e)
         {

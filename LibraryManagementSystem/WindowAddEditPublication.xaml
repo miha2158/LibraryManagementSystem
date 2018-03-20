@@ -111,7 +111,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Дисциплина" DisplayMemberBinding="{Binding}"/>
+                    <GridViewColumn Header="Дисциплина" DisplayMemberBinding="{Binding Name}"/>
                     <!-- TODO: bind to item in collection -->
                 </GridView>
             </ListView.View>

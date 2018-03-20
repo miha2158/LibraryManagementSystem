@@ -19,13 +19,15 @@ namespace LibraryManagementSystem
     public enum eBookPublication
     {
         Book,
-        Publication
+        Publication, 
+        None
     }
 
     public enum ePublicationType
     {
         Educational,
-        Scientific
+        Scientific,
+        None
     }
 
     public static partial class Ex
