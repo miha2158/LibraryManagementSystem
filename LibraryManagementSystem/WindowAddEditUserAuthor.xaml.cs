@@ -35,13 +35,7 @@ namespace LibraryManagementSystem
             AuthorRole.Visibility = Visibility.Visible;
         }
 
-        public bool IsStudent
-        {
-            get
-            {
-                return isReader && UserRole.SelectedIndex == 0;
-            }
-        }
+        public bool IsStudent => isReader && UserRole.SelectedIndex == 0;
         private bool isReader;
 
         public Reader Reader = new Reader();
@@ -49,7 +43,7 @@ namespace LibraryManagementSystem
 
         private void This_OnLoaded(object sender, RoutedEventArgs e)
         {
-
+            Title += isReader? "Читателя": "Автора";
         }
 
         private void EventSetter_OnHandler(object sender, KeyEventArgs e)

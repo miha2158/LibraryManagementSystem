@@ -15,9 +15,9 @@ using System.Windows.Shapes;
 
 namespace LibraryManagementSystem
 {
-    public partial class PagePublications: Page
+    public partial class PageAuthors: Page
     {
-        public PagePublications()
+        public PageAuthors()
         {
             InitializeComponent();
         }
@@ -27,15 +27,12 @@ namespace LibraryManagementSystem
         public new void UpdateLayout()
         {
             ((Page)this).UpdateLayout();
-            DataGrid.ItemsSource = Pubs;
-            DataGrid.GenerateColumns(new ListCollectionView(Pubs.ToList()));
+            DataGrid.ItemsSource = null;
         }
-
-        public HashSet<Publication> Pubs = new HashSet<Publication>();
 
         private void This_OnLoaded(object sender, RoutedEventArgs e)
         {
-            Pubs.Add(new Publication("aaa", new Author("1","2", "3",WriterType.Other), PublicationType.Scientific, DateTime.UtcNow, "12334"));
+
         }
     }
 }

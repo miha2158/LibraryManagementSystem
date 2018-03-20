@@ -19,14 +19,23 @@ namespace LibraryManagementSystem
         public WindowMain()
         {
             InitializeComponent();
+            
+            if (pPublications == null)
+                pPublications = new PagePublications();
+            if (pUsers == null)
+                pUsers = new PageUsers();
+            if (pAuthors == null)
+            pAuthors = new PageAuthors();
         }
 
         public Page OnScreenContent;
-        public static PagePublications pPublications = new PagePublications();
-        public static PageUsers pUsers = new PageUsers();
+        public static PagePublications pPublications;
+        public static PageUsers pUsers;
+        public static PageAuthors pAuthors;
 
         private void ToPagePublications(object sender, RoutedEventArgs e) => NavigateTo(pPublications);
         private void ToPageUsers(object sender, RoutedEventArgs e) => NavigateTo(pUsers);
+        private void ToPageAuthors(object sender, RoutedEventArgs e) => NavigateTo(pAuthors);
 
         public void NavigateTo(Page destinationPage)
         {
@@ -38,12 +47,10 @@ namespace LibraryManagementSystem
         {
             NavigateTo(pPublications);
         }
-
         private void SearchBox_OnTextChanged(object sender, TextChangedEventArgs e)
         {
             DummySearchText.Visibility = SearchBox.Text.Length == 0 ? Visibility.Visible : Visibility.Collapsed;
         }
-
         private void DummySearchText_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
             SearchBox.Focus();
@@ -58,13 +65,47 @@ namespace LibraryManagementSystem
 
         private void NewPublication(object sender, RoutedEventArgs e)
         {
-            var p = new WindowAddEditPublication(this);
-            p.ShowDialog();
+            switch (OnScreenContent)
+            {
+                case PageAuthors pageAuthors:
+                {
+                    break;
+                }
+                case PagePublications pagePublications:
+                {
+                    var p = new WindowAddEditPublication(this);
+                    p.ShowDialog();
+                    break;
+                }
+                case PageUsers pageUsers:
+                {
+                    break;
+                }
+            }
         }
 
         private void EditPublication(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void Reports_OnClick(object sender, RoutedEventArgs e)
+        {
+            var p = new WindowReports(this);
+            p.ShowDialog();
+        }
+
+        private void Filter_OnClick(object sender, RoutedEventArgs e)
+        {
+            var p = new WindowLocation(this);
+            p.ShowDialog();
+        }
+
+        private void WindowMain_OnGotFocus(object sender, RoutedEventArgs e)
+        {
+            pPublications.Owner = this;
+            pAuthors.Owner = this;
+            pUsers.Owner = this;
         }
     }
 }

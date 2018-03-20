@@ -29,5 +29,7 @@ namespace LibraryManagementSystem
         public virtual DbSet<DbAuthor> DbAuthorSet1 { get; set; }
         public virtual DbSet<DbBookLocation> DbBookLocationSet { get; set; }
         public virtual DbSet<DbReader> DbReaderSet { get; set; }
+        public virtual DbSet<DbStats> DbStatsSet { get; set; }
+        public virtual DbSet<DbCourse> DbCourseSet { get; set; }
     }
 }

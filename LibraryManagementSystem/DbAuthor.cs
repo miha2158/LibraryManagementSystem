@@ -12,21 +12,21 @@ namespace LibraryManagementSystem
     using System;
     using System.Collections.Generic;
     
-    public partial class DbBookLocation
+    public partial class DbAuthor
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public DbBookLocation()
+        public DbAuthor()
         {
-            this.Stats = new HashSet<DbStats>();
+            this.Publications = new HashSet<DbPublication>();
         }
     
         public int Id { get; set; }
-        public int Room { get; set; }
-        public string Place { get; set; }
+        public string First { get; set; }
+        public string Last { get; set; }
+        public string Patronimic { get; set; }
+        public byte WriterType { get; set; }
     
-        public virtual DbPublication Publication { get; set; }
-        public virtual DbReader Reader { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DbStats> Stats { get; set; }
+        public virtual ICollection<DbPublication> Publications { get; set; }
     }
 }

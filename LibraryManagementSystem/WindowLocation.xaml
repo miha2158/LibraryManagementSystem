@@ -12,29 +12,55 @@
         Loaded="This_OnLoaded"
         WindowStartupLocation="CenterOwner">
 
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="Grid.Column" Value="0"/>
+            <Setter Property="TextAlignment" Value="Right"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="1 5"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Grid.Column" Value="1"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="AcceptsReturn" Value="False"/>
+            <Setter Property="AcceptsTab" Value="False"/>
+            <Setter Property="Margin" Value="5 0"/>
+            <Setter Property="MaxLines" Value="1"/>
+            <Setter Property="MaxLength" Value="15"/>
+        </Style>
+    </Window.Resources>
+
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition/>
-            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Text="Читатели:" Grid.Row="2" Margin="1 5" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-        <Button Name="Add" Grid.Row="2" Grid.Column="2" Content="Add" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="10 0"
-                HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="AddReader_OnClick"/>
-        <ListView Name="ListReaders" Grid.Row="2" Grid.Column="1" Margin="5 0" ItemsSource="{Binding Readers}" SelectionMode="Extended"
-                  d:DataContext="{d:DesignInstance local:WindowAddEditPublication}">
+        <TextBlock Text="Кафедра:"/>
+        <ListView Name="ListPlaces" Grid.Column="1" Margin="5 0" ItemsSource="{Binding Locations}"
+                  d:DataContext="{d:DesignInstance local:WindowLocation}">
+
             <ListView.View>
                 <GridView AllowsColumnReorder="True">
-                    <GridViewColumn  Width="Auto">
-                        <GridViewColumnHeader Content=""/>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <CheckBox IsChecked="{Binding Path=IsSelected, 
-                                        RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}}}"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
+                    <GridViewColumn Header="Кабинет"/>
+                    <GridViewColumn Header="Место"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <TextBlock Text="Читатели:" Grid.Row="1"/>
+        <ListView Name="ListReaders" Grid.Row="1" Grid.Column="1" Margin="5 0" ItemsSource="{Binding Readers}" SelectionMode="Extended"
+                  d:DataContext="{d:DesignInstance local:WindowLocation}">
+
+            <ListView.View>
+                <GridView AllowsColumnReorder="True">
                     <GridViewColumn Header="Фамилия" DisplayMemberBinding="{Binding Last}"/>
                     <GridViewColumn Header="Имя" DisplayMemberBinding="{Binding First}"/>
                     <GridViewColumn Header="Отчество" DisplayMemberBinding="{Binding Patronimic}"/>
@@ -43,5 +69,11 @@
                 </GridView>
             </ListView.View>
         </ListView>
+        
+        <TextBlock Grid.Row="2" Text="URL"/>
+        <TextBox Name="UriBox" Grid.Row="2"/>
+        
+        <Button Grid.Row="3" Grid.ColumnSpan="2" Content="Изменить" Margin="30 5" HorizontalAlignment="Right" VerticalAlignment="Bottom" Padding="7 0"
+                Click="Edit_OnClick"/>
     </Grid>
 </Window>

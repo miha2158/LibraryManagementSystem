@@ -15,6 +15,6 @@
             this.Place = Place;
         }
 
-        public override string ToString() => $"{Room}, {Place}";
+        public override string ToString() => IsTaken? $"{Reader}" : $"{Room}, {Place}";
     }
 }

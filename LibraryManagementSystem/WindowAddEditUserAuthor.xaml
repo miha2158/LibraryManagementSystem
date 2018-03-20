@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LibraryManagementSystem"
         mc:Ignorable="d"
-        Title="Добавить Читателя"
+        Title="Добавить "
         FontSize="20"
         MinHeight="400" MinWidth="400"
         Height="500" Width="600"

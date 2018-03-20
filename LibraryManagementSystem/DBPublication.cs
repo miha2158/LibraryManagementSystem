@@ -20,6 +20,7 @@ namespace LibraryManagementSystem
             this.Authors = new HashSet<DbAuthor>();
             this.PhysicalLocations = new HashSet<DbBookLocation>();
             this.Readers = new HashSet<DbReader>();
+            this.Course = new HashSet<DbCourse>();
         }
     
         public int Id { get; set; }
@@ -28,6 +29,8 @@ namespace LibraryManagementSystem
         public byte PublicationType { get; set; }
         public string Publisher { get; set; }
         public string InternetLocation { get; set; }
+        public string Discipline { get; set; }
+        public byte BookPublication { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DbAuthor> Authors { get; set; }
@@ -35,5 +38,7 @@ namespace LibraryManagementSystem
         public virtual ICollection<DbBookLocation> PhysicalLocations { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DbReader> Readers { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DbCourse> Course { get; set; }
     }
 }

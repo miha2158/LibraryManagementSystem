@@ -20,28 +20,32 @@ namespace LibraryManagementSystem
         {
             InitializeComponent();
         }
-        public WindowLocation(Window Owner)
+        public WindowLocation(Window Owner):this()
         {
             this.Owner = Owner;
         }
 
-        public HashSet<Reader> Readers { get; set; } = new HashSet<Reader>();
+        public Publication Display = new Publication();
 
-        private void AddReader_OnClick(object sender, RoutedEventArgs e)
+        public HashSet<Reader> Readers
         {
-            var p = new WindowAddEditUserAuthor(this);
-            p.ShowDialog();
-
-            Readers.Add(p.Reader);
-            ListReaders.ItemsSource = Readers;
+            get { return Display.Readers; }
+            set { Display.Readers = value; }
         }
+        public IEnumerable<BookLocation> Locations => locations.Where(r => !r.IsTaken);
+        private HashSet<BookLocation> locations => Display.PhysicalLocations;
+        
 
         private void This_OnLoaded(object sender, RoutedEventArgs e)
         {
-            for (int i = 0; i < 5; i++)
-                Readers.Add(Reader.FillBlanks());
 
-            ListReaders.ItemsSource = Readers;
+        }
+
+        private void Edit_OnClick(object sender, RoutedEventArgs e)
+        {
+            var p = new WindowEditLocation(this);
+            p.DisplayItem = Display;
+            p.ShowDialog();
         }
     }
 }

@@ -88,10 +88,16 @@
     <Compile Include="DbBookLocation.cs">
       <DependentUpon>LibraryDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="DbCourse.cs">
+      <DependentUpon>LibraryDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="DbPublication.cs">
       <DependentUpon>LibraryDB.tt</DependentUpon>
     </Compile>
     <Compile Include="DbReader.cs">
+      <DependentUpon>LibraryDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbStats.cs">
       <DependentUpon>LibraryDB.tt</DependentUpon>
     </Compile>
     <Compile Include="LibraryDB.Context.cs">
@@ -114,6 +120,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LibraryDB.edmx</DependentUpon>
     </Compile>
+    <Compile Include="PageAuthors.xaml.cs">
+      <DependentUpon>PageAuthors.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WindowAddEditPublication.xaml.cs">
       <DependentUpon>WindowAddEditPublication.xaml</DependentUpon>
     </Compile>
@@ -130,12 +139,25 @@
     </Compile>
     <Compile Include="ClassPublication.cs" />
     <Compile Include="ClassReader.cs" />
+    <Compile Include="WindowEditLocation.xaml.cs">
+      <DependentUpon>WindowEditLocation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WindowLocation.xaml.cs">
       <DependentUpon>WindowLocation.xaml</DependentUpon>
     </Compile>
     <Compile Include="WindowMain.xaml.cs">
       <DependentUpon>WindowMain.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WindowReports.xaml.cs">
+      <DependentUpon>WindowReports.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WindowSorting.xaml.cs">
+      <DependentUpon>WindowSorting.xaml</DependentUpon>
+    </Compile>
+    <Page Include="PageAuthors.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="WindowAddEditPublication.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -145,6 +167,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PagePublications.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowEditLocation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -169,6 +195,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="WindowMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowReports.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowSorting.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

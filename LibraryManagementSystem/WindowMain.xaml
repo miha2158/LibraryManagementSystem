@@ -8,8 +8,9 @@
         Title="Библиотека" 
         MinHeight="400" MinWidth="600"
         WindowStartupLocation="CenterScreen"
-        FontSize="20"
-        Loaded="ActualWindow_OnLoaded">
+        FontSize="13"
+        Loaded="ActualWindow_OnLoaded" 
+        GotFocus="WindowMain_OnGotFocus">
 
     <Window.Resources>
         <Style TargetType="TextBox">
@@ -44,9 +45,10 @@
 
                 <StackPanel Orientation="Horizontal">
                     <Button Content="Добавить" Click="NewPublication"/>
-                    <Button Content="Правка" Click="EditPublication"/>
-                    <Button Name="Reports" Content="Отчёт"/>
-                    <Button Name="Preferences" Content="Настройки"/>
+                    <!--<Button Content="Правка" Click="EditPublication"/>-->
+                    <Button Name="Reports" Content="Отчёт" Click="Reports_OnClick"/>
+                    <!--<Button Name="Preferences" Content="Настройки"/>-->
+                    <Button Content="Авторы" Click="ToPageAuthors"/>
                     <Button Content="Публикации" Click="ToPagePublications"/>
                     <Button Content="Читатели" Click="ToPageUsers"/>
                 </StackPanel>
@@ -59,7 +61,7 @@
             </Grid>
 
             <StackPanel Orientation="Horizontal" Grid.Column="2">
-                <Button Name="Filter" Width="Auto" Content="Фильтры"/>
+                <Button Name="Filter" Width="Auto" Content="Фильтры" Click="Filter_OnClick"/>
                 <Button Name="Search" Width="Auto" Content="Найти"/>
                 <Button Name="ShowAll" Width="Auto" Content="Показать все"/>
             </StackPanel>
@@ -67,5 +69,26 @@
 
         <Frame Grid.Row="1" Name="MainView" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                NavigationUIVisibility="Hidden"/>
+        <ListView Name="ListReaders" Grid.Row="1" Margin="2" >
+
+            <ListView.Resources>
+                <Style TargetType="GridViewColumnHeader">
+                    <Setter Property="Width" Value="Auto"/>
+                </Style>
+            </ListView.Resources>
+
+            <ListView.View>
+                <GridView AllowsColumnReorder="True">
+                    <GridViewColumn Header="" />
+                    <GridViewColumn Header="Название" />
+                    <GridViewColumn Header="Дата" />
+                    <GridViewColumn Header="Издатель" />
+                    <GridViewColumn Header="Дисциплины" />
+                    <GridViewColumn Header="Автор" />
+                    <GridViewColumn Header="Тип" />
+                    <GridViewColumn Header="Ссылка" />
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </Window>

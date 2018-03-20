@@ -13,6 +13,12 @@
         Other
     }
 
+    public enum BookPublication
+    {
+        Book,
+        Publication
+    }
+
     public enum PublicationType
     {
         Educational,

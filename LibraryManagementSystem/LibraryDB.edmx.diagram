@@ -8,11 +8,15 @@
         <EntityTypeShape EntityType="LibraryDB.DbPublication" Width="1.5" PointX="4" PointY="0.625" />
         <EntityTypeShape EntityType="LibraryDB.DbAuthor" Width="1.5" PointX="0.625" PointY="1.125" />
         <AssociationConnector Association="LibraryDB.DbPublicationDbAuthor" />
-        <EntityTypeShape EntityType="LibraryDB.DbBookLocation" Width="1.75" PointX="3.875" PointY="4" />
-        <EntityTypeShape EntityType="LibraryDB.DbReader" Width="1.5" PointX="8.375" PointY="1.625" />
+        <EntityTypeShape EntityType="LibraryDB.DbBookLocation" Width="1.75" PointX="3.875" PointY="4.5" />
+        <EntityTypeShape EntityType="LibraryDB.DbReader" Width="1.5" PointX="7.5" PointY="4.875" />
         <AssociationConnector Association="LibraryDB.DbPublicationDbBookLocation" />
         <AssociationConnector Association="LibraryDB.DbBookLocationDbReader" />
         <AssociationConnector Association="LibraryDB.DbReaderDbPublication" />
+        <EntityTypeShape EntityType="LibraryDB.DbStats" Width="1.5" PointX="0.5" PointY="4.625" />
+        <AssociationConnector Association="LibraryDB.DbBookLocationDbStats" />
+        <EntityTypeShape EntityType="LibraryDB.DbCourse" Width="1.5" PointX="8.125" PointY="0.5" />
+        <AssociationConnector Association="LibraryDB.DbPublicationDbCourse" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

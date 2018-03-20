@@ -34,7 +34,7 @@ namespace LibraryManagementSystem
             };
         }
 
-        public override string ToString() => $"{Last} {First} {Patronimic}, {AccessLevel}";
+        public override string ToString() => $"{Last} {First[0]}.{Patronimic[0]}.";
         public string Text => ToString();
         public override int GetHashCode() => ToString().GetHashCode();
         public override bool Equals(object obj)

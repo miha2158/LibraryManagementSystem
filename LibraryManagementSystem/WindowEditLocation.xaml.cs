@@ -10,32 +10,26 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace LibraryManagementSystem
 {
-    public partial class PagePublications: Page
+    public partial class WindowEditLocation: Window
     {
-        public PagePublications()
+        public WindowEditLocation()
         {
             InitializeComponent();
         }
-
-        public Window Owner;
-
-        public new void UpdateLayout()
+        public WindowEditLocation(Window Owner) : this()
         {
-            ((Page)this).UpdateLayout();
-            DataGrid.ItemsSource = Pubs;
-            DataGrid.GenerateColumns(new ListCollectionView(Pubs.ToList()));
+            this.Owner = Owner;
         }
 
-        public HashSet<Publication> Pubs = new HashSet<Publication>();
+        public Publication DisplayItem { get; set; } = new Publication();
 
         private void This_OnLoaded(object sender, RoutedEventArgs e)
         {
-            Pubs.Add(new Publication("aaa", new Author("1","2", "3",WriterType.Other), PublicationType.Scientific, DateTime.UtcNow, "12334"));
+
         }
     }
 }

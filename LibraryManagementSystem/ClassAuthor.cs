@@ -22,7 +22,7 @@ namespace LibraryManagementSystem
             return new Author(p.First, p.Last, p.Patronimic, (WriterType)NewValue.Int(2));
         }
         
-        public override string ToString() => $"{Last} {First} {Patronimic}{(WriterType == WriterType.HseTeacher? " (ВШЭ)": string.Empty)}";
+        public override string ToString() => $"{Last} {First[0]}.{Patronimic[0]}.";
         public string Text => ToString();
         public override int GetHashCode() => ToString().GetHashCode();
         public override bool Equals(object obj)

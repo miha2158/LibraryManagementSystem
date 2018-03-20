@@ -22,6 +22,8 @@ namespace LibraryManagementSystem
             InitializeComponent();
         }
 
+        public Window Owner;
+
         public new void UpdateLayout()
         {
             ((Page)this).UpdateLayout();
