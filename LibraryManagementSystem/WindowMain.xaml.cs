@@ -97,7 +97,8 @@ namespace LibraryManagementSystem
 
         private void Filter_OnClick(object sender, RoutedEventArgs e)
         {
-            var p = new WindowLocation(this);
+            var p = new WindowSorting(this);
+            //var p = new WindowLocation(this);
             p.ShowDialog();
         }
 

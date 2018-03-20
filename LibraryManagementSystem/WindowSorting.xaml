@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LibraryManagementSystem"
         mc:Ignorable="d"
-        Title="WindowSorting" 
+        Title="Фильтровать" 
         FontSize="20"
         MinHeight="400" MinWidth="400"
-        Height="600" Width="600"
+        Height="800" Width="600"
         Loaded="This_OnLoaded"
         WindowStartupLocation="CenterOwner">
 
@@ -37,9 +37,135 @@
             <Setter Property="Margin" Value="10 5"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
         </Style>
+        <Style TargetType="CheckBox">
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="5 5 10 5"/>
+        </Style>
     </Window.Resources>
 
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
         
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <CheckBox Content="По названию"/>
+        <TextBox/>
+
+        <CheckBox Content="По Автору" Grid.Row="1"/>
+        <ListView Name="ListAuthor" Grid.Row="1" Grid.Column="1" Margin="5 0" ItemsSource="{Binding Authors}" SelectionMode="Extended"
+                  d:DataContext="{d:DesignInstance local:WindowReports}">
+            <ListView.View>
+                <GridView AllowsColumnReorder="True">
+                    <GridViewColumn  Width="Auto">
+                        <GridViewColumnHeader Content=""/>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding Path=IsSelected, 
+                                        RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}}}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Фамилия" DisplayMemberBinding="{Binding Last}"/>
+                    <GridViewColumn Header="Имя" DisplayMemberBinding="{Binding First}"/>
+                    <GridViewColumn Header="Отчество" DisplayMemberBinding="{Binding Patronimic}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <CheckBox Content="По Году издания" Grid.Row="2"/>
+        <Grid Grid.Row="2" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="0.2*"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <DatePicker Margin="10" VerticalAlignment="Center"/>
+            <TextBlock HorizontalAlignment="Center" Margin="1" Grid.Column="1" Text="-" FontSize="35"/>
+            <DatePicker Margin="10" Grid.Column="2" VerticalAlignment="Center"/>
+        </Grid>
+
+        <CheckBox Content="По издательству" Grid.Row="3"/>
+        <ListView Name="ListPublishers" Grid.Row="3" Grid.Column="1" Margin="5 0" SelectionMode="Extended" IsEnabled="{Binding ElementName=ReaderRButton, Path=IsChecked}">
+
+            <ListView.View>
+                <GridView AllowsColumnReorder="True">
+                    <GridViewColumn  Width="Auto">
+                        <GridViewColumnHeader Content=""/>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding Path=IsSelected, 
+                                        RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}}}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Издательство" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <CheckBox Content="По Дисциплинам" Grid.Row="4"/>
+        <ListView Name="ListDisciplines" Grid.Row="4" Grid.Column="1" Margin="5 0" SelectionMode="Extended" IsEnabled="{Binding ElementName=ReaderRButton, Path=IsChecked}">
+
+            <ListView.View>
+                <GridView AllowsColumnReorder="True">
+                    <GridViewColumn  Width="Auto">
+                        <GridViewColumnHeader Content=""/>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding Path=IsSelected, 
+                                        RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}}}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Дисциплина" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <CheckBox Content="По курсам" Grid.Row="5"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="5" Grid.Column="1">
+            <CheckBox Content="1"/>
+            <CheckBox Content="2"/>
+            <CheckBox Content="3"/>
+            <CheckBox Content="4"/>
+        </StackPanel>
+
+        <Grid Grid.Row="6" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="Тип:"/>
+            <StackPanel VerticalAlignment="Center" Grid.Column="1">
+                <CheckBox Content="Электронная"/>
+                <CheckBox Content="Бумажная"/>
+            </StackPanel>
+
+            <TextBlock Text="Вид:" Grid.Column="2"/>
+            <StackPanel VerticalAlignment="Center" Grid.Column="3">
+                <CheckBox Content="Книга"/>
+                <CheckBox Content="Публикация"/>
+            </StackPanel>
+
+        </Grid>
+        
+        <Button Margin="30 10" Grid.Row="7" Grid.ColumnSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="Найти" Padding="7 0"/>
+
     </Grid>
 </Window>

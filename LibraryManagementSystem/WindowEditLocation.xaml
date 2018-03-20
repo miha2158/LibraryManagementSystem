@@ -84,11 +84,11 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Фамилия" DisplayMemberBinding="{Binding Last}"/>
-                    <GridViewColumn Header="Имя" DisplayMemberBinding="{Binding First}"/>
-                    <GridViewColumn Header="Отчество" DisplayMemberBinding="{Binding Patronimic}"/>
-                    <GridViewColumn Header="Роль" DisplayMemberBinding="{Binding AccessLevel}"/>
-                    <GridViewColumn Header="Группа" DisplayMemberBinding="{Binding Group}"/>
+                    <GridViewColumn Header="Фамилия" />
+                    <GridViewColumn Header="Имя" />
+                    <GridViewColumn Header="Отчество"/>
+                    <GridViewColumn Header="Роль" />
+                    <GridViewColumn Header="Группа"/>
                 </GridView>
             </ListView.View>
         </ListView>

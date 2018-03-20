@@ -49,7 +49,7 @@
                     <Button Name="Reports" Content="Отчёт" Click="Reports_OnClick"/>
                     <!--<Button Name="Preferences" Content="Настройки"/>-->
                     <Button Content="Авторы" Click="ToPageAuthors"/>
-                    <Button Content="Публикации" Click="ToPagePublications"/>
+                    <Button Content="Книги/Публикации" Click="ToPagePublications"/>
                     <Button Content="Читатели" Click="ToPageUsers"/>
                 </StackPanel>
 
@@ -69,7 +69,7 @@
 
         <Frame Grid.Row="1" Name="MainView" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                NavigationUIVisibility="Hidden"/>
-        <ListView Name="ListReaders" Grid.Row="1" Margin="2" >
+        <ListView Name="ListReaders" Grid.Row="1" Margin="2" Visibility="Collapsed">
 
             <ListView.Resources>
                 <Style TargetType="GridViewColumnHeader">

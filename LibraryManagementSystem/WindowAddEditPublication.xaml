@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LibraryManagementSystem"
         mc:Ignorable="d"
-        Title="Добавить публикацию"
+        Title="Добавление"
         MinHeight="400" MinWidth="400"
         Height="900" Width="650"
         FontSize="20"
