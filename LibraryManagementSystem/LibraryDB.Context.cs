@@ -31,5 +31,6 @@ namespace LibraryManagementSystem
         public virtual DbSet<DbReader> DbReaderSet { get; set; }
         public virtual DbSet<DbStats> DbStatsSet { get; set; }
         public virtual DbSet<DbCourse> DbCourseSet { get; set; }
+        public virtual DbSet<DbDiscipline> DbDisciplineSet { get; set; }
     }
 }

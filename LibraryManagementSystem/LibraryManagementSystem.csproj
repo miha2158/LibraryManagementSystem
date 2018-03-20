@@ -91,6 +91,9 @@
     <Compile Include="DbCourse.cs">
       <DependentUpon>LibraryDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="DbDiscipline.cs">
+      <DependentUpon>LibraryDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="DbPublication.cs">
       <DependentUpon>LibraryDB.tt</DependentUpon>
     </Compile>

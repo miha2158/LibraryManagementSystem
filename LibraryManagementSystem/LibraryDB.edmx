@@ -12,9 +12,11 @@
     <EntitySet Name="DbReaderSet" EntityType="LibraryDB.Store.DbReaderSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="DbStatsSet" EntityType="LibraryDB.Store.DbStatsSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="DbCourseSet" EntityType="LibraryDB.Store.DbCourseSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DbDisciplineSet" EntityType="LibraryDB.Store.DbDisciplineSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="DbPublicationDbAuthor" EntityType="LibraryDB.Store.DbPublicationDbAuthor" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="DbReaderDbPublication" EntityType="LibraryDB.Store.DbReaderDbPublication" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="DbPublicationDbCourse" EntityType="LibraryDB.Store.DbPublicationDbCourse" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DisciplineDbPublication" EntityType="LibraryDB.Store.DisciplineDbPublication" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="FK_DbPublicationDbAuthor_DbPublication" Association="LibraryDB.Store.FK_DbPublicationDbAuthor_DbPublication">
       <End Role="DbPublication" EntitySet="DbPublicationSet1" />
       <End Role="DbPublicationDbAuthor" EntitySet="DbPublicationDbAuthor" />
@@ -51,6 +53,14 @@
       <End Role="DbCourse" EntitySet="DbCourseSet" />
       <End Role="DbPublicationDbCourse" EntitySet="DbPublicationDbCourse" />
     </AssociationSet>
+    <AssociationSet Name="FK_DisciplineDbPublication_Discipline" Association="LibraryDB.Store.FK_DisciplineDbPublication_Discipline">
+      <End Role="Discipline" EntitySet="DbDisciplineSet" />
+      <End Role="DisciplineDbPublication" EntitySet="DisciplineDbPublication" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DisciplineDbPublication_DbPublication" Association="LibraryDB.Store.FK_DisciplineDbPublication_DbPublication">
+      <End Role="DbPublication" EntitySet="DbPublicationSet1" />
+      <End Role="DisciplineDbPublication" EntitySet="DisciplineDbPublication" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="DbPublicationSet1">
     <Key>
@@ -62,7 +72,6 @@
     <Property Name="PublicationType" Type="tinyint" Nullable="false" />
     <Property Name="Publisher" Type="nvarchar" Nullable="false" MaxLength="25" />
     <Property Name="InternetLocation" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="Discipline" Type="nvarchar" Nullable="false" MaxLength="25" />
     <Property Name="BookPublication" Type="tinyint" Nullable="false" />
   </EntityType>
   <EntityType Name="DbAuthorSet1">
@@ -114,6 +123,13 @@
     <Property Name="C3" Type="bit" Nullable="false" />
     <Property Name="C4" Type="bit" Nullable="false" />
   </EntityType>
+  <EntityType Name="DbDisciplineSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="25" />
+  </EntityType>
   <EntityType Name="DbPublicationDbAuthor">
     <Key>
       <PropertyRef Name="Publications_Id" />
@@ -137,6 +153,14 @@
     </Key>
     <Property Name="Publication_Id" Type="int" Nullable="false" />
     <Property Name="Course_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DisciplineDbPublication">
+    <Key>
+      <PropertyRef Name="Discipline_Id" />
+      <PropertyRef Name="Publication_Id" />
+    </Key>
+    <Property Name="Discipline_Id" Type="int" Nullable="false" />
+    <Property Name="Publication_Id" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="DbPublicationDbBookLocation">
     <End Role="DbPublication" Type="LibraryDB.Store.DbPublicationSet1" Multiplicity="0..1" />
@@ -246,6 +270,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_DisciplineDbPublication_Discipline">
+    <End Role="Discipline" Type="LibraryDB.Store.DbDisciplineSet" Multiplicity="1" />
+    <End Role="DisciplineDbPublication" Type="LibraryDB.Store.DisciplineDbPublication" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Discipline">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DisciplineDbPublication">
+        <PropertyRef Name="Discipline_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DisciplineDbPublication_DbPublication">
+    <End Role="DisciplineDbPublication" Type="LibraryDB.Store.DisciplineDbPublication" Multiplicity="*" />
+    <End Role="DbPublication" Type="LibraryDB.Store.DbPublicationSet1" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="DbPublication">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DisciplineDbPublication">
+        <PropertyRef Name="Publication_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -281,6 +329,11 @@
             <End Role="DbPublication" EntitySet="DbPublicationSet1" />
             <End Role="DbCourse" EntitySet="DbCourseSet" />
           </AssociationSet>
+          <EntitySet Name="DbDisciplineSet" EntityType="LibraryDB.DbDiscipline" />
+          <AssociationSet Name="DisciplineDbPublication" Association="LibraryDB.DisciplineDbPublication">
+            <End Role="Discipline" EntitySet="DbDisciplineSet" />
+            <End Role="DbPublication" EntitySet="DbPublicationSet1" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="DbPublication">
           <Key>
@@ -295,9 +348,9 @@
           <NavigationProperty Name="PhysicalLocations" Relationship="LibraryDB.DbPublicationDbBookLocation" FromRole="DbPublication" ToRole="DbBookLocation" />
           <NavigationProperty Name="Readers" Relationship="LibraryDB.DbReaderDbPublication" FromRole="DbPublication" ToRole="DbReader" />
           <Property Name="InternetLocation" Type="String" Nullable="true" FixedLength="false" MaxLength="Max" Unicode="true" />
-          <Property Name="Discipline" Type="String" Nullable="false" Unicode="true" MaxLength="25" FixedLength="false" />
           <NavigationProperty Name="Course" Relationship="LibraryDB.DbPublicationDbCourse" FromRole="DbPublication" ToRole="DbCourse" />
           <Property Name="BookPublication" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="Discipline" Relationship="LibraryDB.DisciplineDbPublication" FromRole="DbPublication" ToRole="Discipline" />
         </EntityType>
         <EntityType Name="DbAuthor">
           <Key>
@@ -377,6 +430,18 @@
           <End Type="LibraryDB.DbPublication" Role="DbPublication" Multiplicity="*" />
           <End Type="LibraryDB.DbCourse" Role="DbCourse" Multiplicity="*" />
         </Association>
+        <EntityType Name="DbDiscipline">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" Unicode="true" FixedLength="false" MaxLength="25" />
+          <NavigationProperty Name="Publication" Relationship="LibraryDB.DisciplineDbPublication" FromRole="Discipline" ToRole="DbPublication" />
+        </EntityType>
+        <Association Name="DisciplineDbPublication">
+          <End Type="LibraryDB.DbDiscipline" Role="Discipline" Multiplicity="*" />
+          <End Type="LibraryDB.DbPublication" Role="DbPublication" Multiplicity="*" />
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -392,7 +457,6 @@
           <ScalarProperty Name="PublicationType" ColumnName="PublicationType" />
           <ScalarProperty Name="Publisher" ColumnName="Publisher" />
           <ScalarProperty Name="InternetLocation" ColumnName="InternetLocation" />
-          <ScalarProperty Name="Discipline" ColumnName="Discipline" />
           <ScalarProperty Name="BookPublication" ColumnName="BookPublication" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -448,6 +512,14 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="DbDisciplineSet">
+      <EntityTypeMapping TypeName="IsTypeOf(LibraryDB.DbDiscipline)">
+        <MappingFragment StoreEntitySet="DbDisciplineSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <AssociationSetMapping Name="DbPublicationDbAuthor" TypeName="LibraryDB.DbPublicationDbAuthor" StoreEntitySet="DbPublicationDbAuthor">
       <EndProperty Name="DbPublication">
         <ScalarProperty Name="Id" ColumnName="Publications_Id" />
@@ -497,6 +569,14 @@
       </EndProperty>
       <EndProperty Name="DbCourse">
         <ScalarProperty Name="Id" ColumnName="Course_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="DisciplineDbPublication" TypeName="LibraryDB.DisciplineDbPublication" StoreEntitySet="DisciplineDbPublication">
+      <EndProperty Name="Discipline">
+        <ScalarProperty Name="Id" ColumnName="Discipline_Id" />
+      </EndProperty>
+      <EndProperty Name="DbPublication">
+        <ScalarProperty Name="Id" ColumnName="Publication_Id" />
       </EndProperty>
     </AssociationSetMapping>
   </EntityContainerMapping>

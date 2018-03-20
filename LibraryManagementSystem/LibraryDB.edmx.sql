@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 03/20/2018 13:01:30
+-- Date Created: 03/20/2018 17:43:29
 -- Generated from EDMX file: D:\Projects\LibraryManagementSystem\LibraryManagementSystem\LibraryDB.edmx
 -- --------------------------------------------------
 
@@ -89,7 +89,6 @@ CREATE TABLE [dbo].[DbPublicationSet1] (
     [PublicationType] tinyint  NOT NULL,
     [Publisher] nvarchar(25)  NOT NULL,
     [InternetLocation] nvarchar(max)  NULL,
-    [Discipline] nvarchar(25)  NOT NULL,
     [BookPublication] tinyint  NOT NULL
 );
 GO
@@ -143,6 +142,13 @@ CREATE TABLE [dbo].[DbCourseSet] (
 );
 GO
 
+-- Creating table 'DbDisciplineSet'
+CREATE TABLE [dbo].[DbDisciplineSet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(25)  NOT NULL
+);
+GO
+
 -- Creating table 'DbPublicationDbAuthor'
 CREATE TABLE [dbo].[DbPublicationDbAuthor] (
     [Publications_Id] int  NOT NULL,
@@ -161,6 +167,13 @@ GO
 CREATE TABLE [dbo].[DbPublicationDbCourse] (
     [Publication_Id] int  NOT NULL,
     [Course_Id] int  NOT NULL
+);
+GO
+
+-- Creating table 'DisciplineDbPublication'
+CREATE TABLE [dbo].[DisciplineDbPublication] (
+    [Discipline_Id] int  NOT NULL,
+    [Publication_Id] int  NOT NULL
 );
 GO
 
@@ -204,6 +217,12 @@ ADD CONSTRAINT [PK_DbCourseSet]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
+-- Creating primary key on [Id] in table 'DbDisciplineSet'
+ALTER TABLE [dbo].[DbDisciplineSet]
+ADD CONSTRAINT [PK_DbDisciplineSet]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
 -- Creating primary key on [Publications_Id], [Authors_Id] in table 'DbPublicationDbAuthor'
 ALTER TABLE [dbo].[DbPublicationDbAuthor]
 ADD CONSTRAINT [PK_DbPublicationDbAuthor]
@@ -220,6 +239,12 @@ GO
 ALTER TABLE [dbo].[DbPublicationDbCourse]
 ADD CONSTRAINT [PK_DbPublicationDbCourse]
     PRIMARY KEY CLUSTERED ([Publication_Id], [Course_Id] ASC);
+GO
+
+-- Creating primary key on [Discipline_Id], [Publication_Id] in table 'DisciplineDbPublication'
+ALTER TABLE [dbo].[DisciplineDbPublication]
+ADD CONSTRAINT [PK_DisciplineDbPublication]
+    PRIMARY KEY CLUSTERED ([Discipline_Id], [Publication_Id] ASC);
 GO
 
 -- --------------------------------------------------
@@ -341,6 +366,30 @@ GO
 CREATE INDEX [IX_FK_DbPublicationDbCourse_DbCourse]
 ON [dbo].[DbPublicationDbCourse]
     ([Course_Id]);
+GO
+
+-- Creating foreign key on [Discipline_Id] in table 'DisciplineDbPublication'
+ALTER TABLE [dbo].[DisciplineDbPublication]
+ADD CONSTRAINT [FK_DisciplineDbPublication_Discipline]
+    FOREIGN KEY ([Discipline_Id])
+    REFERENCES [dbo].[DbDisciplineSet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [Publication_Id] in table 'DisciplineDbPublication'
+ALTER TABLE [dbo].[DisciplineDbPublication]
+ADD CONSTRAINT [FK_DisciplineDbPublication_DbPublication]
+    FOREIGN KEY ([Publication_Id])
+    REFERENCES [dbo].[DbPublicationSet1]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_DisciplineDbPublication_DbPublication'
+CREATE INDEX [IX_FK_DisciplineDbPublication_DbPublication]
+ON [dbo].[DisciplineDbPublication]
+    ([Publication_Id]);
 GO
 
 -- --------------------------------------------------

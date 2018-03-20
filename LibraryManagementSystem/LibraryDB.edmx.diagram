@@ -17,6 +17,8 @@
         <AssociationConnector Association="LibraryDB.DbBookLocationDbStats" />
         <EntityTypeShape EntityType="LibraryDB.DbCourse" Width="1.5" PointX="8.125" PointY="0.5" />
         <AssociationConnector Association="LibraryDB.DbPublicationDbCourse" />
+        <EntityTypeShape EntityType="LibraryDB.DbDiscipline" Width="1.5" PointX="9.5" PointY="3" />
+        <AssociationConnector Association="LibraryDB.DisciplineDbPublication" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
