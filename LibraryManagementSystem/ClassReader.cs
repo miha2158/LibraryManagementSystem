@@ -1,45 +1,65 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Generator;
 
 namespace LibraryManagementSystem
 {
 
-    public class Reader: NewPerson
+    public partial class DbReader
     {
-        public static HashSet<string> Groups;
+        public static IEnumerable<string> Groups => All.Select(e => e.Group).Distinct();
+        public static ObservableCollection<DbReader> All => Ex.Lib.DbReaderSet.Local;
 
-        public AccessLevel AccessLevel { get; set; } = AccessLevel.Sutdent;
-        public string Group { get; set; } = string.Empty;
-        public HashSet<Publication> TakenPublications = new HashSet<Publication>();
+        public HashSet<DbPublication> TakenPublications = new HashSet<DbPublication>();
 
-        public Reader(): base() { }
-        public Reader(string First, string Last, string Patronimic): base(First, Last, Patronimic)
+        public DbReader(): base() { }
+        public DbReader(string First, string Last, string Patronimic): this()
         {
+            this.First = First;
+            this.Last = Last;
+            this.Patronimic = Patronimic;
             this.AccessLevel = AccessLevel;
         }
-        public Reader(string First, string Last, string Patronimic, string Group) : base(First, Last, Patronimic)
+        public DbReader(string First, string Last, string Patronimic, string Group) : this(First, Last, Patronimic)
         {
-            AccessLevel = AccessLevel.Sutdent;
+            AccessLevel = eAccessLevel.Sutdent.e();
             this.Group = Group;
         }
 
-        public new static Reader FillBlanks() => FillBlanks((Gender) NewValue.Int(2));
-        public new static Reader FillBlanks(Gender gender)
+        public new static DbReader FillBlanks() => FillBlanks((Gender) NewValue.Int(2));
+        public new static DbReader FillBlanks(Gender gender)
         {
             var p = NewPerson.FillBlanks(gender);
-            return new Reader(p.First, p.Last, p.Patronimic)
+            var b = new DbReader(p.First, p.Last, p.Patronimic, "")
             {
-                AccessLevel = (AccessLevel)NewValue.Int(2)
+                AccessLevel = (byte)NewValue.Int(2),
+                Id = All.Count + 1
             };
+            All.Add(b);
+            return b;
         }
 
+        public DbReader ToDb()
+        {
+            return new DbReader()
+            {
+                AccessLevel = (byte)AccessLevel,
+                First = this.First,
+                Last = this.Last,
+                Group = this.Group,
+                Id = this.Id,
+                Patronimic = this.Patronimic,
+                PhysicalLocation = this.PhysicalLocation
+            };
+        }
+        
         public override string ToString() => $"{Last} {First[0]}.{Patronimic[0]}.";
         public string Text => ToString();
         public override int GetHashCode() => ToString().GetHashCode();
         public override bool Equals(object obj)
         {
-            var reader = obj as Reader;
+            var reader = obj as DbReader;
             return reader != null &&
                    base.Equals(obj) &&
                    Patronimic == reader.Patronimic &&
@@ -47,8 +67,8 @@ namespace LibraryManagementSystem
         }
     }
 
-    public static partial class Extentions
+    public static partial class Ex
     {
-        public static Reader[] Add(this Reader[] array, Reader item) => array.Append(item).ToArray();
+        public static DbReader[] Add(this DbReader[] array, DbReader item) => array.Append(item).ToArray();
     }
 }

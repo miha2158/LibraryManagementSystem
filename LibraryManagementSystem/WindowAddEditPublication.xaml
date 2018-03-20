@@ -54,6 +54,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -85,7 +86,7 @@
                     <GridViewColumn Header="Фамилия" DisplayMemberBinding="{Binding Last}"/>
                     <GridViewColumn Header="Имя" DisplayMemberBinding="{Binding First}"/>
                     <GridViewColumn Header="Отчество" DisplayMemberBinding="{Binding Patronimic}"/>
-                    <GridViewColumn Header="Роль" DisplayMemberBinding="{Binding WriterType}"/>
+                    <GridViewColumn Header="Роль" DisplayMemberBinding="{Binding Wri}"/>
                 </GridView>
             </ListView.View>
         </ListView>
@@ -98,7 +99,7 @@
         
         <TextBlock Grid.Row="4" Text="Дисциплины:"/>
         <ListView Name="DisciplinesList" Grid.Row="4" Grid.Column="1" ItemsSource="{Binding AllDisciplines}"
-                  d:DataContext="{d:DesignInstance local:Publication}">
+                  d:DataContext="{d:DesignInstance local:DbPublication}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn>
@@ -158,7 +159,7 @@
 
                 <CheckBox Name="PubNumberChechBox" Content="Бумажная"/>
                 <TextBox Name="PubNumber" TextChanged="PubNumber_OnTextChanged" IsEnabled="{Binding ElementName = PubNumberChechBox, Path = IsChecked}"
-                         KeyDown="PubNumber_OnKeyDown"/>
+                         KeyDown="PubNumber_OnKeyDown" TextInput="PubNumber_OnTextInput"/>
                 <TextBlock Name="PubNumberTextBlock" Margin="10 0" Grid.Column="1" Text="Кол-во" HorizontalAlignment="Left" FontSize="17" 
                            MouseDown="PubNumberTextBlock_OnMouseDown" Foreground="Gray"/>
             </Grid>
@@ -166,6 +167,5 @@
         
         <Button Name="LocationButton" Grid.Row="8" Grid.ColumnSpan="3" Margin="30 10" Width="300" Content="Местонахождение" Padding="11"
                 Click="LocationButton_OnClick"/>
-
     </Grid>
 </Window>

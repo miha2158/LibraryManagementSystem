@@ -38,8 +38,8 @@ namespace LibraryManagementSystem
         public bool IsStudent => isReader && UserRole.SelectedIndex == 0;
         private bool isReader;
 
-        public Reader Reader = new Reader();
-        public Author Author = new Author();
+        public DbReader Reader = new DbReader();
+        public DbAuthor Author = new DbAuthor();
 
         private void This_OnLoaded(object sender, RoutedEventArgs e)
         {
@@ -56,9 +56,9 @@ namespace LibraryManagementSystem
         {
             Hide();
             if (isReader)
-                Reader = IsStudent ? new Reader(First.Text, Last.Text, Patronimic.Text, GroupBox.Text) : new Reader(First.Text, Last.Text, Patronimic.Text);
+                Reader = IsStudent ? new DbReader(First.Text, Last.Text, Patronimic.Text, GroupBox.Text) : new DbReader(First.Text, Last.Text, Patronimic.Text);
             else
-                Author = new Author(First.Text, Last.Text, Patronimic.Text, (WriterType)AuthorRole.SelectedIndex);
+                Author = new DbAuthor(First.Text, Last.Text, Patronimic.Text, (eWriterType)AuthorRole.SelectedIndex);
             Close();
         }
     }

@@ -12,7 +12,6 @@
         <EntityTypeShape EntityType="LibraryDB.DbReader" Width="1.5" PointX="7.5" PointY="4.875" />
         <AssociationConnector Association="LibraryDB.DbPublicationDbBookLocation" />
         <AssociationConnector Association="LibraryDB.DbBookLocationDbReader" />
-        <AssociationConnector Association="LibraryDB.DbReaderDbPublication" />
         <EntityTypeShape EntityType="LibraryDB.DbStats" Width="1.5" PointX="0.5" PointY="4.625" />
         <AssociationConnector Association="LibraryDB.DbBookLocationDbStats" />
         <EntityTypeShape EntityType="LibraryDB.DbCourse" Width="1.5" PointX="8.125" PointY="0.5" />

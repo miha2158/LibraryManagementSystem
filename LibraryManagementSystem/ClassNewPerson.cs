@@ -6,6 +6,7 @@ namespace LibraryManagementSystem
 {
     public class NewPerson: Person
     {
+        public int ID { get; set; }
         public string Patronimic { get; set; } = string.Empty;
 
         public NewPerson() { }

@@ -1,57 +1,52 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace LibraryManagementSystem
 {
-    public class Publication
+    public partial class DbPublication
     {
-        public static HashSet<string> AllPublishers { get; set; } = new HashSet<string>();
-        public static HashSet<string> AllDisciplines { get; set; } = new HashSet<string>();
+        public static ObservableCollection<DbPublication> All => Ex.Lib.DbPublicationSet1.Local;
+        public static IEnumerable<string> AllPublishers => All.Select(e => e.Publisher).Distinct();
+        public static IEnumerable<string> AllDisciplines => All.SelectMany(e => e.Discipline).Select(e => e.Name).Distinct();
 
-        public string Name { get; set; } = string.Empty;
-        public DateTime DatePublished { get; set; }
-        public string Publisher { get; set; } = string.Empty;
-        public string Discipline { get; set; } = string.Empty;
-        public bool[] TargetCourse { get; set; } = new bool[4];
-        public HashSet<Author> Writer { get; set; } = new HashSet<Author>();
-        public PublicationType Type { get; set; }
-        public HashSet<Reader> Readers { get; set; } = new HashSet<Reader>();
-        public HashSet<BookLocation> PhysicalLocations { get; set; } = new HashSet<BookLocation>();
-        public Uri InternetLocation { get; set; } = null;
 
-        public Publication() { }
-        public Publication(string Name, PublicationType Type, DateTime DatePublished, string Publisher)
+        public ePublicationType Type { get; set; }
+        public IEnumerable<DbReader> Readers => PhysicalLocations.Where(e => e.IsTaken).Select(e => e.Reader).Distinct();
+
+        public DbPublication(string Name, ePublicationType Type, DateTime DatePublished, string Publisher)
         {
             this.Name = Name;
             this.Type = Type;
             this.DatePublished = DatePublished;
             this.Publisher = Publisher;
-            AllPublishers.Add(Publisher);
         }
-        public Publication(string Name, Author Writer, PublicationType Type, DateTime DatePublished, string Publisher):
+        public DbPublication(string Name, DbAuthor Author, ePublicationType Type, DateTime DatePublished, string Publisher):
             this(Name, Type, DatePublished, Publisher)
         {
-            this.Writer.Add(Writer);
+            this.Authors.Add(Author);
         }
-        public Publication(string Name, IEnumerable<Author> Writer, PublicationType Type, DateTime DatePublished, string Publisher) :
+        public DbPublication(string Name, IEnumerable<DbAuthor> Authors, ePublicationType Type, DateTime DatePublished, string Publisher) :
             this(Name, Type, DatePublished, Publisher)
         {
-            this.Writer.UnionWith(Writer);
+            this.Authors.Union(Authors);
         }
         
         public override bool Equals(object obj)
         {
-            var publication = obj as Publication;
+            var publication = obj as DbPublication;
             return publication != null &&
                    Name == publication.Name &&
                    DatePublished == publication.DatePublished &&
                    Publisher == publication.Publisher &&
-                   Writer.Equals(publication.Writer) &&
+                   Authors.Equals(publication.Authors) &&
                    Type == publication.Type;
         }
-        public override string ToString() => $"{Name} - {Writer}, {DatePublished}, {Type}. {Publisher}";
+        public override string ToString() => $"{Name} - {Authors}, {DatePublished}, {Type}. {Publisher}";
         public string Text => ToString();
         public override int GetHashCode() => ToString().GetHashCode();
     }
+
+
 }

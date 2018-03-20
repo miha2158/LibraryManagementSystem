@@ -25,7 +25,7 @@ namespace LibraryManagementSystem
             this.Owner = Owner;
         }
 
-        public HashSet<Author> Authors { get; set; } = new HashSet<Author>();
+        public HashSet<DbAuthor> Authors { get; set; } = new HashSet<DbAuthor>();
 
         private void This_OnLoaded(object sender, RoutedEventArgs e)
         {

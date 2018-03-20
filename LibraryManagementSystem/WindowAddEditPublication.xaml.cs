@@ -19,13 +19,12 @@ namespace LibraryManagementSystem
             this.Owner = Owner;
         }
 
-        public HashSet<Author> Authors { get; set; } = new HashSet<Author>();
+        public HashSet<DbAuthor> Authors { get; set; } = new HashSet<DbAuthor>();
 
         private void This_OnLoaded(object sender, RoutedEventArgs e)
         {
 
         }
-
         private void AddAuthor_OnClick(object sender, RoutedEventArgs e)
         {
             var p = new WindowAddEditUserAuthor(this, false);
@@ -37,7 +36,6 @@ namespace LibraryManagementSystem
         {
             PublicationSpecific.Visibility = Visibility.Collapsed;
         }
-
         private void PublicationRButton_OnChecked(object sender, RoutedEventArgs e)
         {
             PublicationSpecific.Visibility = Visibility.Visible;
@@ -47,17 +45,14 @@ namespace LibraryManagementSystem
         {
             PubNumber.Focus();
         }
-
         private void PubNumber_OnTextChanged(object sender, TextChangedEventArgs e)
         {
             PubNumberTextBlock.Visibility = PubNumber.Text.Length == 0 ? Visibility.Visible : Visibility.Collapsed;
         }
-
         private void EpubAdressTextBlock_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
             EpubAdress.Focus();
         }
-
         private void EpubAdress_OnTextChanged(object sender, TextChangedEventArgs e)
         {
             EpubAdressTextBlock.Visibility = EpubAdress.Text.Length == 0 ? Visibility.Visible : Visibility.Collapsed;
@@ -65,7 +60,8 @@ namespace LibraryManagementSystem
 
         private void LocationButton_OnClick(object sender, RoutedEventArgs e)
         {
-
+            var p = new WindowEditLocation(this);
+            p.ShowDialog();
         }
 
         private void PubNumber_OnKeyDown(object sender, KeyEventArgs e)
@@ -103,5 +99,13 @@ namespace LibraryManagementSystem
                     return;
             }
         }
+        private void PubNumber_OnTextInput(object sender, TextCompositionEventArgs e)
+        {
+            var c = e.Text.Where(char.IsNumber);
+            var s = c.Aggregate(string.Empty, (current, d) => current + d);
+            e.Handled = true;
+            PubNumber.Text += s;
+        }
+
     }
 }

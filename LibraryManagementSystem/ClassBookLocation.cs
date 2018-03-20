@@ -1,18 +1,21 @@
-﻿namespace LibraryManagementSystem
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace LibraryManagementSystem
 {
-    public class BookLocation
+    public partial class DbBookLocation
     {
-        public bool IsTaken;
+        public static IEnumerable<int> Rooms => DbPublication.All.SelectMany(e => e.PhysicalLocations).Select(e => e.Room).Distinct();
 
-        public int Room { get; set; } = 0;
-        public string Place { get; set; } = string.Empty;
-        public Reader Reader { get; set; } = new Reader();
 
-        public BookLocation() { }
-        public BookLocation(int Room, string Place) : this()
+        public DbBookLocation(int Room, string Place) : this()
         {
             this.Room = Room;
             this.Place = Place;
+        }
+        public DbBookLocation(DbReader Reader)
+        {
+            this.Reader = Reader;
         }
 
         public override string ToString() => IsTaken? $"{Reader}" : $"{Room}, {Place}";

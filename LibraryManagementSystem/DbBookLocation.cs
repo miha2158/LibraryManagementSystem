@@ -23,6 +23,7 @@ namespace LibraryManagementSystem
         public int Id { get; set; }
         public int Room { get; set; }
         public string Place { get; set; }
+        public bool IsTaken { get; set; }
     
         public virtual DbPublication Publication { get; set; }
         public virtual DbReader Reader { get; set; }

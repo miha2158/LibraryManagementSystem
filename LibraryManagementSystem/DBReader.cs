@@ -14,12 +14,6 @@ namespace LibraryManagementSystem
     
     public partial class DbReader
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public DbReader()
-        {
-            this.Publications = new HashSet<DbPublication>();
-        }
-    
         public int Id { get; set; }
         public string First { get; set; }
         public string Last { get; set; }
@@ -28,7 +22,5 @@ namespace LibraryManagementSystem
         public string Group { get; set; }
     
         public virtual DbBookLocation PhysicalLocation { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DbPublication> Publications { get; set; }
     }
 }

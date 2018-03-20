@@ -25,16 +25,18 @@ namespace LibraryManagementSystem
             this.Owner = Owner;
         }
 
-        public Publication Display = new Publication();
+        public DbPublication Display = new DbPublication();
 
-        public HashSet<Reader> Readers
+        public IEnumerable<DbReader> Readers
         {
             get { return Display.Readers; }
-            set { Display.Readers = value; }
         }
-        public IEnumerable<BookLocation> Locations => locations.Where(r => !r.IsTaken);
-        private HashSet<BookLocation> locations => Display.PhysicalLocations;
-        
+        public ICollection<DbBookLocation> Locations
+        {
+            get => Display.PhysicalLocations;
+            set => Display.PhysicalLocations = value;
+        }
+
 
         private void This_OnLoaded(object sender, RoutedEventArgs e)
         {

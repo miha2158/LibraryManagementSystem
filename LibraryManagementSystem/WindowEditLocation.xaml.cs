@@ -25,11 +25,13 @@ namespace LibraryManagementSystem
             this.Owner = Owner;
         }
 
-        public Publication DisplayItem { get; set; } = new Publication();
+        public IEnumerable<int> Rooms => DbBookLocation.Rooms;
+
+        public DbPublication DisplayItem { get; set; } = new DbPublication();
+        public DbBookLocation EditItem { get; set; }
 
         private void This_OnLoaded(object sender, RoutedEventArgs e)
         {
-
         }
     }
 }

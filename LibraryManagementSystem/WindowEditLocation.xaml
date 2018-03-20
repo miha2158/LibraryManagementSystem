@@ -62,7 +62,8 @@
         <RadioButton Name="RoomRButton" Grid.Row="1" Content="Кафедра"/>
 
         <TextBlock Text="Кабинет:" Grid.Row="2"/>
-        <ComboBox Grid.Row="2" IsEditable="True" IsEnabled="{Binding ElementName = RoomRButton, Path=IsChecked}"/>
+        <ComboBox Grid.Row="2" IsEditable="True" IsEnabled="{Binding ElementName = RoomRButton, Path=IsChecked}" ItemsSource="{Binding Rooms}"
+                  d:DataContext="{d:DesignInstance local:WindowEditLocation}" />
 
         <TextBox Grid.Row="3"/>
         <TextBlock Text="Место:" Grid.Row="3" IsEnabled="{Binding ElementName = RoomRButton, Path=IsChecked}"/>
@@ -70,6 +71,8 @@
         <!-- IsEnabled="{Binding ElementName = RoomRButton, Path=IsChecked}" -->
 
         <RadioButton Name="ReaderRButton" Grid.Row="4" Content="Читатель"/>
+
+        <Button Width="65" Height="60" Grid.Row="5" Content="+" FontSize="40"/>
 
         <ListView Name="ListReaders" Grid.Row="5" Grid.Column="1" Margin="5 0" SelectionMode="Extended" IsEnabled="{Binding ElementName=ReaderRButton, Path=IsChecked}">
 

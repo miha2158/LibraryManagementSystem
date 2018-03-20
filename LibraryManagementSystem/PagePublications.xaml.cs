@@ -31,11 +31,10 @@ namespace LibraryManagementSystem
             DataGrid.GenerateColumns(new ListCollectionView(Pubs.ToList()));
         }
 
-        public HashSet<Publication> Pubs = new HashSet<Publication>();
+        public List<DbPublication> Pubs = new List<DbPublication>();
 
         private void This_OnLoaded(object sender, RoutedEventArgs e)
         {
-            Pubs.Add(new Publication("aaa", new Author("1","2", "3",WriterType.Other), PublicationType.Scientific, DateTime.UtcNow, "12334"));
         }
     }
 }
