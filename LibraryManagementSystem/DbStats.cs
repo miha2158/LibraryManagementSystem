@@ -17,6 +17,6 @@ namespace LibraryManagementSystem
         public int Id { get; set; }
         public System.DateTime DateTaken { get; set; }
     
-        public virtual DbBookLocation BookLocation { get; set; }
+        public virtual DbPublication Publication { get; set; }
     }
 }

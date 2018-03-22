@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 03/20/2018 20:47:19
+-- Date Created: 03/22/2018 02:21:38
 -- Generated from EDMX file: D:\Projects\LibraryManagementSystem\LibraryManagementSystem\LibraryDB.edmx
 -- --------------------------------------------------
 
@@ -29,9 +29,6 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_DbBookLocationDbReader]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[DbBookLocationSet] DROP CONSTRAINT [FK_DbBookLocationDbReader];
 GO
-IF OBJECT_ID(N'[dbo].[FK_DbBookLocationDbStats]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[DbStatsSet] DROP CONSTRAINT [FK_DbBookLocationDbStats];
-GO
 IF OBJECT_ID(N'[dbo].[FK_DbPublicationDbCourse]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[DbCourseSet] DROP CONSTRAINT [FK_DbPublicationDbCourse];
 GO
@@ -40,6 +37,9 @@ IF OBJECT_ID(N'[dbo].[FK_DisciplineDbPublication_Discipline]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_DisciplineDbPublication_DbPublication]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[DisciplineDbPublication] DROP CONSTRAINT [FK_DisciplineDbPublication_DbPublication];
+GO
+IF OBJECT_ID(N'[dbo].[FK_DbPublicationDbStats]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[DbStatsSet] DROP CONSTRAINT [FK_DbPublicationDbStats];
 GO
 
 -- --------------------------------------------------
@@ -84,7 +84,7 @@ CREATE TABLE [dbo].[DbPublicationSet1] (
     [Name] nvarchar(70)  NOT NULL,
     [DatePublished] datetime  NOT NULL,
     [PublicationType] tinyint  NOT NULL,
-    [Publisher] nvarchar(25)  NOT NULL,
+    [Publisher] nvarchar(25)  NULL,
     [InternetLocation] nvarchar(max)  NULL,
     [BookPublication] tinyint  NOT NULL
 );
@@ -106,7 +106,7 @@ CREATE TABLE [dbo].[DbBookLocationSet] (
     [Room] int  NOT NULL,
     [Place] nvarchar(70)  NOT NULL,
     [IsTaken] bit  NOT NULL,
-    [Publication_Id] int  NULL,
+    [Publication_Id] int  NOT NULL,
     [Reader_Id] int  NOT NULL
 );
 GO
@@ -126,17 +126,14 @@ GO
 CREATE TABLE [dbo].[DbStatsSet] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [DateTaken] datetime  NOT NULL,
-    [BookLocation_Id] int  NOT NULL
+    [Publication_Id] int  NOT NULL
 );
 GO
 
 -- Creating table 'DbCourseSet'
 CREATE TABLE [dbo].[DbCourseSet] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [C1] bit  NOT NULL,
-    [C2] bit  NOT NULL,
-    [C3] bit  NOT NULL,
-    [C4] bit  NOT NULL,
+    [Course] tinyint  NOT NULL,
     [Publication_Id] int  NOT NULL
 );
 GO
@@ -278,21 +275,6 @@ ON [dbo].[DbBookLocationSet]
     ([Reader_Id]);
 GO
 
--- Creating foreign key on [BookLocation_Id] in table 'DbStatsSet'
-ALTER TABLE [dbo].[DbStatsSet]
-ADD CONSTRAINT [FK_DbBookLocationDbStats]
-    FOREIGN KEY ([BookLocation_Id])
-    REFERENCES [dbo].[DbBookLocationSet]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_DbBookLocationDbStats'
-CREATE INDEX [IX_FK_DbBookLocationDbStats]
-ON [dbo].[DbStatsSet]
-    ([BookLocation_Id]);
-GO
-
 -- Creating foreign key on [Publication_Id] in table 'DbCourseSet'
 ALTER TABLE [dbo].[DbCourseSet]
 ADD CONSTRAINT [FK_DbPublicationDbCourse]
@@ -329,6 +311,21 @@ GO
 -- Creating non-clustered index for FOREIGN KEY 'FK_DisciplineDbPublication_DbPublication'
 CREATE INDEX [IX_FK_DisciplineDbPublication_DbPublication]
 ON [dbo].[DisciplineDbPublication]
+    ([Publication_Id]);
+GO
+
+-- Creating foreign key on [Publication_Id] in table 'DbStatsSet'
+ALTER TABLE [dbo].[DbStatsSet]
+ADD CONSTRAINT [FK_DbPublicationDbStats]
+    FOREIGN KEY ([Publication_Id])
+    REFERENCES [dbo].[DbPublicationSet1]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_DbPublicationDbStats'
+CREATE INDEX [IX_FK_DbPublicationDbStats]
+ON [dbo].[DbStatsSet]
     ([Publication_Id]);
 GO
 

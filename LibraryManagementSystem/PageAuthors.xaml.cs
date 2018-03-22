@@ -27,12 +27,12 @@ namespace LibraryManagementSystem
         public new void UpdateLayout()
         {
             ((Page)this).UpdateLayout();
-            DataGrid.ItemsSource = null;
+            DataGrid.ItemsSource = DbAuthor.All;
         }
 
         private void This_OnLoaded(object sender, RoutedEventArgs e)
         {
-
+            UpdateLayout();
         }
     }
 }

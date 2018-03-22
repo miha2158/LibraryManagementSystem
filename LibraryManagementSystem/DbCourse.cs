@@ -15,10 +15,7 @@ namespace LibraryManagementSystem
     public partial class DbCourse
     {
         public int Id { get; set; }
-        public bool C1 { get; set; }
-        public bool C2 { get; set; }
-        public bool C3 { get; set; }
-        public bool C4 { get; set; }
+        public byte Course { get; set; }
     
         public virtual DbPublication Publication { get; set; }
     }

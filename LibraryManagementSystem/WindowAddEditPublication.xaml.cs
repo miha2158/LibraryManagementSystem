@@ -18,8 +18,37 @@ namespace LibraryManagementSystem
         {
             this.Owner = Owner;
         }
+        public WindowAddEditPublication(Window Owner, DbPublication pub):this(Owner)
+        {
+            Publication = pub;
+            NameBox.Text = Publication.Name;
+            PublishDatePicker.SelectedDate = Publication.DatePublished;
+            Publisher.Text = Publication.Publisher;
+            var p = Publication.Course.Select(e => e.Course).OrderBy(e => e).ToList();
 
-        public HashSet<DbAuthor> Authors { get; set; } = new HashSet<DbAuthor>();
+            Course1.IsChecked = p.Contains(1);
+            Course2.IsChecked = p.Contains(2);
+            Course3.IsChecked = p.Contains(3);
+            Course4.IsChecked = p.Contains(4);
+
+            BookRButton.IsChecked = Publication.BookPublication == eBookPublication.Book.e();
+            PublicationRButton.IsChecked = Publication.BookPublication == eBookPublication.Publication.e();
+
+            ScientificPublication.IsChecked = Publication.PublicationType == ePublicationType.Scientific.e();
+            MethodicalPublication.IsChecked = Publication.PublicationType == ePublicationType.Educational.e();
+
+            PubNumberChechBox.IsChecked = Publication.PhysicalLocations.Count != 0;
+            PubNumberTextBlock.Text = Publication.PhysicalLocations.Count.ToString();
+
+            EpubCheckBox.IsChecked = !string.IsNullOrWhiteSpace(Publication.InternetLocation);
+            EpubAdress.Text = Publication.InternetLocation;
+            foreach (object item in AuthorList.Items)
+                foreach (var author in Publication.Authors)
+                {
+                    if ((item as DbAuthor).Equals(author))
+                        (item as ListViewItem).IsSelected = true;
+                }
+        }
 
         private void This_OnLoaded(object sender, RoutedEventArgs e)
         {
@@ -29,7 +58,7 @@ namespace LibraryManagementSystem
         {
             var p = new WindowAddEditUserAuthor(this, false);
             p.ShowDialog();
-            Authors.Add(p.Author);
+            DbAuthor.All.Add(p.Author);
         }
 
         private void PublicationRButton_OnUnchecked(object sender, RoutedEventArgs e)

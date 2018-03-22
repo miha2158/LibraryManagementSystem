@@ -20,7 +20,7 @@ namespace LibraryManagementSystem
         {
             InitializeComponent();
         }
-        public WindowAddEditUserAuthor(Window Owner): this()
+        private WindowAddEditUserAuthor(Window Owner): this()
         {
             this.Owner = Owner;
         }
@@ -33,6 +33,29 @@ namespace LibraryManagementSystem
             UserRole.Visibility = Visibility.Collapsed;
             GroupBox.IsEnabled = false;
             AuthorRole.Visibility = Visibility.Visible;
+        }
+
+        public WindowAddEditUserAuthor(Window Owner, DbReader reader) : this(Owner)
+        {
+            Reader = reader;
+
+            isReader = true;
+            UserRole.SelectedIndex = Reader.AccessLevel;
+            Last.Text = Reader.Last;
+            First.Text = Reader.First;
+            Patronimic.Text = Reader.Patronimic;
+            GroupBox.Text = Reader.Group;
+        }
+        public WindowAddEditUserAuthor(Window Owner, DbAuthor author)
+        {
+            Author = author;
+
+            isReader = false;
+            Last.Text = Reader.Last;
+            First.Text = Reader.First;
+            Patronimic.Text = Reader.Patronimic;
+            AuthorRole.SelectedIndex = Author.WriterType;
+
         }
 
         public bool IsStudent => isReader && UserRole.SelectedIndex == 0;

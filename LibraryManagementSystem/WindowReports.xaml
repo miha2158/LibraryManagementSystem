@@ -33,6 +33,7 @@
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Margin" Value="5 5 10 5"/>
         </Style>
+        <BooleanToVisibilityConverter x:Key="VisibilityConverter"/>
     </Window.Resources>
 
     <Grid>
@@ -40,8 +41,8 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="1*"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="1*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         
@@ -51,31 +52,38 @@
         </Grid.ColumnDefinitions>
         
         <TextBlock Text="Тип отчёта:"/>
-        <ComboBox Grid.Row="0">
+        <ComboBox Name="ReportType" Grid.Row="0" Grid.Column="1">
+            <ComboBoxItem Name="BigReport" Content="Отчёт о Работе кафедры"/>
             <ComboBoxItem Content="Отчёт о популярности"/>
-            <ComboBoxItem Content="Отчёт о Работе кафедры"/>
+            <ComboBoxItem Content="Отчёт о не возращённых книгах"/>
         </ComboBox>
-        
-        <TextBlock Text="Период времени" Grid.Row="1"/>
-        <Grid Grid.Row="1" Grid.Column="1">
+
+        <TextBlock Grid.Row="1" Text="Вид"/>
+        <StackPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Center">
+            <CheckBox Name="BookCheck" VerticalContentAlignment="Center" Content="Книга" Margin="2"/>
+            <CheckBox Name="PubCheck" VerticalContentAlignment="Center" Content="Публикация" Margin="2"/>
+        </StackPanel>
+
+        <TextBlock Text="Период времени" Grid.Row="2"/>
+        <Grid Grid.Row="2" Grid.Column="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="0.2*"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <DatePicker Margin="10" VerticalAlignment="Center"/>
+            <DatePicker Name="StartDate" Margin="10" VerticalAlignment="Center" IsEnabled="{Binding ElementName=PeriodButton, Path=IsChecked}"/>
             <TextBlock HorizontalAlignment="Center" Margin="1" Grid.Column="1" Text="-" FontSize="35"/>
-            <DatePicker Margin="10" Grid.Column="2" VerticalAlignment="Center"/>
+            <DatePicker Name="FinishDate" Margin="10" Grid.Column="2" VerticalAlignment="Center" IsEnabled="{Binding ElementName=PeriodButton, Path=IsChecked}"/>
         </Grid>
         
-        <StackPanel Grid.Row="2" Grid.ColumnSpan="2" VerticalAlignment="Center" Margin="50 5">
+        <StackPanel Grid.Row="3" Grid.ColumnSpan="2" VerticalAlignment="Center" Margin="50 5">
             <RadioButton Content="За весь период" VerticalContentAlignment="Center"/>
-            <RadioButton Content="За конкретный период" VerticalContentAlignment="Center"/>
+            <RadioButton Name="PeriodButton" Content="За конкретный период" VerticalContentAlignment="Center" IsChecked="True"/>
         </StackPanel>
 
-        <TextBlock Text="Авторы:" Grid.Row="3" VerticalAlignment="Top"/>
-        <ListView Name="AuthorList" Grid.Row="3" Grid.Column="1" Margin="5 0" ItemsSource="{Binding Authors}" SelectionMode="Extended"
+        <TextBlock Text="Авторы:" Grid.Row="4" VerticalAlignment="Top"/>
+        <ListView Name="AuthorList" Grid.Row="4" Grid.Column="1" Margin="5 0" ItemsSource="{Binding Authors}" SelectionMode="Extended"
                   d:DataContext="{d:DesignInstance local:WindowReports}">
             <ListView.View>
                 <GridView AllowsColumnReorder="True">
@@ -95,13 +103,9 @@
             </ListView.View>
         </ListView>
         
-        <TextBlock Grid.Row="4" Text="Вид"/>
-        <StackPanel Grid.Row="4" Grid.Column="1" VerticalAlignment="Center">
-            <CheckBox VerticalContentAlignment="Center" Content="Книга" Margin="2"/>
-            <CheckBox VerticalContentAlignment="Center" Content="Публикация" Margin="2"/>
-        </StackPanel>
-        
-        <Button Grid.Row="5" Grid.ColumnSpan="2" Content="Готово" Padding="30 5" Margin="30 10" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
+        <Button Name="Accept" Grid.Row="5" Grid.ColumnSpan="2" Content="Готово" Padding="30 5" Margin="30 10" VerticalAlignment="Bottom" 
+                HorizontalAlignment="Right" Click="Accept_OnClick"/>
 
     </Grid>
 </Window>
+

@@ -70,8 +70,8 @@
         <TextBlock Text="Авторы:" Grid.Row="1" VerticalAlignment="Top"/>
         <Button Name="AddAuthor" Grid.Row="1" Grid.Column="2" Content="+" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="7 0"
                     HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="AddAuthor_OnClick"/>
-        <ListView Name="AuthorList" Grid.Row="1" Grid.Column="1" Margin="5 0" ItemsSource="{Binding Authors}" SelectionMode="Extended"
-                      d:DataContext="{d:DesignInstance local:WindowAddEditPublication}">
+        <ListView Name="AuthorList" Grid.Row="1" Grid.Column="1" ItemsSource="{Binding All}" SelectionMode="Extended"
+                      d:DataContext="{d:DesignInstance local:DbAuthor}">
             <ListView.View>
                 <GridView AllowsColumnReorder="True">
                     <GridViewColumn  Width="Auto">
@@ -86,7 +86,7 @@
                     <GridViewColumn Header="Фамилия" DisplayMemberBinding="{Binding Last}"/>
                     <GridViewColumn Header="Имя" DisplayMemberBinding="{Binding First}"/>
                     <GridViewColumn Header="Отчество" DisplayMemberBinding="{Binding Patronimic}"/>
-                    <GridViewColumn Header="Роль" DisplayMemberBinding="{Binding Wri}"/>
+                    <GridViewColumn Header="Роль" DisplayMemberBinding="{Binding WriterType}"/>
                 </GridView>
             </ListView.View>
         </ListView>
@@ -112,17 +112,16 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="Дисциплина" DisplayMemberBinding="{Binding Name}"/>
-                    <!-- TODO: bind to item in collection -->
                 </GridView>
             </ListView.View>
         </ListView>
 
         <TextBlock Grid.Row="5" Text="Курс:"/>
         <StackPanel Orientation="Horizontal" Grid.Row="5" Grid.Column="1">
-            <CheckBox Content="1"/>
-            <CheckBox Content="2"/>
-            <CheckBox Content="3"/>
-            <CheckBox Content="4"/>
+            <CheckBox Name="Course1" Content="1"/>
+            <CheckBox Name="Course2" Content="2"/>
+            <CheckBox Name="Course3" Content="3"/>
+            <CheckBox Name="Course4" Content="4"/>
         </StackPanel>
 
         <TextBlock Grid.Row="6" Text="Вид:"/>

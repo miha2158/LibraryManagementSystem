@@ -9,11 +9,10 @@ namespace LibraryManagementSystem
     public partial class DbReader
     {
         public static IEnumerable<string> Groups => All.Select(e => e.Group).Distinct();
-        public static ObservableCollection<DbReader> All => Ex.Lib.DbReaderSet.Local;
+        public static ObservableCollection<DbReader> All { get; set; } = Ex.Lib.DbReaderSet.Local;
 
         public HashSet<DbPublication> TakenPublications = new HashSet<DbPublication>();
-
-        public DbReader(): base() { }
+        
         public DbReader(string First, string Last, string Patronimic): this()
         {
             this.First = First;
@@ -27,35 +26,17 @@ namespace LibraryManagementSystem
             this.Group = Group;
         }
 
-        public new static DbReader FillBlanks() => FillBlanks((Gender) NewValue.Int(2));
-        public new static DbReader FillBlanks(Gender gender)
+        private static string[] GroupNames = new[] { "А", "Ю", "Я", "Ж", "Ё", "ПИ" };
+        public static DbReader FillBlanks() => FillBlanks((Gender) NewValue.Int(2));
+        public static DbReader FillBlanks(Gender gender)
         {
             var p = NewPerson.FillBlanks(gender);
-            var b = new DbReader(p.First, p.Last, p.Patronimic, "")
-            {
-                AccessLevel = (byte)NewValue.Int(2),
-                Id = All.Count + 1
-            };
+            var b = new DbReader(p.First, p.Last, p.Patronimic, $"{GroupNames.Random()}-{NewValue.Int(15,18)}-{NewValue.Int(1,3)}") { AccessLevel = (byte)NewValue.Int(2) };
             All.Add(b);
             return b;
         }
-
-        public DbReader ToDb()
-        {
-            return new DbReader()
-            {
-                AccessLevel = (byte)AccessLevel,
-                First = this.First,
-                Last = this.Last,
-                Group = this.Group,
-                Id = this.Id,
-                Patronimic = this.Patronimic,
-                PhysicalLocation = this.PhysicalLocation
-            };
-        }
         
-        public override string ToString() => $"{Last} {First[0]}.{Patronimic[0]}.";
-        public string Text => ToString();
+        public override string ToString() => $"{Last} {First[0]}. {Patronimic[0]}.";
         public override int GetHashCode() => ToString().GetHashCode();
         public override bool Equals(object obj)
         {
@@ -70,5 +51,7 @@ namespace LibraryManagementSystem
     public static partial class Ex
     {
         public static DbReader[] Add(this DbReader[] array, DbReader item) => array.Append(item).ToArray();
+
+        public static T Random<T>(this IEnumerable<T> o) => o.ElementAt(NewValue.Int(o.Count()));
     }
 }

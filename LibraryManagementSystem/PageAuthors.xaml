@@ -11,5 +11,5 @@
       Title="PagePublications"
       Loaded="This_OnLoaded">
 
-    <DataGrid Name="DataGrid" Margin="1"/>
+    <DataGrid Name="DataGrid" Margin="1" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow"/>
 </Page>

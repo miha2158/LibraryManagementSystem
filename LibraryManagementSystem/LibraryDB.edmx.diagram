@@ -12,12 +12,12 @@
         <EntityTypeShape EntityType="LibraryDB.DbReader" Width="1.5" PointX="7.5" PointY="4.875" />
         <AssociationConnector Association="LibraryDB.DbPublicationDbBookLocation" />
         <AssociationConnector Association="LibraryDB.DbBookLocationDbReader" />
-        <EntityTypeShape EntityType="LibraryDB.DbStats" Width="1.5" PointX="0.5" PointY="4.625" />
-        <AssociationConnector Association="LibraryDB.DbBookLocationDbStats" />
+        <EntityTypeShape EntityType="LibraryDB.DbStats" Width="1.5" PointX="1.375" PointY="3.875" />
         <EntityTypeShape EntityType="LibraryDB.DbCourse" Width="1.5" PointX="8.125" PointY="0.5" />
         <AssociationConnector Association="LibraryDB.DbPublicationDbCourse" />
         <EntityTypeShape EntityType="LibraryDB.DbDiscipline" Width="1.5" PointX="9.5" PointY="3" />
         <AssociationConnector Association="LibraryDB.DisciplineDbPublication" />
+        <AssociationConnector Association="LibraryDB.DbPublicationDbStats" ></AssociationConnector>
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

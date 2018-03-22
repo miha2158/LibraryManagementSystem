@@ -14,13 +14,20 @@ namespace LibraryManagementSystem
     
     public partial class DbReader
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public DbReader()
+        {
+            this.PhysicalLocation = new HashSet<DbBookLocation>();
+        }
+    
         public int Id { get; set; }
-        public string First { get; set; }
         public string Last { get; set; }
+        public string First { get; set; }
         public string Patronimic { get; set; }
         public byte AccessLevel { get; set; }
         public string Group { get; set; }
     
-        public virtual DbBookLocation PhysicalLocation { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DbBookLocation> PhysicalLocation { get; set; }
     }
 }

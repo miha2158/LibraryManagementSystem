@@ -59,22 +59,23 @@
         <ComboBox Name="PlacesComboBox" ItemsSource="{Binding DisplayItem.PhysicalLocations}" 
                   d:DataContext="{d:DesignInstance local:WindowEditLocation}"/>
 
-        <RadioButton Name="RoomRButton" Grid.Row="1" Content="Кафедра"/>
+        <RadioButton Name="RoomRButton" Grid.Row="1" Content="Кафедра" IsChecked="True"/>
 
         <TextBlock Text="Кабинет:" Grid.Row="2"/>
-        <ComboBox Grid.Row="2" IsEditable="True" IsEnabled="{Binding ElementName = RoomRButton, Path=IsChecked}" ItemsSource="{Binding Rooms}"
-                  d:DataContext="{d:DesignInstance local:WindowEditLocation}" />
+        <ComboBox Name="RoomsBox" Grid.Row="2" IsEditable="True" IsEnabled="{Binding ElementName = RoomRButton, Path=IsChecked}" ItemsSource="{Binding Rooms}"
+                  d:DataContext="{d:DesignInstance local:WindowEditLocation}" KeyDown="RoomsBox_OnKeyDown" TextInput="RoomsBox_OnTextInput"/>
 
         <TextBox Grid.Row="3"/>
-        <TextBlock Text="Место:" Grid.Row="3" IsEnabled="{Binding ElementName = RoomRButton, Path=IsChecked}"/>
+        <TextBlock Name="Place" Text="Место:" Grid.Row="3" IsEnabled="{Binding ElementName = RoomRButton, Path=IsChecked}"/>
 
         <!-- IsEnabled="{Binding ElementName = RoomRButton, Path=IsChecked}" -->
 
         <RadioButton Name="ReaderRButton" Grid.Row="4" Content="Читатель"/>
 
-        <Button Width="65" Height="60" Grid.Row="5" Content="+" FontSize="40"/>
+        <Button Name="AddUser" Width="65" Height="60" Grid.Row="5" Content="+" FontSize="40" Click="AddUser_OnClick"/>
 
-        <ListView Name="ListReaders" Grid.Row="5" Grid.Column="1" Margin="5 0" SelectionMode="Extended" IsEnabled="{Binding ElementName=ReaderRButton, Path=IsChecked}">
+        <ListView Name="ListReaders" Grid.Row="5" Grid.Column="1" Margin="5 0" SelectionMode="Single" ItemsSource="{Binding (local:DbReader.All)}"
+                  IsEnabled="{Binding ElementName=ReaderRButton, Path=IsChecked}" d:DataContext="{d:DesignInstance local:DbReader}">
 
             <ListView.View>
                 <GridView AllowsColumnReorder="True">
@@ -87,18 +88,18 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Фамилия" />
-                    <GridViewColumn Header="Имя" />
-                    <GridViewColumn Header="Отчество"/>
-                    <GridViewColumn Header="Роль" />
-                    <GridViewColumn Header="Группа"/>
+                    <GridViewColumn Header="Фамилия" DisplayMemberBinding="{Binding Last}"/>
+                    <GridViewColumn Header="Имя" DisplayMemberBinding="{Binding First}"/>
+                    <GridViewColumn Header="Отчество" DisplayMemberBinding="{Binding Patronimic}"/>
+                    <GridViewColumn Header="Роль" DisplayMemberBinding="{Binding AccessLevel}"/>
+                    <GridViewColumn Header="Группа" DisplayMemberBinding="{Binding Group}"/>
                 </GridView>
             </ListView.View>
         </ListView>
 
         <StackPanel Grid.Row="6" Grid.ColumnSpan="2" Margin="30 10"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Orientation="Horizontal">
-            <Button Content="Принять все" Padding="10 0" Margin="10 0"/>
-            <Button Content="Принять" Padding="10 0" Margin="10 0"/>
+            <Button Name="AcceptAll" Content="Принять все" Padding="10 0" Margin="10 0" Click="AcceptAll_OnClick"/>
+            <Button Name="Accept" Content="Принять" Padding="10 0" Margin="10 0" Click="Accept_OnClick"/>
         </StackPanel>
 
     </Grid>

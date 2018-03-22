@@ -31,10 +31,6 @@
       <End Role="DbBookLocation" EntitySet="DbBookLocationSet" />
       <End Role="DbReader" EntitySet="DbReaderSet" />
     </AssociationSet>
-    <AssociationSet Name="DbBookLocationDbStats" Association="LibraryDB.Store.DbBookLocationDbStats">
-      <End Role="DbBookLocation" EntitySet="DbBookLocationSet" />
-      <End Role="DbStats" EntitySet="DbStatsSet" />
-    </AssociationSet>
     <AssociationSet Name="DbPublicationDbCourse" Association="LibraryDB.Store.DbPublicationDbCourse">
       <End Role="DbPublication" EntitySet="DbPublicationSet1" />
       <End Role="DbCourse" EntitySet="DbCourseSet" />
@@ -47,6 +43,10 @@
       <End Role="DbPublication" EntitySet="DbPublicationSet1" />
       <End Role="DisciplineDbPublication" EntitySet="DisciplineDbPublication" />
     </AssociationSet>
+    <AssociationSet Name="DbPublicationDbStats" Association="LibraryDB.Store.DbPublicationDbStats">
+      <End Role="DbPublication" EntitySet="DbPublicationSet1" />
+      <End Role="DbStats" EntitySet="DbStatsSet" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="DbPublicationSet1">
     <Key>
@@ -56,7 +56,7 @@
     <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="70" />
     <Property Name="DatePublished" Type="datetime" Nullable="false" />
     <Property Name="PublicationType" Type="tinyint" Nullable="false" />
-    <Property Name="Publisher" Type="nvarchar" Nullable="false" MaxLength="25" />
+    <Property Name="Publisher" Type="nvarchar" Nullable="true" MaxLength="25" />
     <Property Name="InternetLocation" Type="nvarchar(max)" Nullable="true" />
     <Property Name="BookPublication" Type="tinyint" Nullable="false" />
   </EntityType>
@@ -78,7 +78,7 @@
     <Property Name="Room" Type="int" Nullable="false" />
     <Property Name="Place" Type="nvarchar" Nullable="false" MaxLength="70" />
     <Property Name="IsTaken" Type="bit" Nullable="false" />
-    <Property Name="Publication_Id" Type="int" Nullable="true" />
+    <Property Name="Publication_Id" Type="int" Nullable="false" />
     <Property Name="Reader_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="DbReaderSet">
@@ -98,17 +98,14 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="DateTaken" Type="datetime" Nullable="false" />
-    <Property Name="BookLocation_Id" Type="int" Nullable="false" />
+    <Property Name="Publication_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="DbCourseSet">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="C1" Type="bit" Nullable="false" />
-    <Property Name="C2" Type="bit" Nullable="false" />
-    <Property Name="C3" Type="bit" Nullable="false" />
-    <Property Name="C4" Type="bit" Nullable="false" />
+    <Property Name="Course" Type="tinyint" Nullable="false" />
     <Property Name="Publication_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="DbDisciplineSet">
@@ -135,7 +132,7 @@
     <Property Name="Publication_Id" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="DbPublicationDbBookLocation">
-    <End Role="DbPublication" Type="LibraryDB.Store.DbPublicationSet1" Multiplicity="0..1" />
+    <End Role="DbPublication" Type="LibraryDB.Store.DbPublicationSet1" Multiplicity="1" />
     <End Role="DbBookLocation" Type="LibraryDB.Store.DbBookLocationSet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="DbPublication">
@@ -158,18 +155,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="DbBookLocationDbStats">
-    <End Role="DbBookLocation" Type="LibraryDB.Store.DbBookLocationSet" Multiplicity="1" />
-    <End Role="DbStats" Type="LibraryDB.Store.DbStatsSet" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="DbBookLocation">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="DbStats">
-        <PropertyRef Name="BookLocation_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="DbPublicationDbCourse">
     <End Role="DbPublication" Type="LibraryDB.Store.DbPublicationSet1" Multiplicity="1" />
     <End Role="DbCourse" Type="LibraryDB.Store.DbCourseSet" Multiplicity="*" />
@@ -178,6 +163,18 @@
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="DbCourse">
+        <PropertyRef Name="Publication_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="DbPublicationDbStats">
+    <End Role="DbPublication" Type="LibraryDB.Store.DbPublicationSet1" Multiplicity="1" />
+    <End Role="DbStats" Type="LibraryDB.Store.DbStatsSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DbPublication">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DbStats">
         <PropertyRef Name="Publication_Id" />
       </Dependent>
     </ReferentialConstraint>
@@ -252,10 +249,6 @@
             <End Role="DbReader" EntitySet="DbReaderSet" />
           </AssociationSet>
           <EntitySet Name="DbStatsSet" EntityType="LibraryDB.DbStats" />
-          <AssociationSet Name="DbBookLocationDbStats" Association="LibraryDB.DbBookLocationDbStats">
-            <End Role="DbBookLocation" EntitySet="DbBookLocationSet" />
-            <End Role="DbStats" EntitySet="DbStatsSet" />
-          </AssociationSet>
           <EntitySet Name="DbCourseSet" EntityType="LibraryDB.DbCourse" />
           <AssociationSet Name="DbPublicationDbCourse" Association="LibraryDB.DbPublicationDbCourse">
             <End Role="DbPublication" EntitySet="DbPublicationSet1" />
@@ -266,6 +259,10 @@
             <End Role="Discipline" EntitySet="DbDisciplineSet" />
             <End Role="DbPublication" EntitySet="DbPublicationSet1" />
           </AssociationSet>
+          <AssociationSet Name="DbPublicationDbStats" Association="LibraryDB.DbPublicationDbStats">
+            <End Role="DbPublication" EntitySet="DbPublicationSet1" />
+            <End Role="DbStats" EntitySet="DbStatsSet" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="DbPublication">
           <Key>
@@ -274,14 +271,15 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" Unicode="true" FixedLength="false" MaxLength="70" />
           <NavigationProperty Name="Authors" Relationship="LibraryDB.DbPublicationDbAuthor" FromRole="DbPublication" ToRole="DbAuthor" />
-          <Property Name="DatePublished" Type="DateTime" Nullable="false" />
+          <Property Name="DatePublished" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="PublicationType" Type="Byte" Nullable="false" />
-          <Property Name="Publisher" Type="String" Nullable="false" FixedLength="false" Unicode="true" MaxLength="25" />
+          <Property Name="Publisher" Type="String" Nullable="true" FixedLength="false" Unicode="true" MaxLength="25" annotation:StoreGeneratedPattern="None" />
           <NavigationProperty Name="PhysicalLocations" Relationship="LibraryDB.DbPublicationDbBookLocation" FromRole="DbPublication" ToRole="DbBookLocation" />
           <Property Name="InternetLocation" Type="String" Nullable="true" FixedLength="false" MaxLength="Max" Unicode="true" />
           <NavigationProperty Name="Course" Relationship="LibraryDB.DbPublicationDbCourse" FromRole="DbPublication" ToRole="DbCourse" />
           <Property Name="BookPublication" Type="Byte" Nullable="false" />
           <NavigationProperty Name="Discipline" Relationship="LibraryDB.DisciplineDbPublication" FromRole="DbPublication" ToRole="Discipline" />
+          <NavigationProperty Name="Stats" Relationship="LibraryDB.DbPublicationDbStats" FromRole="DbPublication" ToRole="DbStats" />
         </EntityType>
         <EntityType Name="DbAuthor">
           <Key>
@@ -307,7 +305,6 @@
           <Property Name="Place" Type="String" Nullable="false" Unicode="true" MaxLength="70" FixedLength="false" />
           <NavigationProperty Name="Publication" Relationship="LibraryDB.DbPublicationDbBookLocation" FromRole="DbBookLocation" ToRole="DbPublication" />
           <NavigationProperty Name="Reader" Relationship="LibraryDB.DbBookLocationDbReader" FromRole="DbBookLocation" ToRole="DbReader" />
-          <NavigationProperty Name="Stats" Relationship="LibraryDB.DbBookLocationDbStats" FromRole="DbBookLocation" ToRole="DbStats" />
           <Property Name="IsTaken" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="DbReader">
@@ -323,11 +320,11 @@
           <Property Name="Group" Type="String" Nullable="false" Unicode="true" MaxLength="9" FixedLength="false" />
         </EntityType>
         <Association Name="DbPublicationDbBookLocation">
-          <End Type="LibraryDB.DbPublication" Role="DbPublication" Multiplicity="0..1" />
+          <End Type="LibraryDB.DbPublication" Role="DbPublication" Multiplicity="1" />
           <End Type="LibraryDB.DbBookLocation" Role="DbBookLocation" Multiplicity="*" />
         </Association>
         <Association Name="DbBookLocationDbReader">
-          <End Type="LibraryDB.DbBookLocation" Role="DbBookLocation" Multiplicity="0..1" />
+          <End Type="LibraryDB.DbBookLocation" Role="DbBookLocation" Multiplicity="*" />
           <End Type="LibraryDB.DbReader" Role="DbReader" Multiplicity="1" />
         </Association>
         <EntityType Name="DbStats">
@@ -335,22 +332,15 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="DateTaken" Type="DateTime" Nullable="false" />
-          <NavigationProperty Name="BookLocation" Relationship="LibraryDB.DbBookLocationDbStats" FromRole="DbStats" ToRole="DbBookLocation" />
+          <Property Name="DateTaken" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Publication" Relationship="LibraryDB.DbPublicationDbStats" FromRole="DbStats" ToRole="DbPublication" />
         </EntityType>
-        <Association Name="DbBookLocationDbStats">
-          <End Type="LibraryDB.DbBookLocation" Role="DbBookLocation" Multiplicity="1" />
-          <End Type="LibraryDB.DbStats" Role="DbStats" Multiplicity="*" />
-        </Association>
         <EntityType Name="DbCourse">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="C1" Type="Boolean" Nullable="false" />
-          <Property Name="C2" Type="Boolean" Nullable="false" />
-          <Property Name="C3" Type="Boolean" Nullable="false" />
-          <Property Name="C4" Type="Boolean" Nullable="false" />
+          <Property Name="Course" Type="Byte" Nullable="false" />
           <NavigationProperty Name="Publication" Relationship="LibraryDB.DbPublicationDbCourse" FromRole="DbCourse" ToRole="DbPublication" />
         </EntityType>
         <Association Name="DbPublicationDbCourse">
@@ -368,6 +358,10 @@
         <Association Name="DisciplineDbPublication">
           <End Type="LibraryDB.DbDiscipline" Role="Discipline" Multiplicity="*" />
           <End Type="LibraryDB.DbPublication" Role="DbPublication" Multiplicity="*" />
+        </Association>
+        <Association Name="DbPublicationDbStats">
+          <End Type="LibraryDB.DbPublication" Role="DbPublication" Multiplicity="1" />
+          <End Type="LibraryDB.DbStats" Role="DbStats" Multiplicity="*" />
         </Association>
         </Schema>
     </edmx:ConceptualModels>
@@ -433,10 +427,7 @@
       <EntityTypeMapping TypeName="IsTypeOf(LibraryDB.DbCourse)">
         <MappingFragment StoreEntitySet="DbCourseSet">
           <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="C1" ColumnName="C1" />
-          <ScalarProperty Name="C2" ColumnName="C2" />
-          <ScalarProperty Name="C3" ColumnName="C3" />
-          <ScalarProperty Name="C4" ColumnName="C4" />
+          <ScalarProperty Name="Course" ColumnName="Course" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -463,21 +454,12 @@
       <EndProperty Name="DbBookLocation">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
-      <Condition ColumnName="Publication_Id" IsNull="false" />
     </AssociationSetMapping>
     <AssociationSetMapping Name="DbBookLocationDbReader" TypeName="LibraryDB.DbBookLocationDbReader" StoreEntitySet="DbBookLocationSet">
       <EndProperty Name="DbReader">
         <ScalarProperty Name="Id" ColumnName="Reader_Id" />
       </EndProperty>
       <EndProperty Name="DbBookLocation">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="DbBookLocationDbStats" TypeName="LibraryDB.DbBookLocationDbStats" StoreEntitySet="DbStatsSet">
-      <EndProperty Name="DbBookLocation">
-        <ScalarProperty Name="Id" ColumnName="BookLocation_Id" />
-      </EndProperty>
-      <EndProperty Name="DbStats">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>
@@ -497,6 +479,14 @@
         <ScalarProperty Name="Id" ColumnName="Publication_Id" />
       </EndProperty>
     </AssociationSetMapping>
+    <AssociationSetMapping Name="DbPublicationDbStats" TypeName="LibraryDB.DbPublicationDbStats" StoreEntitySet="DbStatsSet">
+      <EndProperty Name="DbPublication">
+        <ScalarProperty Name="Id" ColumnName="Publication_Id" />
+      </EndProperty>
+      <EndProperty Name="DbStats">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
@@ -513,6 +503,7 @@
         <DesignerProperty Name="EnablePluralization" Value="False" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
         <DesignerProperty Name="UseLegacyProvider" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
       </DesignerInfoPropertySet>
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->

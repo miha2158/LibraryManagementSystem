@@ -17,8 +17,8 @@ namespace LibraryManagementSystem
             this.Patronimic = Patronimic;
         }
 
-        public static List<string> FemalePatronymics => femalePatronymics ?? (femalePatronymics = new List<string>(File.ReadAllLines(@"femalefirstnames.txt")));
-        public static List<string> MalePatronymics => malePatronymics ?? (malePatronymics = new List<string>(File.ReadAllLines(@"femalelastnames.txt")));
+        public static List<string> FemalePatronymics => femalePatronymics ?? (femalePatronymics = new List<string>(File.ReadAllLines(@"femalepatronymics.txt")));
+        public static List<string> MalePatronymics => malePatronymics ?? (malePatronymics = new List<string>(File.ReadAllLines(@"malepatronymics.txt")));
         private static List<string> malePatronymics;
         private static List<string> femalePatronymics;
 

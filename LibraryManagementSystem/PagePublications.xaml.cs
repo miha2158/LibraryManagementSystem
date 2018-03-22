@@ -27,14 +27,12 @@ namespace LibraryManagementSystem
         public new void UpdateLayout()
         {
             ((Page)this).UpdateLayout();
-            DataGrid.ItemsSource = Pubs;
-            DataGrid.GenerateColumns(new ListCollectionView(Pubs.ToList()));
+            DataGrid.ItemsSource = DbPublication.All;
         }
-
-        public List<DbPublication> Pubs = new List<DbPublication>();
 
         private void This_OnLoaded(object sender, RoutedEventArgs e)
         {
+            UpdateLayout();
         }
     }
 }

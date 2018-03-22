@@ -46,7 +46,6 @@ namespace LibraryManagementSystem
         private void Edit_OnClick(object sender, RoutedEventArgs e)
         {
             var p = new WindowEditLocation(this);
-            p.DisplayItem = Display;
             p.ShowDialog();
         }
     }
