@@ -7,7 +7,16 @@ namespace LibraryManagementSystem
 {
     public partial class DbAuthor
     {
-        public static ObservableCollection<DbAuthor> All { get; set; } = Ex.Lib.DbAuthorSet1.Local;
+        public static List<DbAuthor> All
+        {
+            get
+            {
+                using (var db = new LibraryDBContainer())
+                {
+                    return db.DbAuthorSet1.ToList();
+                }
+            }
+        }
 
 
         public DbAuthor(string First, string Last, string Patronimic, eWriterType WriterType) : this()
@@ -31,11 +40,15 @@ namespace LibraryManagementSystem
         public override int GetHashCode() => ToString().GetHashCode();
         public override bool Equals(object obj)
         {
-            var author = obj as DbAuthor;
-            return author != null &&
-                   base.Equals(obj) &&
-                   Patronimic == author.Patronimic &&
-                   WriterType == author.WriterType;
+            var o = obj as DbAuthor;
+            using (var db = new LibraryDBContainer())
+            {
+                return db.DbAuthorSet1.Any(d => d.Id == o.Id &&
+                                               d.First == o.First &&
+                                               d.Last == o.Last &&
+                                               d.Patronimic == o.Patronimic &&
+                                               d.WriterType == o.WriterType);
+            }
         }
     }
 

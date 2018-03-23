@@ -24,18 +24,13 @@ namespace LibraryManagementSystem
         {
             this.Owner = Owner;
         }
-
-        public DbPublication Display = new DbPublication();
-
-        public IEnumerable<DbReader> Readers
+        public WindowLocation(Window Owner, DbPublication item)
         {
-            get { return Display.Readers; }
+            Display = item;
         }
-        public ICollection<DbBookLocation> Locations
-        {
-            get => Display.PhysicalLocations;
-            set => Display.PhysicalLocations = value;
-        }
+
+        public DbPublication Display;
+
 
 
         private void This_OnLoaded(object sender, RoutedEventArgs e)
@@ -45,7 +40,7 @@ namespace LibraryManagementSystem
 
         private void Edit_OnClick(object sender, RoutedEventArgs e)
         {
-            var p = new WindowEditLocation(this);
+            var p = new WindowEditLocation(Owner);
             p.ShowDialog();
         }
     }

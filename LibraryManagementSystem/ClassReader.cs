@@ -9,7 +9,16 @@ namespace LibraryManagementSystem
     public partial class DbReader
     {
         public static IEnumerable<string> Groups => All.Select(e => e.Group).Distinct();
-        public static ObservableCollection<DbReader> All { get; set; } = Ex.Lib.DbReaderSet.Local;
+        public static List<DbReader> All
+        {
+            get
+            {
+                using (var db = new LibraryDBContainer())
+                {
+                    return db.DbReaderSet.ToList();
+                }
+            }
+        }
 
         public HashSet<DbPublication> TakenPublications = new HashSet<DbPublication>();
         
@@ -40,11 +49,15 @@ namespace LibraryManagementSystem
         public override int GetHashCode() => ToString().GetHashCode();
         public override bool Equals(object obj)
         {
-            var reader = obj as DbReader;
-            return reader != null &&
-                   base.Equals(obj) &&
-                   Patronimic == reader.Patronimic &&
-                   AccessLevel == reader.AccessLevel;
+            var o = obj as DbReader;
+            using (var db = new LibraryDBContainer())
+            {
+                return db.DbReaderSet.Any(d => d.Id == o.Id &&
+                                               d.First == o.First &&
+                                               d.Last == o.Last &&
+                                               d.Patronimic == o.Patronimic &&
+                                               d.Group == o.Group);
+            }
         }
     }
 

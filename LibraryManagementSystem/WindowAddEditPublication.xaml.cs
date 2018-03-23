@@ -17,19 +17,31 @@ namespace LibraryManagementSystem
         public WindowAddEditPublication(Window Owner): this()
         {
             this.Owner = Owner;
+            using (var db = new LibraryDBContainer())
+            {
+                AuthorList.ItemsSource = db.DbAuthorSet1.ToList();
+                DisciplinesList.ItemsSource = db.DbDisciplineSet.ToList();
+            }
         }
         public WindowAddEditPublication(Window Owner, DbPublication pub):this(Owner)
         {
             Publication = pub;
             NameBox.Text = Publication.Name;
-            PublishDatePicker.SelectedDate = Publication.DatePublished;
+            PublishDatePicker.DisplayDate = Publication.DatePublished;
             Publisher.Text = Publication.Publisher;
-            var p = Publication.Course.Select(e => e.Course).OrderBy(e => e).ToList();
 
-            Course1.IsChecked = p.Contains(1);
-            Course2.IsChecked = p.Contains(2);
-            Course3.IsChecked = p.Contains(3);
-            Course4.IsChecked = p.Contains(4);
+            using (var db = new LibraryDBContainer())
+            {
+                var p = db.DbPublicationSet1.Find(Publication.Id)?.Course.Select(e => e.Course).ToList();
+
+                if(p != null)
+                {
+                    Course1.IsChecked = p.Contains(1);
+                    Course2.IsChecked = p.Contains(2);
+                    Course3.IsChecked = p.Contains(3);
+                    Course4.IsChecked = p.Contains(4);
+                }
+            }
 
             BookRButton.IsChecked = Publication.BookPublication == eBookPublication.Book.e();
             PublicationRButton.IsChecked = Publication.BookPublication == eBookPublication.Publication.e();
@@ -37,17 +49,25 @@ namespace LibraryManagementSystem
             ScientificPublication.IsChecked = Publication.PublicationType == ePublicationType.Scientific.e();
             MethodicalPublication.IsChecked = Publication.PublicationType == ePublicationType.Educational.e();
 
-            PubNumberChechBox.IsChecked = Publication.PhysicalLocations.Count != 0;
-            PubNumberTextBlock.Text = Publication.PhysicalLocations.Count.ToString();
+            using(var db = new LibraryDBContainer())
+            {
+                PubNumberChechBox.IsChecked = db.DbPublicationSet1.Find(Publication.Id)?.PhysicalLocations.Count != 0;
+                PubNumberTextBlock.Text = db.DbPublicationSet1.Find(Publication.Id)?.PhysicalLocations.Count.ToString();
+            }
 
             EpubCheckBox.IsChecked = !string.IsNullOrWhiteSpace(Publication.InternetLocation);
             EpubAdress.Text = Publication.InternetLocation;
-            foreach (object item in AuthorList.Items)
-                foreach (var author in Publication.Authors)
-                {
-                    if ((item as DbAuthor).Equals(author))
-                        (item as ListViewItem).IsSelected = true;
-                }
+
+            using (var db = new LibraryDBContainer())
+            {
+                AuthorList.ItemsSource = db.DbAuthorSet1.ToList();
+                foreach (var author in db.DbPublicationSet1.Find(Publication.Id).Authors)
+                    AuthorList.SelectedItems.Add(author);
+            
+                DisciplinesList.ItemsSource = db.DbDisciplineSet.ToList();
+                foreach (DbDiscipline discipline in db.DbPublicationSet1.Find(Publication.Id).Discipline)
+                    DisciplinesList.SelectedItems.Add(discipline);
+            }
         }
 
         private void This_OnLoaded(object sender, RoutedEventArgs e)
@@ -89,10 +109,53 @@ namespace LibraryManagementSystem
 
         private void LocationButton_OnClick(object sender, RoutedEventArgs e)
         {
+            if (Publication == null)
+            {
+                Hide();
+                Publication = new DbPublication(NameBox.Text, AuthorList.SelectedItems.Cast<DbAuthor>(),
+                                                ePublicationType.None, eBookPublication.None,
+                                                PublishDatePicker.DisplayDate, Publisher.Text);
+                if (PubNumberChechBox.IsChecked == true)
+                {
+                    int num = int.Parse(PubNumber.Text);
+                    var p = new WindowEditLocation(this, Publication, num);
+                    p.ShowDialog();
+                }
+                if (EpubCheckBox.IsChecked == true)
+                {
+                    Publication.InternetLocation = EpubAdress.Text;
+                }
 
-            Publication = new DbPublication(NameBox.Text, AuthorList.SelectedItems.Cast<DbAuthor>(), ePublicationType.None, eBookPublication.None, PublishDatePicker.DisplayDate, Publisher.Text);
-            var p = new WindowEditLocation(this);
-            p.ShowDialog();
+                using(var db = new LibraryDBContainer())
+                {
+                    db.DbPublicationSet1.Add(Publication);
+                    db.SaveChanges();
+                }
+                Close();
+            }
+            else
+            {
+                Publication.Name = NameBox.Text;
+                Publication.DatePublished = PublishDatePicker.DisplayDate;
+                Publication.Publisher = Publisher.Text;
+
+
+                Publication.BookPublication = BookRButton.IsChecked == true? eBookPublication.Book.e(): eBookPublication.Publication.e();
+
+                Publication.PublicationType = ScientificPublication.IsChecked == true? ePublicationType.Scientific.e(): ePublicationType.Educational.e();
+
+                Publication.InternetLocation = EpubAdress.Text;
+                
+                using (var db = new LibraryDBContainer())
+                {
+                    Publication = db.DbPublicationSet1.Find(Publication.Id);
+                    Publication.Authors = Publication.Authors.Union(AuthorList.SelectedItems.Cast<DbAuthor>()).ToList();
+
+                    db.DbPublicationSet1.Add(Publication);
+                    db.SaveChanges();
+                }
+            }
+
         }
 
         public DbPublication Publication;

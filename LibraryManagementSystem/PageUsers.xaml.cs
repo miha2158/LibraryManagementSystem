@@ -27,12 +27,42 @@ namespace LibraryManagementSystem
         public new void UpdateLayout()
         {
             ((Page)this).UpdateLayout();
-            DataGrid.ItemsSource = DbReader.All;
+            using(var db = new LibraryDBContainer())
+            {
+                DataGrid.ItemsSource = db.DbReaderSet.ToList();
+            }
         }
 
         private void This_OnLoaded(object sender, RoutedEventArgs e)
         {
             UpdateLayout();
+        }
+
+        private void Edit_OnClick(object sender, RoutedEventArgs e)
+        {
+            var item = DataGrid.SelectedItem as DbReader;
+            var p = new WindowAddEditUserAuthor(Owner, item);
+            p.ShowDialog();
+            UpdateLayout();
+        }
+
+        private void Delete_OnClick(object sender, RoutedEventArgs e)
+        {
+            var item = DataGrid.SelectedItem as DbReader;
+
+            using (var db = new LibraryDBContainer())
+            {
+                db.DbReaderSet.Remove(db.DbReaderSet.Find(item.Id));
+                db.SaveChanges();
+            }
+
+            UpdateLayout();
+        }
+
+        private void ContextMenu_OnOpened(object sender, RoutedEventArgs e)
+        {
+            if (DataGrid.SelectedCells.Count == 0)
+                (sender as ContextMenu).IsOpen = false;
         }
     }
 }

@@ -11,5 +11,12 @@
       Title="PageUsers"
       Loaded="This_OnLoaded">
 
-    <DataGrid Name="DataGrid" Margin="1" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow"/>
+    <DataGrid Name="DataGrid" Margin="1" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow">
+        <DataGrid.ContextMenu>
+            <ContextMenu Opened="ContextMenu_OnOpened" StaysOpen="True">
+                <MenuItem Header="Изменить" Click="Edit_OnClick"/>
+                <MenuItem Header="Удалить" Click="Delete_OnClick"/>
+            </ContextMenu>
+        </DataGrid.ContextMenu>
+    </DataGrid>
 </Page>

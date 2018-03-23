@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,11 +28,46 @@ namespace LibraryManagementSystem
         public new void UpdateLayout()
         {
             ((Page)this).UpdateLayout();
-            DataGrid.ItemsSource = DbAuthor.All;
+            using (var db = new LibraryDBContainer())
+            {
+                DataGrid.ItemsSource = db.DbAuthorSet1.ToList();
+            }
         }
 
         private void This_OnLoaded(object sender, RoutedEventArgs e)
         {
+            UpdateLayout();
+        }
+
+        private void ContextMenu_OnOpened(object sender, RoutedEventArgs e)
+        {
+            if (DataGrid.SelectedCells.Count == 0)
+                (sender as ContextMenu).IsOpen = false;
+        }
+
+        private void Edit_OnClick(object sender, RoutedEventArgs e)
+        {
+            var item = DataGrid.SelectedItem as DbAuthor;
+            var p = new WindowAddEditUserAuthor(Owner, item);
+            p.ShowDialog();
+            UpdateLayout();
+        }
+
+        private void Delete_OnClick(object sender, RoutedEventArgs e)
+        {
+            var item = DataGrid.SelectedItem as DbAuthor;
+
+            using (var db = new LibraryDBContainer())
+            {
+                item = db.DbAuthorSet1.Find(item.Id);
+
+                var p = db.Entry(item);
+                p.State = EntityState.Deleted;
+                
+                db.DbAuthorSet1.Local.Remove(item);
+                db.SaveChanges();
+            }
+
             UpdateLayout();
         }
     }

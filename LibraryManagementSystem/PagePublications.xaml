@@ -11,10 +11,13 @@
       Title="PagePublications"
       Loaded="This_OnLoaded">
     
-    <Page.Resources>
-        <Style TargetType="DataGridCell">
-        </Style>
-    </Page.Resources>
-
-    <DataGrid Name="DataGrid" Margin="1" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow"/>
+    <DataGrid Name="DataGrid" Margin="1" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow">
+        <DataGrid.ContextMenu>
+            <ContextMenu Opened="ContextMenu_OnOpened" StaysOpen="True">
+                <MenuItem Header="Изменить" Click="Edit_OnClick"/>
+                <MenuItem Header="Удалить" Click="Delete_OnClick"/>
+                <MenuItem Header="Местоположение" Click="Location_OnClick"/>
+            </ContextMenu>
+        </DataGrid.ContextMenu>
+    </DataGrid>
 </Page>

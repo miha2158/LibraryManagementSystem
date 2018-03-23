@@ -72,9 +72,9 @@
 
         <RadioButton Name="ReaderRButton" Grid.Row="4" Content="Читатель"/>
 
-        <Button Name="AddUser" Width="65" Height="60" Grid.Row="5" Content="+" FontSize="40" Click="AddUser_OnClick"/>
+        <Button Name="AddUser" Width="65" Height="60" Grid.Row="5" Content="+" FontSize="40" Click="AddUser_OnClick" Visibility="Collapsed"/>
 
-        <ListView Name="ListReaders" Grid.Row="5" Grid.Column="1" Margin="5 0" SelectionMode="Single" ItemsSource="{Binding (local:DbReader.All)}"
+        <ListView Name="ListReaders" Grid.Row="5" Grid.Column="1" Margin="5 0" SelectionMode="Single" ItemsSource="{Binding }"
                   IsEnabled="{Binding ElementName=ReaderRButton, Path=IsChecked}" d:DataContext="{d:DesignInstance local:DbReader}">
 
             <ListView.View>

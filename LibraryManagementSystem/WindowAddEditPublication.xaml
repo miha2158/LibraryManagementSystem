@@ -145,7 +145,7 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <CheckBox Name="EpubCheckBox" Content="Электронная"/>
+                <CheckBox Name="EpubCheckBox" Content="Электронная" IsChecked="True"/>
                 <TextBox Name="EpubAdress" TextChanged="EpubAdress_OnTextChanged" IsEnabled="{Binding ElementName = EpubCheckBox, Path = IsChecked}"/>
                 <TextBlock Name="EpubAdressTextBlock" Grid.Column="1" Margin="10 0" Text="URL" HorizontalAlignment="Left" FontSize="17" 
                            MouseDown="EpubAdressTextBlock_OnMouseDown" Foreground="Gray"/>
@@ -164,7 +164,7 @@
             </Grid>
         </StackPanel>
         
-        <Button Name="LocationButton" Grid.Row="8" Grid.ColumnSpan="3" Margin="30 10" Width="300" Content="Местонахождение" Padding="11"
+        <Button Name="LocationButton" Grid.Row="8" Grid.ColumnSpan="3" Margin="30 10" Width="300" Content="Готово" Padding="11"
                 Click="LocationButton_OnClick"/>
     </Grid>
 </Window>

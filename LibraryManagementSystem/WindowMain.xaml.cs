@@ -27,7 +27,7 @@ namespace LibraryManagementSystem
             if (pUsers == null)
                 pUsers = new PageUsers();
             if (pAuthors == null)
-            pAuthors = new PageAuthors();
+                pAuthors = new PageAuthors();
         }
 
         public Page OnScreenContent;
@@ -73,26 +73,24 @@ namespace LibraryManagementSystem
                 {
                     var p0 = new WindowAddEditUserAuthor(this, false);
                     p0.ShowDialog();
-                    DbAuthor.All.Add(p0.Author);
+                    pAuthors.UpdateLayout();
                     break;
                 }
                 case PagePublications pagePublications:
                 {
                     var p1 = new WindowAddEditPublication(this);
                     p1.ShowDialog();
-                    DbPublication.All.Add(p1.Publication);
+                    pPublications.UpdateLayout();
                     break;
                 }
                 case PageUsers pageUsers:
                 {
                     var p2 = new WindowAddEditUserAuthor(this, true);
                     p2.ShowDialog();
-                    DbReader.All.Add(p2.Reader);
+                    pUsers.UpdateLayout();
                     break;
                 }
             }
-
-            Ex.Lib.SaveChanges();
         }
 
         private void EditPublication(object sender, RoutedEventArgs e)
@@ -122,75 +120,278 @@ namespace LibraryManagementSystem
 
         private void ShowAll_OnClick(object sender, RoutedEventArgs e)
         {
-
+            pPublications.UpdateLayout();
+            pUsers.UpdateLayout();
+            pAuthors.UpdateLayout();
         }
 
         private void Test_OnClick(object sender, RoutedEventArgs e)
         {
-            for (int i = 0; i < 5; i++)
-                Ex.Lib.DbAuthorSet1.Add(DbAuthor.FillBlanks());
-
-            for (int i = 0; i < 10; i++)
-                Ex.Lib.DbReaderSet.Add(DbReader.FillBlanks());
-
-            Ex.Lib.DbPublicationSet1.AddRange(new []
+            using (var db = new LibraryDBContainer())
             {
-                new DbPublication("Основы C", DbAuthor.All[1], ePublicationType.None, eBookPublication.Book, new DateTime(1985, 5, 1), "oldschool"){ },
-                new DbPublication("Основы C++", new []{ DbAuthor.All[1], DbAuthor.All[2] }, ePublicationType.None, eBookPublication.Book, new DateTime(2001, 9, 1), "oldschool"){  },
-                new DbPublication("Основы C#", new []{ DbAuthor.All[0], DbAuthor.All[1] }, ePublicationType.None, eBookPublication.Book, new DateTime(2011, 5, 1), "newschool"){  },
-                new DbPublication("PHP vs C# vs Node.js", new []{ DbAuthor.All[2], DbAuthor.All[3],}, ePublicationType.Educational, eBookPublication.Publication, new DateTime(2015, 02, 01), null){ InternetLocation = "https://google.com/" },
-                new DbPublication("Тестирование Не Нужно", DbAuthor.All[4], ePublicationType.Educational, eBookPublication.Publication, new DateTime(2016, 12, 01), "Прогер"){ InternetLocation = "https://proger.ru/" },
-                new DbPublication("70 лайфхаков для упрощения тестирования",  DbAuthor.All[4], ePublicationType.Scientific, eBookPublication.Publication, new DateTime(2018, 02, 01), null){ InternetLocation = "https://proger.ru/" },
-            });
 
-            Ex.Lib.DbDisciplineSet.AddRange(new[]
-            {
-                new DbDiscipline { Name = "Программирование", Publication = new List<DbPublication>(new []{ DbPublication.All[2], DbPublication.All[5], DbPublication.All[0], DbPublication.All[1], }) },
-                new DbDiscipline { Name = "Конструирование ПО", Publication = new List<DbPublication>(new []{ DbPublication.All[3], DbPublication.All[1], }) },
-                new DbDiscipline { Name = "Архитектура ОС", Publication = new List<DbPublication>(new []{ DbPublication.All[4], DbPublication.All[0], }) }
-            });
+                for (int i = 0; i < 6; i++)
+                    db.DbAuthorSet1.Add(DbAuthor.FillBlanks());
 
-            Ex.Lib.DbCourseSet.AddRange(new[]
-            {
-                new DbCourse {Course = 1, Publication = DbPublication.All[0]},
-                new DbCourse {Course = 2, Publication = DbPublication.All[0]},
-                new DbCourse {Course = 3, Publication = DbPublication.All[1]},
-                new DbCourse {Course = 4, Publication = DbPublication.All[1]},
-                new DbCourse {Course = 1, Publication = DbPublication.All[2]},
-                new DbCourse {Course = 2, Publication = DbPublication.All[3]},
-                new DbCourse {Course = 3, Publication = DbPublication.All[3]},
-                new DbCourse {Course = 3, Publication = DbPublication.All[4]},
-                new DbCourse {Course = 2, Publication = DbPublication.All[5]},
-                new DbCourse {Course = 4, Publication = DbPublication.All[5]},
-            });
+                for (int i = 0; i < 10; i++)
+                    db.DbReaderSet.Add(DbReader.FillBlanks());
 
-            Ex.Lib.DbBookLocationSet.AddRange(new []
-            {
-                new DbBookLocation{ Room = 307, Place = "тут", IsTaken = false, Reader = DbReader.All[0], Publication = DbPublication.All[2]},
-                new DbBookLocation{ Room = 321, Place = "справа", IsTaken = false, Reader = DbReader.All[0], Publication = DbPublication.All[2]},
-                new DbBookLocation{ Room = 501, Place = "на столе", IsTaken = true, Reader = DbReader.All[1], Publication = DbPublication.All[2]},
+                var courses = new[]
+                {
+                    new DbCourse { Id = 1, Course = 1 },
+                    new DbCourse { Id = 2, Course = 2 },
+                    new DbCourse { Id = 3, Course = 3 },
+                    new DbCourse { Id = 4, Course = 4 },
+                    new DbCourse { Id = 5, Course = 1 },
+                    new DbCourse { Id = 6, Course = 2 },
+                    new DbCourse { Id = 7, Course = 3 },
+                    new DbCourse { Id = 8, Course = 3 },
+                    new DbCourse { Id = 9, Course = 2 },
+                    new DbCourse { Id = 10, Course = 4 },
+                };
+                for (var i = 0; i < courses.Length; i++)
+                    db.DbCourseSet.Add(courses[i]);
 
-                new DbBookLocation{ Room = 321, Place = "на верхней полке шкафа", IsTaken = false, Reader = DbReader.All[0], Publication = DbPublication.All[1]},
-                new DbBookLocation{ Room = 318, Place = "в левом шкуфу справа", IsTaken = false, Reader = DbReader.All[0], Publication = DbPublication.All[1]},
-                new DbBookLocation{ Room = 302, Place = "под ножкой стола", IsTaken = false, Reader = DbReader.All[0], Publication = DbPublication.All[0]},
-                new DbBookLocation{ Room = 323, Place = "в дырке в стене", IsTaken = false, Reader = DbReader.All[0], Publication = DbPublication.All[0]},
-            });
+                var disciplines = new[]
+                {
+                    new DbDiscipline
+                    {
+                        Id = 1,
+                        Name = "Программирование",
+                    },
+                    new DbDiscipline
+                    {
+                        Id = 2,
+                        Name = "Конструирование ПО",
+                    },
+                    new DbDiscipline
+                    {
+                        Id = 3,
+                        Name = "Архитектура ОС",
+                    }
+                };
+                for (var i = 0; i < disciplines.Length; i++)
+                    db.DbDisciplineSet.Add(disciplines[i]);
 
-            Ex.Lib.DbStatsSet.AddRange(new[]
-            {
-                new DbStats { DateTaken = new DateTime(2016, 02, 03), Publication = DbPublication.All[2]},
-                new DbStats { DateTaken = new DateTime(2017, 07, 12), Publication = DbPublication.All[2]},
-                new DbStats { DateTaken = new DateTime(2017, 10, 29), Publication = DbPublication.All[1]},
-                new DbStats { DateTaken = new DateTime(2018, 02, 05), Publication = DbPublication.All[2]},
-            });
+                var publications = new[]
+                {
+                    new DbPublication("Основы C",
+                                      db.DbAuthorSet1.Local[2],
+                                      ePublicationType.None,
+                                      eBookPublication.Book,
+                                      new DateTime(1985, 5, 1),
+                                      "oldschool")
+                    {
+                        Id = 1,
+                        Course = new []
+                        {
+                            courses[0],
+                            courses[1]
+                        },
+                        Discipline = new []
+                        {
+                            disciplines[0],
+                            disciplines[2]
+                        }
+                    },
+                    new DbPublication("Основы C++",
+                                      new[]
+                                      {
+                                          db.DbAuthorSet1.Local[2],
+                                          db.DbAuthorSet1.Local[3]
+                                      },
+                                      ePublicationType.None,
+                                      eBookPublication.Book,
+                                      new DateTime(2001, 9, 1),
+                                      "oldschool")
+                    {
+                        Id = 2,
+                        Course = new []
+                        {
+                            courses[2],
+                            courses[3]
+                        },
+                        Discipline = new []
+                        {
+                            disciplines[0],
+                            disciplines[1]
+                        }
+                    },
+                    new DbPublication("Основы C#",
+                                      new[]
+                                      {
+                                          db.DbAuthorSet1.Local[1],
+                                          db.DbAuthorSet1.Local[2]
+                                      },
+                                      ePublicationType.None,
+                                      eBookPublication.Book,
+                                      new DateTime(2011, 5, 1),
+                                      "newschool")
+                    {
+                        Id = 3,
+                        Course = new []
+                        {
+                            courses[4],
+                        },
+                        Discipline = new []
+                        {
+                            disciplines[0],
+                        }
+                    },
+                    new DbPublication("PHP vs C# vs Node.js",
+                                      new[]
+                                      {
+                                          db.DbAuthorSet1.Local[3],
+                                          db.DbAuthorSet1.Local[4],
+                                      },
+                                      ePublicationType.Educational,
+                                      eBookPublication.Publication,
+                                      new DateTime(2015, 02, 01), null)
+                    {
+                        Id = 4,
+                        InternetLocation = "https://google.com/",
+                        Course = new []
+                        {
+                            courses[5],
+                            courses[6]
+                        },
+                        Discipline = new []
+                        {
+                            disciplines[1],
+                        }
+                    },
+                    new DbPublication("Тестирование Не Нужно",
+                                      db.DbAuthorSet1.Local[5],
+                                      ePublicationType.Educational,
+                                      eBookPublication.Publication,
+                                      new DateTime(2016, 12, 01),
+                                      "Прогер")
+                    {
+                        Id = 5,
+                        InternetLocation = "https://proger.ru/",
+                        Course = new []
+                        {
+                            courses[7],
+                        },
+                        Discipline = new []
+                        {
+                            disciplines[2],
+                        }
+                    },
+                    new DbPublication("70 лайфхаков для упрощения тестирования",
+                                      db.DbAuthorSet1.Local[5],
+                                      ePublicationType.Scientific,
+                                      eBookPublication.Publication,
+                                      new DateTime(2018, 02, 01),
+                                      null)
+                    {
+                        Id = 6,
+                        InternetLocation = "https://proger.ru/",
+                        Course = new []
+                        {
+                            courses[8],
+                            courses[9]
+                        },
+                        Discipline = new []
+                        {
+                            disciplines[0],
+                        }
+                    },
+                };
+                for (var i = 0; i < publications.Length; i++)
+                    db.DbPublicationSet1.Add(publications[i]);
 
-            Ex.Lib.SaveChanges();
-            OnScreenContent.UpdateLayout();
+                var locations = new[]
+                {
+                    new DbBookLocation
+                    {
+                        Id = 1,
+                        Room = 307,
+                        Place = "тут",
+                        IsTaken = false,
+                        Reader = db.DbReaderSet.Local[0],
+                        Publication = db.DbPublicationSet1.Local[2]
+                    },
+                    new DbBookLocation
+                    {
+                        Id = 2,
+                        Room = 321,
+                        Place = "справа",
+                        IsTaken = false,
+                        Reader = db.DbReaderSet.Local[0],
+                        Publication = db.DbPublicationSet1.Local[2]
+                    },
+                    new DbBookLocation
+                    {
+                        Id = 3,
+                        Room = 501,
+                        Place = "на столе",
+                        IsTaken = true,
+                        Reader = db.DbReaderSet.Local[1],
+                        Publication = db.DbPublicationSet1.Local[2]
+                    },
+
+                    new DbBookLocation
+                    {
+                        Id = 4,
+                        Room = 321,
+                        Place = "на верхней полке шкафа",
+                        IsTaken = false,
+                        Reader = db.DbReaderSet.Local[0],
+                        Publication = db.DbPublicationSet1.Local[1]
+                    },
+                    new DbBookLocation
+                    {
+                        Id = 5,
+                        Room = 318,
+                        Place = "в левом шкуфу справа",
+                        IsTaken = false,
+                        Reader = db.DbReaderSet.Local[0],
+                        Publication = db.DbPublicationSet1.Local[1]
+                    },
+                    new DbBookLocation
+                    {
+                        Id = 6,
+                        Room = 302,
+                        Place = "под ножкой стола",
+                        IsTaken = false,
+                        Reader = db.DbReaderSet.Local[0],
+                        Publication = db.DbPublicationSet1.Local[0]
+                    },
+                    new DbBookLocation
+                    {
+                        Id = 7,
+                        Room = 323,
+                        Place = "в дырке в стене",
+                        IsTaken = false,
+                        Reader = db.DbReaderSet.Local[0],
+                        Publication = db.DbPublicationSet1.Local[0]
+                    },
+                };
+                for (var i = 0; i < locations.Length; i++)
+                    db.DbBookLocationSet.Add(locations[i]);
+
+                var stats = new[]
+                {
+                    new DbStats {Id = 1, DateTaken = new DateTime(2016, 02, 03), Publication = db.DbPublicationSet1.Local[2]},
+                    new DbStats {Id = 2, DateTaken = new DateTime(2017, 07, 12), Publication = db.DbPublicationSet1.Local[2]},
+                    new DbStats {Id = 3, DateTaken = new DateTime(2017, 10, 29), Publication = db.DbPublicationSet1.Local[1]},
+                    new DbStats {Id = 4, DateTaken = new DateTime(2018, 02, 05), Publication = db.DbPublicationSet1.Local[2]},
+                };
+                for (var i = 0; i < stats.Length; i++)
+                    db.DbStatsSet.Add(stats[i]);
+
+                db.SaveChanges();
+            }
+
+            pPublications.UpdateLayout();
+            pUsers.UpdateLayout();
+            pAuthors.UpdateLayout();
         }
 
         private void Search_OnClick(object sender, RoutedEventArgs e)
         {
-            Ex.Lib.SaveChanges();
+
         }
     }
 }

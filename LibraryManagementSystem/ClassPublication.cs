@@ -7,14 +7,51 @@ namespace LibraryManagementSystem
 {
     public partial class DbPublication
     {
-        public static ObservableCollection<DbPublication> All { get; set; } = Ex.Lib.DbPublicationSet1.Local;
+        public static List<DbPublication> All
+        {
+            get
+            {
+                using (var db = new LibraryDBContainer())
+                {
+                    return db.DbPublicationSet1.ToList();
+                }
+            }
+        }
         public static IEnumerable<string> AllPublishers => All.Select(e => e.Publisher).Distinct();
-        public static ObservableCollection<DbDiscipline> AllDisciplines { get; set; } = Ex.Lib.DbDisciplineSet.Local;
+        public static List<DbDiscipline> AllDisciplines
+        {
+            get
+            {
+                using (var db = new LibraryDBContainer())
+                {
+                    return db.DbDisciplineSet.ToList();
+                }
+            }
+        }
 
 
-        public IEnumerable<DbReader> Readers => PhysicalLocations.Where(e => e.IsTaken).Select(e => e.Reader).Distinct();
+        public IEnumerable<DbReader> Readers
+        {
+            get
+            {
+                using (var db = new LibraryDBContainer())
+                {
+                    return db.DbPublicationSet1.Find(Id).PhysicalLocations.Where(e => e.IsTaken).Select(e => e.Reader).Distinct();
+                }
+            }
+        }
+        public IEnumerable<DbBookLocation> Locations
+        {
+            get
+            {
+                using (var db = new LibraryDBContainer())
+                {
+                    return db.DbPublicationSet1.Find(Id).PhysicalLocations.Where(e => !e.IsTaken).Distinct();
+                }
+            }
+        }
 
-        public DbPublication(string Name, ePublicationType PublicationType, eBookPublication BookPublication, DateTime DatePublished, string Publisher)
+        private DbPublication(string Name, ePublicationType PublicationType, eBookPublication BookPublication, DateTime DatePublished, string Publisher)
         {
             this.Name = Name;
             this.PublicationType = PublicationType.e();
@@ -25,26 +62,30 @@ namespace LibraryManagementSystem
         public DbPublication(string Name, DbAuthor Author, ePublicationType PublicationType, eBookPublication BookPublication, DateTime DatePublished, string Publisher):
             this(Name, PublicationType, BookPublication, DatePublished, Publisher)
         {
-            Authors = new List<DbAuthor>();
-            this.Authors.Add(Author);
+            Authors = new []{ Author };
         }
         public DbPublication(string Name, IEnumerable<DbAuthor> Authors, ePublicationType PublicationType, eBookPublication BookPublication, DateTime DatePublished, string Publisher) :
             this(Name, PublicationType, BookPublication, DatePublished, Publisher)
         {
-            this.Authors = new List<DbAuthor>(Authors);
+            this.Authors = Authors.ToArray();
         }
         
         public override bool Equals(object obj)
         {
-            var publication = obj as DbPublication;
-            return publication != null &&
-                   Name == publication.Name &&
-                   DatePublished == publication.DatePublished &&
-                   Publisher == publication.Publisher &&
-                   Authors.Equals(publication.Authors) &&
-                   PublicationType == publication.PublicationType;
+            using (var db = new LibraryDBContainer())
+            {
+
+                var publication = obj as DbPublication;
+
+                return  db.DbPublicationSet1.Any(e => e.Name == publication.Name && 
+                                              e.DatePublished == publication.DatePublished && 
+                                              e.Publisher == publication.Publisher &&
+                                              e.PublicationType == publication.PublicationType &&
+                                              e.BookPublication == publication.BookPublication);
+                
+            }
         }
-        public override string ToString() => $"{Name} - {Authors}, {DatePublished}, {Publisher}";
+        public override string ToString() => $"{Name}, {DatePublished}, {Publisher}";
         public override int GetHashCode() => ToString().GetHashCode();
     }
 }

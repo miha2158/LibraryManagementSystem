@@ -24,19 +24,21 @@ namespace LibraryManagementSystem
         {
             this.Owner = Owner;
         }
-        public WindowEditLocation(Window Owner, DbBookLocation location)
+        public WindowEditLocation(Window Owner, DbPublication pub, int number): this(Owner)
         {
-            EditItem = location;
+            EditItem = pub;
 
-            PlacesComboBox.SelectedItem = EditItem;
-            RoomsBox.SelectedItem = EditItem.Room;
-            Place.Text = EditItem.Place;
-            ListReaders.SelectedItem = EditItem.Reader;
+            using (var db = new LibraryDBContainer())
+            {
+                EditItem = db.DbPublicationSet1.Find(EditItem.Id);
+                if (EditItem.PhysicalLocations == null || EditItem.PhysicalLocations.Count == 0)
+                    for (int i = 1; i < number; i++)
+                        PlacesComboBox.Items.Add(i);
+                else PlacesComboBox.ItemsSource = EditItem.PhysicalLocations;
+            }
         }
-
-        public IEnumerable<int> Rooms => DbBookLocation.Rooms;
         
-        public DbBookLocation EditItem { get; set; }
+        public DbPublication EditItem { get; set; }
 
         private void This_OnLoaded(object sender, RoutedEventArgs e)
         {
@@ -45,20 +47,33 @@ namespace LibraryManagementSystem
 
         private void Accept_OnClick(object sender, RoutedEventArgs e)
         {
-            EditItem = new DbBookLocation(int.Parse(RoomsBox.Text), Place.Text){IsTaken = ReaderRButton.IsChecked == true, Reader = ListReaders.SelectedItem as DbReader ?? DbReader.All[0]};
+            EditItem.PhysicalLocations.Add(new DbBookLocation(int.Parse(RoomsBox.Text), Place.Text){IsTaken = ReaderRButton.IsChecked == true});
+            PlacesComboBox.Items.Remove(PlacesComboBox.SelectedItem);
+            if(PlacesComboBox.Items.Count == 0)
+                Close();
         }
 
         private void AcceptAll_OnClick(object sender, RoutedEventArgs e)
         {
-
+            for (int i = 0; i < PlacesComboBox.Items.Count; i++)
+            {
+                EditItem.PhysicalLocations.Add(new DbBookLocation(int.Parse(RoomsBox.Text), Place.Text) { IsTaken = ReaderRButton.IsChecked == true });
+            }
+            Close();
         }
 
         private void AddUser_OnClick(object sender, RoutedEventArgs e)
         {
             var p2 = new WindowAddEditUserAuthor(this, true);
             p2.ShowDialog();
-            DbReader.All.Add(p2.Reader);
-            Ex.Lib.SaveChanges();
+
+            using(var db = new LibraryDBContainer())
+            {
+                db.DbReaderSet.Add(p2.Reader);
+                db.SaveChanges();
+            }
+
+            DialogResult = false;
         }
 
         private void RoomsBox_OnKeyDown(object sender, KeyEventArgs e)

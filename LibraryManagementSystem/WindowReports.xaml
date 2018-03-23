@@ -72,9 +72,11 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <DatePicker Name="StartDate" Margin="10" VerticalAlignment="Center" IsEnabled="{Binding ElementName=PeriodButton, Path=IsChecked}"/>
+            <DatePicker Name="StartDate" Margin="10" VerticalAlignment="Center" IsEnabled="{Binding ElementName=PeriodButton, Path=IsChecked}" 
+                        DisplayDateEnd="{Binding ElementName=FinishDate, Path=SelectedDate}"/>
             <TextBlock HorizontalAlignment="Center" Margin="1" Grid.Column="1" Text="-" FontSize="35"/>
-            <DatePicker Name="FinishDate" Margin="10" Grid.Column="2" VerticalAlignment="Center" IsEnabled="{Binding ElementName=PeriodButton, Path=IsChecked}"/>
+            <DatePicker Name="FinishDate" Margin="10" Grid.Column="2" VerticalAlignment="Center" 
+                        IsEnabled="{Binding ElementName=PeriodButton, Path=IsChecked}" DisplayDateStart="{Binding ElementName=StartDate, Path=SelectedDate}"/>
         </Grid>
         
         <StackPanel Grid.Row="3" Grid.ColumnSpan="2" VerticalAlignment="Center" Margin="50 5">
