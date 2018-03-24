@@ -73,10 +73,11 @@
         </ComboBox>
 
         <ComboBox Name="GroupBox" Grid.Row="4" IsEditable="True" StaysOpenOnEdit="True" IsEnabled="{Binding IsStudent}"
-                  d:DataContext="{d:DesignInstance local:WindowAddEditUserAuthor}">
+                  d:DataContext="{d:DesignInstance local:WindowAddEditUserAuthor}" ItemsSource="{Binding }" KeyUp="EventSetter_OnHandler">
         </ComboBox>
         
-        <Button Grid.Row="5" Grid.Column="1" Margin="20 10" VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="Принять" Padding="10 1" Click="Accept_OnClick"/>
+        <Button Grid.Row="5" Grid.Column="1" Margin="20 10" VerticalAlignment="Bottom" HorizontalAlignment="Right"
+                Content="Принять" Padding="10 1" Click="Accept_OnClick"/>
 
     </Grid>
 </Window>

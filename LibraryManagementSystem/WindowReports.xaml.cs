@@ -40,7 +40,8 @@ namespace LibraryManagementSystem
             StartDate.SelectedDate = DateTime.MinValue;
             FinishDate.SelectedDate = DateTime.Today;
             AuthorList.SelectAll();
-            AuthorList.ItemsSource = Authors;
+            AuthorList.ItemsSource = Authors.Where(d => d.WriterType == eWriterType.HseTeacher.e());
+            ReportType.SelectedIndex = 0;
         }
 
         private void Accept_OnClick(object sender, RoutedEventArgs e)
@@ -60,7 +61,7 @@ namespace LibraryManagementSystem
 
             var app = new Application
             {
-                DisplayAlerts = false,
+                DisplayAlerts = true,
                 Visible = true,
             };
             var wbook = app.Workbooks.Add(1);
@@ -71,20 +72,22 @@ namespace LibraryManagementSystem
             {
 
 
-                var result = db.DbPublicationSet1.Local.Where((d) =>
-                                                              {
-                                                                  bool a = BookCheck.IsChecked == true;
-                                                                  bool b = PubCheck.IsChecked == true;
+                var result = db.DbPublicationSet1
+                               .ToArray()
+                               .Where((d) =>
+                                      {
+                                          bool a = BookCheck.IsChecked == true;
+                                          bool b = PubCheck.IsChecked == true;
 
-                                                                  if (a && b)
-                                                                      return true;
-                                                                  if (a)
-                                                                      return d.BookPublication == eBookPublication.Book.e();
-                                                                  if (b)
-                                                                      return d.BookPublication == eBookPublication.Publication.e();
-                                                                  return false;
-                                                              })
-                                                       .ToArray();
+                                          if (a && b)
+                                              return true;
+                                          if (a)
+                                              return d.BookPublication == eBookPublication.Book.e();
+                                          if (b)
+                                              return d.BookPublication == eBookPublication.Publication.e();
+                                          return false;
+                                      })
+                               .ToArray();
 
                 switch (ReportType.SelectedIndex)
                 {
@@ -94,31 +97,40 @@ namespace LibraryManagementSystem
                     }
                     case 1:
                     {
-                        var t = new Func<DbStats, bool>(f => f.DateTaken.Date >= StartDate.SelectedDate.Value &&
-                                                             f.DateTaken <= FinishDate.SelectedDate.Value);
+                        var t = new Func<DbStats, bool>(f => (f.DateTaken.Date >= StartDate.SelectedDate.Value &&
+                                                              f.DateTaken <= FinishDate.SelectedDate.Value) ||
+                                                             PeriodButton.IsChecked == false);
 
-                        var res = result.OrderBy(d => d.Stats.Count(t))
+                        var res = result.Where(d => d.Stats.Count > 0)
+                                        .OrderBy(d => d.Stats.Count(t))
+                                        .Reverse()
                                         .ToArray();
 
                         wsheet.Cells[1, 1] = "Название";
                         wsheet.Cells[1, 2] = "Авторы";
                         wsheet.Cells[1, 3] = "Взято раз";
 
-                        for (int i = 0; i < result.Length; i++)
+                        for (int i = 0; i < res.Length; i++)
                         {
-                            var el = result[i];
+                            var el = res[i];
 
                             wsheet.Cells[i + 2, 1] = el.Name;
-                            wsheet.Cells[i + 2, 2] = string.Join("\n", el.Authors.AsParallel().Select(d => d.ToString()));
+                            wsheet.Cells[i + 2, 2] =
+                                string.Join("\n", el.Authors.Select(d => d.ToString()));
                             wsheet.Cells[i + 2, 3] = $"{el.Stats.Count(t)}";
                         }
 
+                        wsheet.Columns.ColumnWidth = 255;
+                        wsheet.Rows.RowHeight = 255;
+                        wsheet.Columns.AutoFit();
+                        wsheet.Rows.AutoFit();
 
                         break;
                     }
                     case 2:
                     {
-                        var res = result.SelectMany(d => d.PhysicalLocations).Where(d => d.IsTaken)
+                        var res = result.SelectMany(d => d.PhysicalLocations)
+                                        .Where(d => d.IsTaken)
                                         .ToArray();
 
                         wsheet.Cells[1, 1] = "Название";
@@ -131,21 +143,27 @@ namespace LibraryManagementSystem
                             var el = res[i];
 
                             wsheet.Cells[i + 2, 1] = el.Publication.Name;
-                            wsheet.Cells[i + 2, 2] = string.Join("\n", el.Publication.Authors.AsParallel().Select(d => d.ToString()));
+                            wsheet.Cells[i + 2, 2] =
+                                string.Join("\n", el.Publication.Authors.Select(d => d.ToString()));
                             wsheet.Cells[i + 2, 3] = $"{el.Reader}, {el.Reader.Group}";
                         }
+
+                        wsheet.Columns.ColumnWidth = 255;
+                        wsheet.Rows.RowHeight = 255;
+                        wsheet.Columns.AutoFit();
+                        wsheet.Rows.AutoFit();
 
                         break;
                     }
                 }
             }
 
-            wbook.Save();
-            wbook.Close();
-            app.Quit();
-            Marshal.ReleaseComObject(wsheet);
-            Marshal.ReleaseComObject(wbook);
-            Marshal.ReleaseComObject(app);
+            //wbook.Save();
+            //wbook.Close();
+            //app.Quit();
+            //Marshal.ReleaseComObject(wsheet);
+            //Marshal.ReleaseComObject(wbook);
+            //Marshal.ReleaseComObject(app);
         }
     }
 }

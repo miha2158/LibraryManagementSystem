@@ -65,8 +65,8 @@
         <ComboBox Name="RoomsBox" Grid.Row="2" IsEditable="True" IsEnabled="{Binding ElementName = RoomRButton, Path=IsChecked}" ItemsSource="{Binding Rooms}"
                   d:DataContext="{d:DesignInstance local:WindowEditLocation}" KeyDown="RoomsBox_OnKeyDown" TextInput="RoomsBox_OnTextInput"/>
 
-        <TextBox Grid.Row="3"/>
-        <TextBlock Name="Place" Text="Место:" Grid.Row="3" IsEnabled="{Binding ElementName = RoomRButton, Path=IsChecked}"/>
+        <TextBox Grid.Row="3" MaxLength="70" IsEnabled="{Binding ElementName = RoomRButton, Path=IsChecked}"/>
+        <TextBlock Name="Place" Text="Место:" Grid.Row="3"/>
 
         <!-- IsEnabled="{Binding ElementName = RoomRButton, Path=IsChecked}" -->
 

@@ -42,7 +42,22 @@ namespace LibraryManagementSystem
 
             using (var db = new LibraryDBContainer())
             {
-                db.DbPublicationSet1.Remove(db.DbPublicationSet1.Find(item.Id));
+                item = db.DbPublicationSet1.Find(item.Id);
+
+                item.Authors.Clear();
+
+                foreach (var course in item.Course)
+                {
+                    db.DbCourseSet.Remove(db.DbCourseSet.Find(course.Id));
+                    item.Course.Remove(course);
+                }
+
+                item.PhysicalLocations.Clear();
+                item.Stats.Clear();
+                item.Discipline.Clear();
+                db.SaveChanges();
+
+                db.DbPublicationSet1.Remove(item);
                 db.SaveChanges();
             }
 
@@ -57,7 +72,7 @@ namespace LibraryManagementSystem
             UpdateLayout();
         }
 
-        private void ContextMenu_OnOpened(object sender, RoutedEventArgs e)
+        private void ContextMenu_OnOpened(object sender, EventArgs e)
         {
             if (DataGrid.SelectedCells.Count == 0)
                 (sender as ContextMenu).IsOpen = false;
@@ -66,8 +81,24 @@ namespace LibraryManagementSystem
         private void Location_OnClick(object sender, RoutedEventArgs e)
         {
             var item = DataGrid.SelectedItem as DbPublication;
+            using (var db = new LibraryDBContainer())
+            {
+                item = db.DbPublicationSet1.Find(item.Id);
+                if (item.PhysicalLocations == null || item.PhysicalLocations.Count == 0)
+                {
+                    MessageBox.Show("Экземпляров не существует", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+            }
             var p = new WindowLocation(Owner, item);
             p.ShowDialog();
+            UpdateLayout();
+        }
+
+        private void Add_OnClick(object sender, RoutedEventArgs e)
+        {
+            var p1 = new WindowAddEditPublication(Owner);
+            p1.ShowDialog();
             UpdateLayout();
         }
     }

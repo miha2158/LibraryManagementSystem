@@ -29,6 +29,69 @@ namespace LibraryManagementSystem
             }
         }
 
+        public string DAuthors
+        {
+            get
+            {
+                using (var db = new LibraryDBContainer())
+                {
+                    return db.DbPublicationSet1.Find(Id).Authors.Aggregate(string.Empty, (c, d) => c += $"{d}, ");
+                }
+            }
+        }
+        public int DCount
+        {
+            get
+            {
+                using (var db = new LibraryDBContainer())
+                {
+                    return db.DbPublicationSet1.Find(Id).PhysicalLocations.Count;
+                }
+            }
+        }
+        public int DNowTakenCount
+        {
+            get
+            {
+                using (var db = new LibraryDBContainer())
+                {
+                    return db.DbPublicationSet1.Find(Id).PhysicalLocations.Count(e => e.IsTaken);
+                }
+            }
+        }
+        public int DTotalTakenCount
+        {
+            get
+            {
+                using (var db = new LibraryDBContainer())
+                {
+                    return db.DbPublicationSet1.Find(Id).Stats.Count;
+                }
+            }
+        }
+        public string DCourses
+        {
+            get
+            {
+                using (var db = new LibraryDBContainer())
+                {
+                    return db.DbPublicationSet1.Find(Id).Course.Aggregate(string.Empty, (c, d) => c += $"{d.Course}, ");
+                }
+            }
+        }
+        public string DDisciplines
+        {
+            get
+            {
+                using (var db = new LibraryDBContainer())
+                {
+                    return db.DbPublicationSet1.Find(Id).Discipline.Aggregate(string.Empty, (p, d) => p += $"{d.Name}, ");
+                }
+            }
+        }
+        public ePublicationType toEnumPT => (ePublicationType) PublicationType;
+        public eBookPublication toEnumBP => (eBookPublication) BookPublication;
+
 
         public IEnumerable<DbReader> Readers
         {

@@ -24,18 +24,20 @@ namespace LibraryManagementSystem
         {
             this.Owner = Owner;
         }
-        public WindowLocation(Window Owner, DbPublication item)
+        public WindowLocation(Window Owner, DbPublication item): this(Owner)
         {
-            Display = item;
+            using (var db = new LibraryDBContainer())
+            {
+                Display = db.DbPublicationSet1.Find(item.Id);
+                ListPlaces.ItemsSource = Display.PhysicalLocations.Where(e => !e.IsTaken);
+                ListReaders.ItemsSource = Display.PhysicalLocations.Where(e => e.IsTaken).Select(e => e.Reader);
+            }
         }
 
         public DbPublication Display;
 
-
-
         private void This_OnLoaded(object sender, RoutedEventArgs e)
         {
-
         }
 
         private void Edit_OnClick(object sender, RoutedEventArgs e)

@@ -52,7 +52,15 @@ namespace LibraryManagementSystem
 
             using (var db = new LibraryDBContainer())
             {
-                db.DbReaderSet.Remove(db.DbReaderSet.Find(item.Id));
+                item = db.DbReaderSet.Find(item.Id);
+
+                for (var i = 0; i < item.PhysicalLocation.Count; i++)
+                {
+                    item.PhysicalLocation.ElementAt(i).IsTaken = false;
+                }
+                item.PhysicalLocation.Clear();
+                
+                db.DbReaderSet.Remove(item);
                 db.SaveChanges();
             }
 
@@ -63,6 +71,13 @@ namespace LibraryManagementSystem
         {
             if (DataGrid.SelectedCells.Count == 0)
                 (sender as ContextMenu).IsOpen = false;
+        }
+
+        private void Add_OnClick(object sender, RoutedEventArgs e)
+        {
+            var p2 = new WindowAddEditUserAuthor(Owner, true);
+            p2.ShowDialog();
+            UpdateLayout();
         }
     }
 }

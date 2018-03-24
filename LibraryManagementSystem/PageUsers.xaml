@@ -11,12 +11,21 @@
       Title="PageUsers"
       Loaded="This_OnLoaded">
 
-    <DataGrid Name="DataGrid" Margin="1" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow">
+    <DataGrid Name="DataGrid" Margin="1" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow" AutoGenerateColumns="False">
         <DataGrid.ContextMenu>
             <ContextMenu Opened="ContextMenu_OnOpened" StaysOpen="True">
+                <MenuItem Header="Добавить" Click="Add_OnClick"/>
                 <MenuItem Header="Изменить" Click="Edit_OnClick"/>
                 <MenuItem Header="Удалить" Click="Delete_OnClick"/>
             </ContextMenu>
         </DataGrid.ContextMenu>
+        <DataGrid.Columns>
+            <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
+            <DataGridTextColumn Header="Фамилия" Binding="{Binding Last}"/>
+            <DataGridTextColumn Header="Имя" Binding="{Binding First}"/>
+            <DataGridTextColumn Header="Отчество" Binding="{Binding Patronimic}"/>
+            <DataGridTextColumn Header="Группа" Binding="{Binding Group}"/>
+            <DataGridTextColumn Header="Взято" Binding="{Binding DTakenCount}"/>
+        </DataGrid.Columns>
     </DataGrid>
 </Page>

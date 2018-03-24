@@ -44,19 +44,19 @@
         </Grid.ColumnDefinitions>
 
         <TextBlock Text="Кафедра:"/>
-        <ListView Name="ListPlaces" Grid.Column="1" Margin="5 0" ItemsSource="{Binding Locations}"
+        <ListView Name="ListPlaces" Grid.Column="1" Margin="5 0"
                   d:DataContext="{d:DesignInstance local:WindowLocation}">
 
             <ListView.View>
                 <GridView AllowsColumnReorder="True">
-                    <GridViewColumn Header="Кабинет"/>
-                    <GridViewColumn Header="Место"/>
+                    <GridViewColumn Header="Кабинет" DisplayMemberBinding="{Binding Room}"/>
+                    <GridViewColumn Header="Место" DisplayMemberBinding="{Binding Place}"/>
                 </GridView>
             </ListView.View>
         </ListView>
 
         <TextBlock Text="Читатели:" Grid.Row="1"/>
-        <ListView Name="ListReaders" Grid.Row="1" Grid.Column="1" Margin="5 0" ItemsSource="{Binding Readers}" SelectionMode="Extended"
+        <ListView Name="ListReaders" Grid.Row="1" Grid.Column="1" Margin="5 0" SelectionMode="Extended"
                   d:DataContext="{d:DesignInstance local:WindowLocation}">
 
             <ListView.View>

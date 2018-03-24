@@ -20,8 +20,17 @@ namespace LibraryManagementSystem
             }
         }
 
-        public HashSet<DbPublication> TakenPublications = new HashSet<DbPublication>();
-        
+        public int DTakenCount
+        {
+            get
+            {
+                using (var db = new LibraryDBContainer())
+                {
+                    return db.DbReaderSet.Find(Id).PhysicalLocation.Count(e => e.IsTaken);
+                }
+            }
+        }
+
         public DbReader(string First, string Last, string Patronimic): this()
         {
             this.First = First;

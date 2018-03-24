@@ -23,6 +23,7 @@ namespace LibraryManagementSystem
         private WindowAddEditUserAuthor(Window Owner): this()
         {
             this.Owner = Owner;
+            GroupBox.ItemsSource = Groups;
         }
         public WindowAddEditUserAuthor(Window Owner, bool isReader) : this(Owner)
         {
@@ -61,6 +62,8 @@ namespace LibraryManagementSystem
         public bool IsStudent => isReader && UserRole.SelectedIndex == 0;
         private bool isReader;
 
+        public IEnumerable<string> Groups => DbReader.Groups;
+
         public DbReader Reader;
         public DbAuthor Author;
 
@@ -72,7 +75,7 @@ namespace LibraryManagementSystem
         private void EventSetter_OnHandler(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter || e.Key == Key.Space)
-                ((TextBox) sender).MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+                ((FrameworkElement) sender).MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
         }
 
         private void Accept_OnClick(object sender, RoutedEventArgs e)

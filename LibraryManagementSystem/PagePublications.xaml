@@ -11,13 +11,27 @@
       Title="PagePublications"
       Loaded="This_OnLoaded">
     
-    <DataGrid Name="DataGrid" Margin="1" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow">
+    <DataGrid Name="DataGrid" Margin="1" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow" AutoGenerateColumns="False">
         <DataGrid.ContextMenu>
             <ContextMenu Opened="ContextMenu_OnOpened" StaysOpen="True">
+                <MenuItem Header="Добавить" Click="Add_OnClick"/>
                 <MenuItem Header="Изменить" Click="Edit_OnClick"/>
                 <MenuItem Header="Удалить" Click="Delete_OnClick"/>
                 <MenuItem Header="Местоположение" Click="Location_OnClick"/>
             </ContextMenu>
         </DataGrid.ContextMenu>
+        <DataGrid.Columns>
+            <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
+            <DataGridTextColumn Header="Название" Binding="{Binding Name}"/>
+            <DataGridTextColumn Header="Авторы" Binding="{Binding DAuthors}"/>
+            <DataGridTextColumn Header="Курсы" Binding="{Binding DCourses}"/>
+            <DataGridTextColumn Header="Вид" Binding="{Binding toEnumBP}"/>
+            <DataGridTextColumn Header="Тип" Binding="{Binding toEnumPT}"/>
+            <DataGridTextColumn Header="Дата" Binding="{Binding DatePublished}"/>
+            <DataGridTextColumn Header="Издатель" Binding="{Binding Publisher}"/>
+            <DataGridTextColumn Header="Всего" Binding="{Binding DCount}"/>
+            <DataGridTextColumn Header="Выдано" Binding="{Binding DNowTakenCount}"/>
+            <DataGridTextColumn Header="Ссылка" Binding="{Binding InternetLocation}"/>
+        </DataGrid.Columns>
     </DataGrid>
 </Page>

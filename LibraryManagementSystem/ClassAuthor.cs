@@ -13,11 +13,22 @@ namespace LibraryManagementSystem
             {
                 using (var db = new LibraryDBContainer())
                 {
-                    return db.DbAuthorSet1.ToList();
+                    return db.DbAuthorSet1.ToList().OrderBy(e => e.WriterType).ToList();
                 }
             }
         }
 
+        public string DPublications
+        {
+            get
+            {
+                using (var db = new LibraryDBContainer())
+                {
+                    return db.DbAuthorSet1.Find(Id).Publications.Aggregate(string.Empty, (c, d) => c += $"{d.Name}, ");
+                }
+            }
+        }
+        public eWriterType toEnumWT => (eWriterType)WriterType;
 
         public DbAuthor(string First, string Last, string Patronimic, eWriterType WriterType) : this()
         {

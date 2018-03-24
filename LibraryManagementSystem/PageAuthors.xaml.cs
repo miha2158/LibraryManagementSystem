@@ -61,13 +61,19 @@ namespace LibraryManagementSystem
             {
                 item = db.DbAuthorSet1.Find(item.Id);
 
-                var p = db.Entry(item);
-                p.State = EntityState.Deleted;
-                
-                db.DbAuthorSet1.Local.Remove(item);
+                item.Publications.Clear();
+                db.DbAuthorSet1.Remove(item);
+
                 db.SaveChanges();
             }
 
+            UpdateLayout();
+        }
+
+        private void Add_OnClick(object sender, RoutedEventArgs e)
+        {
+            var p0 = new WindowAddEditUserAuthor(Owner, false);
+            p0.ShowDialog();
             UpdateLayout();
         }
     }

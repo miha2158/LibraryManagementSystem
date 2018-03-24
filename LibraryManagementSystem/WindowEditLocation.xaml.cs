@@ -19,21 +19,24 @@ namespace LibraryManagementSystem
         public WindowEditLocation()
         {
             InitializeComponent();
+
+            RoomsBox.ItemsSource = DbBookLocation.Rooms;
+            ListReaders.ItemsSource = DbReader.All;
         }
         public WindowEditLocation(Window Owner) : this()
         {
             this.Owner = Owner;
         }
-        public WindowEditLocation(Window Owner, DbPublication pub, int number): this(Owner)
+        public WindowEditLocation(Window Owner, DbPublication pub, int number = 0): this(Owner)
         {
             EditItem = pub;
 
             using (var db = new LibraryDBContainer())
             {
-                EditItem = db.DbPublicationSet1.Find(EditItem.Id);
+                EditItem = db.DbPublicationSet1.Find(EditItem.Id) ?? pub;
                 if (EditItem.PhysicalLocations == null || EditItem.PhysicalLocations.Count == 0)
-                    for (int i = 1; i < number; i++)
-                        PlacesComboBox.Items.Add(i);
+                    for (int i = 0; i < number; i++)
+                        PlacesComboBox.Items.Add(i + 1);
                 else PlacesComboBox.ItemsSource = EditItem.PhysicalLocations;
             }
         }
@@ -47,18 +50,41 @@ namespace LibraryManagementSystem
 
         private void Accept_OnClick(object sender, RoutedEventArgs e)
         {
-            EditItem.PhysicalLocations.Add(new DbBookLocation(int.Parse(RoomsBox.Text), Place.Text){IsTaken = ReaderRButton.IsChecked == true});
+            using (var db = new LibraryDBContainer())
+            {
+                EditItem = db.DbPublicationSet1.Find(EditItem.Id);
+                db.DbBookLocationSet.Add(new DbBookLocation(int.Parse(RoomsBox.Text), Place.Text)
+                {
+                    IsTaken = ReaderRButton.IsChecked == true,
+                    Reader = db.DbReaderSet.Find((ListReaders.SelectedItem as DbReader).Id) ?? db.DbReaderSet.Local[0],
+                    Publication = EditItem
+                });
+                db.SaveChanges();
+            }
             PlacesComboBox.Items.Remove(PlacesComboBox.SelectedItem);
-            if(PlacesComboBox.Items.Count == 0)
+
+
+            if (PlacesComboBox.Items.Count == 0)
                 Close();
         }
 
         private void AcceptAll_OnClick(object sender, RoutedEventArgs e)
         {
-            for (int i = 0; i < PlacesComboBox.Items.Count; i++)
+            using (var db = new LibraryDBContainer())
             {
-                EditItem.PhysicalLocations.Add(new DbBookLocation(int.Parse(RoomsBox.Text), Place.Text) { IsTaken = ReaderRButton.IsChecked == true });
+                EditItem = db.DbPublicationSet1.Find(EditItem.Id);
+                for (int i = 0; i < PlacesComboBox.Items.Count; i++)
+                {
+                    db.DbBookLocationSet.Add(new DbBookLocation(int.Parse(RoomsBox.Text), Place.Text)
+                    {
+                        IsTaken = ReaderRButton.IsChecked == true,
+                        Reader = db.DbReaderSet.Find((ListReaders.SelectedItem as DbReader).Id) ?? db.DbReaderSet.Local[0],
+                        Publication = EditItem
+                    });
+                    db.SaveChanges();
+                }
             }
+
             Close();
         }
 
@@ -66,14 +92,6 @@ namespace LibraryManagementSystem
         {
             var p2 = new WindowAddEditUserAuthor(this, true);
             p2.ShowDialog();
-
-            using(var db = new LibraryDBContainer())
-            {
-                db.DbReaderSet.Add(p2.Reader);
-                db.SaveChanges();
-            }
-
-            DialogResult = false;
         }
 
         private void RoomsBox_OnKeyDown(object sender, KeyEventArgs e)
@@ -103,6 +121,7 @@ namespace LibraryManagementSystem
                 case Key.Home:
                 case Key.Delete:
                 case Key.End:
+                case Key.Tab:
                 case Key.Right:
                 case Key.Left:
                     break;

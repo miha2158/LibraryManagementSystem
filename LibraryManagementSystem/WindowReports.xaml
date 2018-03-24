@@ -19,6 +19,7 @@
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Margin" Value="0 0 5 0"/>
         </Style>
+
         <Style TargetType="TextBox">
             <Setter Property="Grid.Column" Value="1"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
@@ -80,7 +81,7 @@
         </Grid>
         
         <StackPanel Grid.Row="3" Grid.ColumnSpan="2" VerticalAlignment="Center" Margin="50 5">
-            <RadioButton Content="За весь период" VerticalContentAlignment="Center"/>
+            <RadioButton Content="За весь период" VerticalContentAlignment="Center" IsChecked="False"/>
             <RadioButton Name="PeriodButton" Content="За конкретный период" VerticalContentAlignment="Center" IsChecked="True"/>
         </StackPanel>
 
