@@ -64,7 +64,7 @@
                 <Button Name="Search" Width="Auto" Content="Найти" Click="Search_OnClick"/>
                 <Button Name="Filter" Width="Auto" Content="Фильтры" Click="Filter_OnClick"/>
                 <Button Name="ShowAll" Width="Auto" Content="Показать все" Click="ShowAll_OnClick"/>
-                <Button Name="Test" Width="Auto" Content="." Click="Test_OnClick" IsTabStop="False" Visibility="Collapsed"/>
+                <Button Name="Test" Width="Auto" Content="." Click="Test_OnClick" IsTabStop="False" Visibility="Visible"/>
             </StackPanel>
         </Grid>
 

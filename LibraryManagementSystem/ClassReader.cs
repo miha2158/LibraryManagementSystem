@@ -30,6 +30,7 @@ namespace LibraryManagementSystem
                 }
             }
         }
+        public eAccessLevel toEnumAL => (eAccessLevel) AccessLevel;
 
         public DbReader(string First, string Last, string Patronimic): this()
         {

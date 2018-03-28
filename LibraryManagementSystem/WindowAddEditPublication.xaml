@@ -86,7 +86,7 @@
                     <GridViewColumn Header="Фамилия" DisplayMemberBinding="{Binding Last}"/>
                     <GridViewColumn Header="Имя" DisplayMemberBinding="{Binding First}"/>
                     <GridViewColumn Header="Отчество" DisplayMemberBinding="{Binding Patronimic}"/>
-                    <GridViewColumn Header="Роль" DisplayMemberBinding="{Binding WriterType}"/>
+                    <GridViewColumn Header="Роль" DisplayMemberBinding="{Binding toEnumWT}"/>
                 </GridView>
             </ListView.View>
         </ListView>
@@ -167,6 +167,6 @@
         </StackPanel>
         
         <Button Name="LocationButton" Grid.Row="8" Grid.ColumnSpan="3" Margin="30 10" Width="300" Content="Готово" Padding="11"
-                Click="LocationButton_OnClick"/>
+                Click="LocationButton_OnClick" IsEnabled="{Binding IsReady}" d:DataContext="{d:DesignInstance local:WindowAddEditPublication}" />
     </Grid>
 </Window>

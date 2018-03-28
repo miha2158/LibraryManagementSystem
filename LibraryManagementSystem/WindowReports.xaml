@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LibraryManagementSystem"
         mc:Ignorable="d"
-        Title="Отчёты"
         FontSize="20"
+        Title="Отчёты"
         MinHeight="400" MinWidth="400"
         Height="600" Width="600"
         Loaded="This_OnLoaded"
@@ -102,6 +102,7 @@
                     <GridViewColumn Header="Фамилия" DisplayMemberBinding="{Binding Last}"/>
                     <GridViewColumn Header="Имя" DisplayMemberBinding="{Binding First}"/>
                     <GridViewColumn Header="Отчество" DisplayMemberBinding="{Binding Patronimic}"/>
+                    <GridViewColumn Header="Тип" DisplayMemberBinding="{Binding toEnumWT}"/>
                 </GridView>
             </ListView.View>
         </ListView>

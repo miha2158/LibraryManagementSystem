@@ -38,6 +38,7 @@ namespace LibraryManagementSystem
                 db.DbDisciplineSet.Add(new DbDiscipline {Name = NewDiscipline.Text});
                 db.SaveChanges();
             }
+            Close();
         }
     }
 }

@@ -47,5 +47,7 @@ namespace LibraryManagementSystem
         public static string ToString(this ICollection<DbStats> o) => o.Count.ToString();
         public static string ToString(this ICollection<DbDiscipline> o) => o.Aggregate(string.Empty, (p, d) => p += $"{d.Name}, ");
         public static string ToString(this ICollection<DbBookLocation> o) => o.Count(d => !d.IsTaken).ToString();
+
+        public static string ToNiceDate(this DateTime o) => $"{o.Year}-{o.Month}-{o.Day}";
     }
 }

@@ -14,9 +14,16 @@ namespace LibraryManagementSystem
     
     public partial class DbCourse
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public DbCourse()
+        {
+            this.Publication = new HashSet<DbPublication>();
+        }
+    
         public int Id { get; set; }
         public byte Course { get; set; }
     
-        public virtual DbPublication Publication { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DbPublication> Publication { get; set; }
     }
 }

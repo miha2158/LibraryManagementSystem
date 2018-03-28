@@ -8,7 +8,7 @@
         Title="Местоположение"
         FontSize="20"
         MinHeight="400" MinWidth="400"
-        Height="600" Width="600"
+        Height="600" Width="730"
         Loaded="This_OnLoaded"
         WindowStartupLocation="CenterOwner">
 
@@ -57,7 +57,7 @@
         
         <TextBlock Text="Экземпляр:"/>
         <ComboBox Name="PlacesComboBox" ItemsSource="{Binding DisplayItem.PhysicalLocations}" 
-                  d:DataContext="{d:DesignInstance local:WindowEditLocation}"/>
+                  d:DataContext="{d:DesignInstance local:WindowEditLocation}" SelectionChanged="PlacesComboBox_OnSelectionChanged"/>
 
         <RadioButton Name="RoomRButton" Grid.Row="1" Content="Кафедра" IsChecked="True"/>
 
@@ -65,10 +65,8 @@
         <ComboBox Name="RoomsBox" Grid.Row="2" IsEditable="True" IsEnabled="{Binding ElementName = RoomRButton, Path=IsChecked}" ItemsSource="{Binding Rooms}"
                   d:DataContext="{d:DesignInstance local:WindowEditLocation}" KeyDown="RoomsBox_OnKeyDown" TextInput="RoomsBox_OnTextInput"/>
 
-        <TextBox Grid.Row="3" MaxLength="70" IsEnabled="{Binding ElementName = RoomRButton, Path=IsChecked}"/>
-        <TextBlock Name="Place" Text="Место:" Grid.Row="3"/>
-
-        <!-- IsEnabled="{Binding ElementName = RoomRButton, Path=IsChecked}" -->
+        <TextBox Name="Place" Grid.Row="3" MaxLength="70" IsEnabled="{Binding ElementName = RoomRButton, Path=IsChecked}"/>
+        <TextBlock Text="Место:" Grid.Row="3"/>
 
         <RadioButton Name="ReaderRButton" Grid.Row="4" Content="Читатель"/>
 
@@ -98,8 +96,10 @@
         </ListView>
 
         <StackPanel Grid.Row="6" Grid.ColumnSpan="2" Margin="30 10"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Orientation="Horizontal">
-            <Button Name="AcceptAll" Content="Принять все" Padding="10 0" Margin="10 0" Click="AcceptAll_OnClick"/>
-            <Button Name="Accept" Content="Принять" Padding="10 0" Margin="10 0" Click="Accept_OnClick"/>
+            <Button Name="AcceptAll" Content="Принять все" Padding="10 0" Margin="10 0" Click="AcceptAll_OnClick" IsEnabled="{Binding IsReady}"
+                    d:DataContext="{d:DesignInstance local:WindowEditLocation}" />
+            <Button Name="Accept" Content="Принять" Padding="10 0" Margin="10 0" Click="Accept_OnClick" IsEnabled="{Binding IsReady}"
+                    d:DataContext="{d:DesignInstance local:WindowEditLocation}" />
         </StackPanel>
 
     </Grid>

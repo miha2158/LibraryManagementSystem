@@ -28,9 +28,9 @@ namespace LibraryManagementSystem
         public string Name { get; set; }
         public System.DateTime DatePublished { get; set; }
         public byte PublicationType { get; set; }
-        public byte BookPublication { get; set; }
         public string Publisher { get; set; }
         public string InternetLocation { get; set; }
+        public byte BookPublication { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DbAuthor> Authors { get; set; }

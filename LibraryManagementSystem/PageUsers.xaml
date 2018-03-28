@@ -24,6 +24,7 @@
             <DataGridTextColumn Header="Фамилия" Binding="{Binding Last}"/>
             <DataGridTextColumn Header="Имя" Binding="{Binding First}"/>
             <DataGridTextColumn Header="Отчество" Binding="{Binding Patronimic}"/>
+            <DataGridTextColumn Header="Роль" Binding="{Binding toEnumAL}"/>
             <DataGridTextColumn Header="Группа" Binding="{Binding Group}"/>
             <DataGridTextColumn Header="Взято" Binding="{Binding DTakenCount}"/>
         </DataGrid.Columns>

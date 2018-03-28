@@ -71,7 +71,7 @@
         </ListView>
         
         <TextBlock Grid.Row="2" Text="URL"/>
-        <TextBox Name="UriBox" Grid.Row="2"/>
+        <TextBox Name="UriBox" Grid.Row="2" IsEnabled="False"/>
         
         <Button Grid.Row="3" Grid.ColumnSpan="2" Content="Изменить" Margin="30 5" HorizontalAlignment="Right" VerticalAlignment="Bottom" Padding="7 0"
                 Click="Edit_OnClick"/>

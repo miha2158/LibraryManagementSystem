@@ -142,15 +142,9 @@ namespace LibraryManagementSystem
                     new DbCourse { Id = 2, Course = 2 },
                     new DbCourse { Id = 3, Course = 3 },
                     new DbCourse { Id = 4, Course = 4 },
-                    new DbCourse { Id = 5, Course = 1 },
-                    new DbCourse { Id = 6, Course = 2 },
-                    new DbCourse { Id = 7, Course = 3 },
-                    new DbCourse { Id = 8, Course = 3 },
-                    new DbCourse { Id = 9, Course = 2 },
-                    new DbCourse { Id = 10, Course = 4 },
                 };
-                for (var i = 0; i < courses.Length; i++)
-                    db.DbCourseSet.Add(courses[i]);
+                foreach (var t in courses)
+                    db.DbCourseSet.Add(t);
 
                 var disciplines = new[]
                 {
@@ -170,16 +164,16 @@ namespace LibraryManagementSystem
                         Name = "Архитектура ОС",
                     }
                 };
-                for (var i = 0; i < disciplines.Length; i++)
-                    db.DbDisciplineSet.Add(disciplines[i]);
+                foreach (var t in disciplines)
+                    db.DbDisciplineSet.Add(t);
 
                 var publications = new[]
                 {
-                    new DbPublication("Основы C",
+                    new DbPublication("Основы Perl",
                                       db.DbAuthorSet1.Local[2],
                                       ePublicationType.None,
                                       eBookPublication.Book,
-                                      new DateTime(1985, 5, 1),
+                                      new DateTime(1985, 4, 1),
                                       "oldschool")
                     {
                         Id = 1,
@@ -194,7 +188,7 @@ namespace LibraryManagementSystem
                             disciplines[2]
                         }
                     },
-                    new DbPublication("Основы C++",
+                    new DbPublication("Ruby programming guide",
                                       new[]
                                       {
                                           db.DbAuthorSet1.Local[2],
@@ -202,8 +196,8 @@ namespace LibraryManagementSystem
                                       },
                                       ePublicationType.None,
                                       eBookPublication.Book,
-                                      new DateTime(2001, 9, 1),
-                                      "oldschool")
+                                      new DateTime(2001, 8, 1),
+                                      "newschool")
                     {
                         Id = 2,
                         Course = new []
@@ -217,7 +211,7 @@ namespace LibraryManagementSystem
                             disciplines[1]
                         }
                     },
-                    new DbPublication("Основы C#",
+                    new DbPublication("Python 3",
                                       new[]
                                       {
                                           db.DbAuthorSet1.Local[1],
@@ -225,20 +219,20 @@ namespace LibraryManagementSystem
                                       },
                                       ePublicationType.None,
                                       eBookPublication.Book,
-                                      new DateTime(2011, 5, 1),
+                                      new DateTime(2011, 6, 1),
                                       "newschool")
                     {
                         Id = 3,
                         Course = new []
                         {
-                            courses[4],
+                            courses[0],
                         },
                         Discipline = new []
                         {
                             disciplines[0],
                         }
                     },
-                    new DbPublication("PHP vs C# vs Node.js",
+                    new DbPublication("Why Java is better than javascript",
                                       new[]
                                       {
                                           db.DbAuthorSet1.Local[3],
@@ -246,51 +240,52 @@ namespace LibraryManagementSystem
                                       },
                                       ePublicationType.Educational,
                                       eBookPublication.Publication,
-                                      new DateTime(2015, 02, 01), null)
+                                      new DateTime(2015, 1, 1), null)
                     {
                         Id = 4,
                         InternetLocation = "https://google.com/",
                         Course = new []
                         {
-                            courses[5],
-                            courses[6]
+                            courses[1],
+                            courses[2]
                         },
                         Discipline = new []
                         {
                             disciplines[1],
                         }
                     },
-                    new DbPublication("Тестирование Не Нужно",
+                    new DbPublication("Как создать вебсайт с нуля",
                                       db.DbAuthorSet1.Local[5],
                                       ePublicationType.Educational,
                                       eBookPublication.Publication,
-                                      new DateTime(2016, 12, 01),
+                                      new DateTime(2016, 11, 1),
                                       "Прогер")
                     {
                         Id = 5,
-                        InternetLocation = "https://proger.ru/",
+                        InternetLocation = "https://website.org/",
                         Course = new []
                         {
-                            courses[7],
+                            courses[1],
+                            courses[3],
                         },
                         Discipline = new []
                         {
                             disciplines[2],
                         }
                     },
-                    new DbPublication("70 лайфхаков для упрощения тестирования",
+                    new DbPublication("Как победить facebook и Марка Цукерберга",
                                       db.DbAuthorSet1.Local[5],
                                       ePublicationType.Scientific,
                                       eBookPublication.Publication,
-                                      new DateTime(2018, 02, 01),
+                                      new DateTime(2018, 3, 1),
                                       null)
                     {
                         Id = 6,
                         InternetLocation = "https://proger.ru/",
                         Course = new []
                         {
-                            courses[8],
-                            courses[9]
+                            courses[0],
+                            courses[3]
                         },
                         Discipline = new []
                         {
@@ -298,8 +293,8 @@ namespace LibraryManagementSystem
                         }
                     },
                 };
-                for (var i = 0; i < publications.Length; i++)
-                    db.DbPublicationSet1.Add(publications[i]);
+                foreach (var t in publications)
+                    db.DbPublicationSet1.Add(t);
 
                 var locations = new[]
                 {
@@ -307,25 +302,24 @@ namespace LibraryManagementSystem
                     {
                         Id = 1,
                         Room = 307,
-                        Place = "тут",
-                        IsTaken = false,
-                        Reader = db.DbReaderSet.Local[0],
+                        Place = "здесь",
+                        IsTaken = true,
+                        Reader = db.DbReaderSet.Local[2],
                         Publication = db.DbPublicationSet1.Local[2]
                     },
                     new DbBookLocation
                     {
                         Id = 2,
                         Room = 321,
-                        Place = "справа",
+                        Place = "снизу",
                         IsTaken = false,
-                        Reader = db.DbReaderSet.Local[0],
                         Publication = db.DbPublicationSet1.Local[2]
                     },
                     new DbBookLocation
                     {
                         Id = 3,
                         Room = 501,
-                        Place = "на столе",
+                        Place = "приклеена под столом",
                         IsTaken = true,
                         Reader = db.DbReaderSet.Local[1],
                         Publication = db.DbPublicationSet1.Local[2]
@@ -337,16 +331,14 @@ namespace LibraryManagementSystem
                         Room = 321,
                         Place = "на верхней полке шкафа",
                         IsTaken = false,
-                        Reader = db.DbReaderSet.Local[0],
                         Publication = db.DbPublicationSet1.Local[1]
                     },
                     new DbBookLocation
                     {
                         Id = 5,
                         Room = 318,
-                        Place = "в левом шкуфу справа",
+                        Place = "в левом шкафу справа",
                         IsTaken = false,
-                        Reader = db.DbReaderSet.Local[0],
                         Publication = db.DbPublicationSet1.Local[1]
                     },
                     new DbBookLocation
@@ -355,31 +347,30 @@ namespace LibraryManagementSystem
                         Room = 302,
                         Place = "под ножкой стола",
                         IsTaken = false,
-                        Reader = db.DbReaderSet.Local[0],
                         Publication = db.DbPublicationSet1.Local[0]
                     },
                     new DbBookLocation
                     {
                         Id = 7,
                         Room = 323,
-                        Place = "в дырке в стене",
+                        Place = "под потолком",
                         IsTaken = false,
-                        Reader = db.DbReaderSet.Local[0],
                         Publication = db.DbPublicationSet1.Local[0]
                     },
                 };
-                for (var i = 0; i < locations.Length; i++)
-                    db.DbBookLocationSet.Add(locations[i]);
+                foreach (var t in locations)
+                    db.DbBookLocationSet.Add(t);
 
                 var stats = new[]
                 {
                     new DbStats {Id = 1, DateTaken = new DateTime(2016, 02, 03), Publication = db.DbPublicationSet1.Local[2]},
                     new DbStats {Id = 2, DateTaken = new DateTime(2017, 07, 12), Publication = db.DbPublicationSet1.Local[2]},
                     new DbStats {Id = 3, DateTaken = new DateTime(2017, 10, 29), Publication = db.DbPublicationSet1.Local[1]},
+                    new DbStats {Id = 3, DateTaken = new DateTime(2018, 03, 20), Publication = db.DbPublicationSet1.Local[1]},
                     new DbStats {Id = 4, DateTaken = new DateTime(2018, 02, 05), Publication = db.DbPublicationSet1.Local[2]},
                 };
-                for (var i = 0; i < stats.Length; i++)
-                    db.DbStatsSet.Add(stats[i]);
+                foreach (var t in stats)
+                    db.DbStatsSet.Add(t);
 
                 db.SaveChanges();
             }
@@ -391,7 +382,66 @@ namespace LibraryManagementSystem
 
         private void Search_OnClick(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(SearchBox.Text))
+            {
+                MessageBox.Show("Пустой запрос");
+                return;
+            }
 
+            var query = SearchBox.Text.ToLower();
+
+            switch (OnScreenContent)
+            {
+                case PageAuthors pageAuthors:
+                {
+                    using (var db = new LibraryDBContainer())
+                    {
+                        pAuthors.DataGrid.ItemsSource =
+                            db.DbAuthorSet1
+                              .AsParallel()
+                              .Where(g => g.First.ToLower().Contains(query) ||
+                                          g.Last.ToLower().Contains(query) ||
+                                          g.Patronimic.ToLower().Contains(query) ||
+                                          g.toEnumWT.ToString().ToLower().Contains(query) ||
+                                          g.Id.ToString().ToLower().Contains(query));
+                    }
+
+                    break;
+                }
+                case PagePublications pagePublications:
+                {
+                    using (var db = new LibraryDBContainer())
+                    {
+                        pPublications.DataGrid.ItemsSource =
+                            db.DbPublicationSet1
+                              .AsParallel()
+                              .Where(d => d.Name.ToLower().Contains(query) ||
+                                          d.DatePublished.ToLongDateString().ToLower().Contains(query) ||
+                                          d.Course.Any(f => f.Course.ToString().ToLower().Contains(query)) ||
+                                          d.Discipline.Any(f => f.Name.ToLower().Contains(query)) ||
+                                          d.toEnumBP.ToString().ToLower().Contains(query) ||
+                                          d.toEnumPT.ToString().ToLower().Contains(query));
+                    }
+
+                    break;
+                }
+                case PageUsers pageUsers:
+                {
+                    using (var db = new LibraryDBContainer())
+                    {
+                        pUsers.DataGrid.ItemsSource =
+                            db.DbReaderSet
+                              .AsParallel()
+                              .Where(d => d.First.ToLower().Contains(query) ||
+                                          d.Last.ToLower().Contains(query) ||
+                                          d.Patronimic.ToLower().Contains(query) ||
+                                          d.Group.ToString().ToLower().Contains(query) ||
+                                          d.Id.ToString().ToLower().Contains(query));
+                    }
+
+                    break;
+                }
+            }
         }
     }
 }

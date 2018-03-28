@@ -34,6 +34,7 @@ namespace LibraryManagementSystem
             UserRole.Visibility = Visibility.Collapsed;
             GroupBox.IsEnabled = false;
             AuthorRole.Visibility = Visibility.Visible;
+            GroupBox.Visibility = Visibility.Collapsed;
         }
 
         public WindowAddEditUserAuthor(Window Owner, DbReader reader) : this(Owner, true)
@@ -49,6 +50,7 @@ namespace LibraryManagementSystem
         }
         public WindowAddEditUserAuthor(Window Owner, DbAuthor author): this(Owner, false)
         {
+            GroupBox.Visibility = Visibility.Collapsed;
             Author = author;
 
             isReader = false;
@@ -67,11 +69,14 @@ namespace LibraryManagementSystem
         public DbReader Reader;
         public DbAuthor Author;
 
+        public bool IsReady => !string.IsNullOrWhiteSpace(Last.Text) && !string.IsNullOrWhiteSpace(First.Text) && !string.IsNullOrWhiteSpace(Patronimic.Text) &&
+                               (Reader != null && (UserRole.SelectedIndex == 0 && !string.IsNullOrWhiteSpace(GroupBox.Text) || UserRole.SelectedIndex != -1) ||
+                                Author != null && AuthorRole.SelectedIndex != -1);
+
         private void This_OnLoaded(object sender, RoutedEventArgs e)
         {
             Title += isReader? "Читателя": "Автора";
         }
-
         private void EventSetter_OnHandler(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter || e.Key == Key.Space)

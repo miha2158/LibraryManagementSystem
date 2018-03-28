@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LibraryManagementSystem"
         mc:Ignorable="d"
-        Title="Фильтровать" 
         FontSize="20"
+        Title="Фильтровать" 
         MinHeight="400" MinWidth="400"
         Height="800" Width="600"
         Loaded="This_OnLoaded"
@@ -92,9 +92,9 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <DatePicker Margin="10" VerticalAlignment="Center"/>
+            <DatePicker Name="StartDate" Margin="10" VerticalAlignment="Center"/>
             <TextBlock HorizontalAlignment="Center" Margin="1" Grid.Column="1" Text="-" FontSize="35"/>
-            <DatePicker Margin="10" Grid.Column="2" VerticalAlignment="Center"/>
+            <DatePicker Name="FinishDate" Margin="10" Grid.Column="2" VerticalAlignment="Center"/>
         </Grid>
 
         <CheckBox Content="По издательству" Grid.Row="3"/>
@@ -137,10 +137,10 @@
 
         <CheckBox Content="По курсам" Grid.Row="5"/>
         <StackPanel Orientation="Horizontal" Grid.Row="5" Grid.Column="1">
-            <CheckBox Content="1"/>
-            <CheckBox Content="2"/>
-            <CheckBox Content="3"/>
-            <CheckBox Content="4"/>
+            <CheckBox Name="Course1" Content="1"/>
+            <CheckBox Name="Course2" Content="2"/>
+            <CheckBox Name="Course3" Content="3"/>
+            <CheckBox Name="Course4" Content="4"/>
         </StackPanel>
 
         <Grid Grid.Row="6" Grid.ColumnSpan="2">
@@ -165,7 +165,8 @@
 
         </Grid>
         
-        <Button Margin="30 10" Grid.Row="7" Grid.ColumnSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="Найти" Padding="7 0"/>
+        <Button Margin="30 10" Grid.Row="7" Grid.ColumnSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Right" 
+                Content="Найти" Padding="7 0" Click="Search_OnClick"/>
 
     </Grid>
 </Window>

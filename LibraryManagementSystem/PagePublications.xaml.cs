@@ -45,14 +45,16 @@ namespace LibraryManagementSystem
                 item = db.DbPublicationSet1.Find(item.Id);
 
                 item.Authors.Clear();
+                item.Course.Clear();
 
-                foreach (var course in item.Course)
+                foreach (var location in item.PhysicalLocations)
                 {
-                    db.DbCourseSet.Remove(db.DbCourseSet.Find(course.Id));
-                    item.Course.Remove(course);
+                    location.Reader = null;
+                    location.Publication = null;
                 }
 
                 item.PhysicalLocations.Clear();
+
                 item.Stats.Clear();
                 item.Discipline.Clear();
                 db.SaveChanges();

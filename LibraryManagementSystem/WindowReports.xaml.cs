@@ -37,44 +37,23 @@ namespace LibraryManagementSystem
 
         private void This_OnLoaded(object sender, RoutedEventArgs e)
         {
-            StartDate.SelectedDate = DateTime.MinValue;
+            StartDate.SelectedDate = DateTime.Today.Subtract(new TimeSpan(365, 0, 0, 0));
             FinishDate.SelectedDate = DateTime.Today;
             AuthorList.SelectAll();
-            AuthorList.ItemsSource = Authors.Where(d => d.WriterType == eWriterType.HseTeacher.e());
+            AuthorList.ItemsSource = Authors.OrderBy(d => d.WriterType);
             ReportType.SelectedIndex = 0;
         }
 
         private void Accept_OnClick(object sender, RoutedEventArgs e)
         {
-
-            //var dialog = new SaveFileDialog
-            //{
-            //    AddExtension = true,
-            //    DefaultExt = ".xlsx",
-            //    DereferenceLinks = true,
-            //    Filter = @"Excel files (*.xlsx)|*.xlsx| All Files|*"
-            //};
-            //DialogResult r = dialog.ShowDialog();
-
-            //if (r == System.Windows.Forms.DialogResult.Cancel || r == System.Windows.Forms.DialogResult.None)
-            //    return;
-
-            var app = new Application
-            {
-                DisplayAlerts = true,
-                Visible = true,
-            };
-            var wbook = app.Workbooks.Add(1);
-            Worksheet wsheet = wbook.Worksheets[1];
-            wsheet.Name = "Отчёт";
-
             using (var db = new LibraryDBContainer())
             {
 
 
                 var result = db.DbPublicationSet1
+                               .AsParallel()
                                .ToArray()
-                               .Where((d) =>
+                               .Where(d =>
                                       {
                                           bool a = BookCheck.IsChecked == true;
                                           bool b = PubCheck.IsChecked == true;
@@ -87,22 +66,63 @@ namespace LibraryManagementSystem
                                               return d.BookPublication == eBookPublication.Publication.e();
                                           return false;
                                       })
-                               .ToArray();
+                               .Where(d => d.Authors
+                                            .Any(f => AuthorList.SelectedItems
+                                                                .Cast<DbAuthor>()
+                                                                .Select(g => g.Id)
+                                                                .Contains(d.Id)));
+
+                var app = new Application
+                {
+                    DisplayAlerts = true,
+                    Visible = true,
+                };
+                var wbook = app.Workbooks.Add(1);
+                Worksheet wsheet = wbook.Worksheets[1];
+                wsheet.Name = "Отчёт";
 
                 switch (ReportType.SelectedIndex)
                 {
                     case 0:
                     {
+                        var res = result.Where(d => d.Authors.Any(f => f.toEnumWT == eWriterType.HseTeacher))
+                                        .Where(d => PeriodButton.IsChecked == false ||
+                                                    d.DatePublished >= StartDate.SelectedDate.Value &&
+                                                    d.DatePublished <= FinishDate.SelectedDate.Value.AddDays(1))
+                                        .OrderByDescending(d => d.BookPublication)
+                                        .ThenBy(d => d.DDate)
+                                        .ToArray();
+
+                        wsheet.Cells[1, 1] = "Название";
+                        wsheet.Cells[1, 2] = "Авторы";
+                        wsheet.Cells[1, 3] = "Опубликовано";
+
+                        for (int i = 0, offset = 2; i < res.Length; i++)
+                        {
+                            if (i == 0 || res[i].BookPublication != res[i - 1].BookPublication)
+                                wsheet.Cells[i + offset++, 1] = $"{res[i].toEnumBP}s";
+
+                            var authors = res[i].Authors
+                                                .OrderBy(d => d.WriterType)
+                                                .Select(d => d.ToString())
+                                                .ToArray();
+
+                            wsheet.Cells[i + offset, 1] = res[i].Name;
+                            wsheet.Cells[i + offset, 2] = string.Join("\n", authors);
+                            wsheet.Cells[i + offset, 3] = $"{res[i].DDate}";
+
+                        }
+
                         break;
                     }
                     case 1:
                     {
-                        var t = new Func<DbStats, bool>(f => (f.DateTaken.Date >= StartDate.SelectedDate.Value &&
-                                                              f.DateTaken <= FinishDate.SelectedDate.Value) ||
-                                                             PeriodButton.IsChecked == false);
+                        var selectDate = new Func<DbStats, bool>(f => f.DateTaken.Date >= StartDate.SelectedDate.Value &&
+                                                                      f.DateTaken <= FinishDate.SelectedDate.Value.AddDays(1) ||
+                                                                      PeriodButton.IsChecked == false);
 
                         var res = result.Where(d => d.Stats.Count > 0)
-                                        .OrderBy(d => d.Stats.Count(t))
+                                        .OrderBy(d => d.Stats.Count(selectDate))
                                         .Reverse()
                                         .ToArray();
 
@@ -112,18 +132,15 @@ namespace LibraryManagementSystem
 
                         for (int i = 0; i < res.Length; i++)
                         {
-                            var el = res[i];
+                            var authors = res[i].Authors
+                                                .OrderBy(d => d.WriterType)
+                                                .Select(d => d.ToString())
+                                                .ToArray();
 
-                            wsheet.Cells[i + 2, 1] = el.Name;
-                            wsheet.Cells[i + 2, 2] =
-                                string.Join("\n", el.Authors.Select(d => d.ToString()));
-                            wsheet.Cells[i + 2, 3] = $"{el.Stats.Count(t)}";
+                            wsheet.Cells[i + 2, 1] = res[i].Name;
+                            wsheet.Cells[i + 2, 2] = string.Join("\n", authors);
+                            wsheet.Cells[i + 2, 3] = res[i].Stats.Count(selectDate);
                         }
-
-                        wsheet.Columns.ColumnWidth = 255;
-                        wsheet.Rows.RowHeight = 255;
-                        wsheet.Columns.AutoFit();
-                        wsheet.Rows.AutoFit();
 
                         break;
                     }
@@ -131,13 +148,14 @@ namespace LibraryManagementSystem
                     {
                         var res = result.SelectMany(d => d.PhysicalLocations)
                                         .Where(d => d.IsTaken)
+                                        .OrderBy(d => d.Publication.Stats.Last().DateTaken.ToNiceDate())
                                         .ToArray();
 
                         wsheet.Cells[1, 1] = "Название";
                         wsheet.Cells[1, 2] = "Авторы";
                         wsheet.Cells[1, 3] = "Взявший";
-
-
+                        wsheet.Cells[1, 4] = "Взято";
+                        
                         for (int i = 0; i < res.Length; i++)
                         {
                             var el = res[i];
@@ -146,24 +164,20 @@ namespace LibraryManagementSystem
                             wsheet.Cells[i + 2, 2] =
                                 string.Join("\n", el.Publication.Authors.Select(d => d.ToString()));
                             wsheet.Cells[i + 2, 3] = $"{el.Reader}, {el.Reader.Group}";
+                            wsheet.Cells[i + 2, 4] = el.Publication.Stats.Last().DateTaken;
                         }
+
+                        break;
+                    }
+                }
 
                         wsheet.Columns.ColumnWidth = 255;
                         wsheet.Rows.RowHeight = 255;
                         wsheet.Columns.AutoFit();
                         wsheet.Rows.AutoFit();
 
-                        break;
-                    }
-                }
+                app.Visible = true;
             }
-
-            //wbook.Save();
-            //wbook.Close();
-            //app.Quit();
-            //Marshal.ReleaseComObject(wsheet);
-            //Marshal.ReleaseComObject(wbook);
-            //Marshal.ReleaseComObject(app);
         }
     }
 }

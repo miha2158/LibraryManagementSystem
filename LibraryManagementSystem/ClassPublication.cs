@@ -24,11 +24,12 @@ namespace LibraryManagementSystem
             {
                 using (var db = new LibraryDBContainer())
                 {
-                    return db.DbDisciplineSet.ToList();
+                    return db.DbDisciplineSet.Where(d => d != null).ToList();
                 }
             }
         }
 
+        public string DDate => DatePublished.ToNiceDate();
         public string DAuthors
         {
             get

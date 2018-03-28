@@ -20,7 +20,7 @@ namespace LibraryManagementSystem
         {
             InitializeComponent();
         }
-        public WindowLocation(Window Owner):this()
+        protected WindowLocation(Window Owner):this()
         {
             this.Owner = Owner;
         }
@@ -31,6 +31,7 @@ namespace LibraryManagementSystem
                 Display = db.DbPublicationSet1.Find(item.Id);
                 ListPlaces.ItemsSource = Display.PhysicalLocations.Where(e => !e.IsTaken);
                 ListReaders.ItemsSource = Display.PhysicalLocations.Where(e => e.IsTaken).Select(e => e.Reader);
+                UriBox.Text = Display.InternetLocation;
             }
         }
 
@@ -42,7 +43,7 @@ namespace LibraryManagementSystem
 
         private void Edit_OnClick(object sender, RoutedEventArgs e)
         {
-            var p = new WindowEditLocation(Owner);
+            var p = new WindowEditLocation(Owner, Display, Display.DCount);
             p.ShowDialog();
         }
     }

@@ -8,7 +8,7 @@ using Generator;
 
 namespace LibraryManagementSystem
 {
-    public partial class WindowAddEditPublication: Window
+    public partial class WindowAddEditPublication : Window
     {
         public WindowAddEditPublication()
         {
@@ -16,34 +16,21 @@ namespace LibraryManagementSystem
             PublishDatePicker.DisplayDateEnd = DateTime.Today;
             Publisher.ItemsSource = DbPublication.AllPublishers;
         }
-        public WindowAddEditPublication(Window Owner): this()
+        public WindowAddEditPublication(Window Owner) : this()
         {
             this.Owner = Owner;
             using (var db = new LibraryDBContainer())
             {
                 AuthorList.ItemsSource = db.DbAuthorSet1.ToList().OrderBy(e => e.WriterType);
-                DisciplinesList.ItemsSource = db.DbDisciplineSet.ToList();
+                DisciplinesList.ItemsSource = db.DbDisciplineSet.Where(d => d != null).ToList();
             }
         }
-        public WindowAddEditPublication(Window Owner, DbPublication pub):this(Owner)
+        public WindowAddEditPublication(Window Owner, DbPublication pub) : this(Owner)
         {
             Publication = pub;
             NameBox.Text = Publication.Name;
-            PublishDatePicker.DisplayDate = Publication.DatePublished;
+            PublishDatePicker.SelectedDate = Publication.DatePublished;
             Publisher.Text = Publication.Publisher;
-
-            using (var db = new LibraryDBContainer())
-            {
-                var p = db.DbPublicationSet1.Find(Publication.Id)?.Course.Select(e => e.Course).ToList();
-
-                if(p != null)
-                {
-                    Course1.IsChecked = p.Contains(1);
-                    Course2.IsChecked = p.Contains(2);
-                    Course3.IsChecked = p.Contains(3);
-                    Course4.IsChecked = p.Contains(4);
-                }
-            }
 
             BookRButton.IsChecked = Publication.BookPublication == eBookPublication.Book.e();
             PublicationRButton.IsChecked = Publication.BookPublication == eBookPublication.Publication.e();
@@ -51,30 +38,37 @@ namespace LibraryManagementSystem
             ScientificPublication.IsChecked = Publication.PublicationType == ePublicationType.Scientific.e();
             MethodicalPublication.IsChecked = Publication.PublicationType == ePublicationType.Educational.e();
 
-            using(var db = new LibraryDBContainer())
-            {
-                PubNumberChechBox.IsChecked = db.DbPublicationSet1.Find(Publication.Id)?.PhysicalLocations.Count != 0;
-                PubNumber.Text = db.DbPublicationSet1.Find(Publication.Id)?.PhysicalLocations.Count.ToString();
-            }
-
             EpubCheckBox.IsChecked = !string.IsNullOrWhiteSpace(Publication.InternetLocation);
             EpubAdress.Text = Publication.InternetLocation;
 
             using (var db = new LibraryDBContainer())
             {
+                Publication = db.DbPublicationSet1.Find(Publication.Id);
+                var p = Publication?.Course.Select(e => e.Course).ToList();
+                if (p != null)
+                {
+                    Course1.IsChecked = p.Contains(1);
+                    Course2.IsChecked = p.Contains(2);
+                    Course3.IsChecked = p.Contains(3);
+                    Course4.IsChecked = p.Contains(4);
+                }
+
+                PubNumberChechBox.IsChecked = Publication?.PhysicalLocations.Count != 0;
+                PubNumber.Text = Publication?.PhysicalLocations.Count.ToString();
+
                 AuthorList.ItemsSource = db.DbAuthorSet1.ToList().OrderBy(e => e.WriterType);
-                foreach (var author in db.DbPublicationSet1.Find(Publication.Id).Authors)
-                    AuthorList.SelectedItems.Add(db.DbAuthorSet1.Find(author.Id));
-            
-                DisciplinesList.ItemsSource = db.DbDisciplineSet.ToList();
-                foreach (DbDiscipline discipline in db.DbPublicationSet1.Find(Publication.Id).Discipline)
-                    DisciplinesList.SelectedItems.Add(db.DbDisciplineSet.Find(discipline.Id));
+                foreach (var author in db.DbAuthorSet1.Where(d => d.Publications.Any(e => e.Id == Publication.Id)))
+                    AuthorList.SelectedItems.Add(author);
+
+                DisciplinesList.ItemsSource = db.DbDisciplineSet.Where(d => d != null).ToList();
+                foreach (DbDiscipline discipline in db.DbDisciplineSet.Where(
+                    d => d.Publication.Any(e => e.Id == Publication.Id)))
+                    DisciplinesList.SelectedItems.Add(discipline);
             }
         }
 
         private void This_OnLoaded(object sender, RoutedEventArgs e)
         {
-
         }
         private void AddAuthor_OnClick(object sender, RoutedEventArgs e)
         {
@@ -91,7 +85,6 @@ namespace LibraryManagementSystem
         {
             PublicationSpecific.Visibility = Visibility.Visible;
         }
-
         private void PubNumberTextBlock_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
             PubNumber.Focus();
@@ -114,37 +107,63 @@ namespace LibraryManagementSystem
             Hide();
             if (Publication == null)
             {
-                Publication = new DbPublication(NameBox.Text, AuthorList.SelectedItems.Cast<DbAuthor>(),
-                                                BookRButton.IsChecked == true? ePublicationType.None : ScientificPublication.IsChecked == true? ePublicationType.Scientific : ePublicationType.Educational, 
-                                                BookRButton.IsChecked == true? eBookPublication.Book : eBookPublication.Publication,
-                                                PublishDatePicker.DisplayDate, Publisher.Text);
+                using (var db = new LibraryDBContainer())
+                {
+                    Publication = new DbPublication(NameBox.Text, new List<DbAuthor>(),
+                                                    BookRButton.IsChecked == true
+                                                        ? ePublicationType.None
+                                                        : ScientificPublication.IsChecked == true
+                                                            ? ePublicationType.Scientific
+                                                            : ePublicationType.Educational,
+                                                    BookRButton.IsChecked == true
+                                                        ? eBookPublication.Book
+                                                        : eBookPublication.Publication,
+                                                    PublishDatePicker.SelectedDate.Value, Publisher.Text);
+
+                    if (Course1.IsChecked == true)
+                        db.DbCourseSet.Find(1).Publication.Add(Publication);
+                    if (Course2.IsChecked == true)
+                        db.DbCourseSet.Find(2).Publication.Add(Publication);
+                    if (Course3.IsChecked == true)
+                        db.DbCourseSet.Find(3).Publication.Add(Publication);
+                    if (Course4.IsChecked == true)
+                        db.DbCourseSet.Find(4).Publication.Add(Publication);
+
+                    var selectedIds = AuthorList
+                                     .SelectedItems.Cast<DbAuthor>()
+                                     .Select(g => g.Id);
+                    Publication.Authors = db.DbAuthorSet1.Where(d => selectedIds.Contains(d.Id)).ToList();
+
+                    db.DbPublicationSet1.Add(Publication);
+
+                    var selectedDisciplines = db.DbDisciplineSet
+                                                .ToArray()
+                                                .Where(d =>
+                                                       {
+                                                           return DisciplinesList
+                                                                 .SelectedItems
+                                                                 .Cast<DbDiscipline>()
+                                                                 .Select(f => f.Id)
+                                                                 .Contains(d.Id);
+                                                       });
+                    foreach (var disc in selectedDisciplines)
+                        disc.Publication.Add(Publication);
+
+                    if (EpubCheckBox.IsChecked == true)
+                        Publication.InternetLocation = EpubAdress.Text;
+
+                    if (EpubCheckBox.IsChecked != true && PubNumberChechBox.IsChecked != true)
+                        Publication.BookPublication = eBookPublication.None.e();
+
+                    db.SaveChanges();
+                }
+
                 if (PubNumberChechBox.IsChecked == true)
                 {
                     int num = int.Parse(PubNumber.Text);
                     var p = new WindowEditLocation(this, Publication, num);
                     p.ShowDialog();
-                    using (var db = new LibraryDBContainer())
-                    {
-                        db.DbPublicationSet1.Add(Publication);
-                        db.SaveChanges();
-                    }
                 }
-                else if (EpubCheckBox.IsChecked == true)
-                {
-                    Publication.InternetLocation = EpubAdress.Text;
-                    using (var db = new LibraryDBContainer())
-                    {
-                        db.DbPublicationSet1.Add(Publication);
-                        db.SaveChanges();
-                    }
-                }
-                else
-                    using (var db = new LibraryDBContainer())
-                    {
-                        Publication.BookPublication = eBookPublication.None.e();
-                        db.DbPublicationSet1.Add(Publication);
-                        db.SaveChanges();
-                    }
 
                 Close();
             }
@@ -155,16 +174,38 @@ namespace LibraryManagementSystem
                     Publication = db.DbPublicationSet1.Find(Publication.Id);
 
                     Publication.Name = NameBox.Text;
-                    Publication.DatePublished = PublishDatePicker.DisplayDate;
+                    Publication.DatePublished = PublishDatePicker.SelectedDate.Value;
                     Publication.Publisher = Publisher.Text;
 
-                    Publication.BookPublication = BookRButton.IsChecked == true? eBookPublication.Book.e(): eBookPublication.Publication.e();
-                    Publication.PublicationType = BookRButton.IsChecked == true ? ePublicationType.None.e() : ScientificPublication.IsChecked == true ? ePublicationType.Scientific.e() : ePublicationType.Educational.e();
+                    Publication.BookPublication = BookRButton.IsChecked == true
+                        ? eBookPublication.Book.e()
+                        : eBookPublication.Publication.e();
+                    Publication.PublicationType = BookRButton.IsChecked == true
+                        ? ePublicationType.None.e()
+                        : ScientificPublication.IsChecked == true
+                            ? ePublicationType.Scientific.e()
+                            : ePublicationType.Educational.e();
+                    
+                    Publication.Course.Clear();
+                    if (Course1.IsChecked == true)
+                        db.DbCourseSet.Find(1).Publication.Add(Publication);
+                    if (Course2.IsChecked == true)
+                        db.DbCourseSet.Find(2).Publication.Add(Publication);
+                    if (Course3.IsChecked == true)
+                        db.DbCourseSet.Find(3).Publication.Add(Publication);
+                    if (Course4.IsChecked == true)
+                        db.DbCourseSet.Find(4).Publication.Add(Publication);
+                    
+                    Publication.Discipline.Clear();
+                    foreach (var disc in DisciplinesList
+                                        .SelectedItems.Cast<DbDiscipline>().Select(d => db.DbDisciplineSet.Find(d.Id)))
+                        Publication.Discipline.Add(disc);
 
                     if (EpubCheckBox.IsChecked == true)
                         Publication.InternetLocation = EpubAdress.Text;
 
-                    Publication.Authors = Publication.Authors.Union(AuthorList.SelectedItems.Cast<DbAuthor>()).ToList();
+                    Publication.Authors = AuthorList.SelectedItems.Cast<DbAuthor>()
+                                                    .Select(d => db.DbAuthorSet1.Find(d.Id)).ToList();
                     db.SaveChanges();
                 }
 
@@ -174,8 +215,9 @@ namespace LibraryManagementSystem
                     var p = new WindowEditLocation(this, Publication, num);
                     p.ShowDialog();
                 }
-            }
 
+                Close();
+            }
         }
 
         public DbPublication Publication;
@@ -215,7 +257,6 @@ namespace LibraryManagementSystem
                     return;
             }
         }
-
         private void PubNumber_OnTextInput(object sender, TextCompositionEventArgs e)
         {
             var c = new string(e.Text.Where(char.IsDigit).ToArray());
@@ -230,6 +271,14 @@ namespace LibraryManagementSystem
         {
             var p = new WindowAddDiscipline();
             p.ShowDialog();
+            DisciplinesList.ItemsSource = DbPublication.AllDisciplines;
         }
+
+        public bool IsReady => !string.IsNullOrWhiteSpace(NameBox.Text) && AuthorList.SelectedIndex != -1 &&
+                               DisciplinesList.SelectedIndex != -1 && !PublishDatePicker.SelectedDate.HasValue &&
+                               !string.IsNullOrWhiteSpace(Publisher.Text) &&
+                               (Course1.IsChecked == true || Course2.IsChecked == true || Course3.IsChecked == true || Course4.IsChecked == true) &&
+                               (EpubCheckBox.IsChecked == true && !string.IsNullOrWhiteSpace(EpubAdress.Text) ||
+                                PubNumberChechBox.IsChecked == true && !string.IsNullOrWhiteSpace(PubNumber.Text));
     }
 }

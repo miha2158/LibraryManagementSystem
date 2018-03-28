@@ -14,6 +14,7 @@
     <EntitySet Name="DbCourseSet" EntityType="LibraryDB.Store.DbCourseSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="DbDisciplineSet" EntityType="LibraryDB.Store.DbDisciplineSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="DbPublicationDbAuthor" EntityType="LibraryDB.Store.DbPublicationDbAuthor" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DbPublicationDbCourse" EntityType="LibraryDB.Store.DbPublicationDbCourse" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="DisciplineDbPublication" EntityType="LibraryDB.Store.DisciplineDbPublication" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="FK_DbPublicationDbAuthor_DbPublication" Association="LibraryDB.Store.FK_DbPublicationDbAuthor_DbPublication">
       <End Role="DbPublication" EntitySet="DbPublicationSet1" />
@@ -31,9 +32,13 @@
       <End Role="DbBookLocation" EntitySet="DbBookLocationSet" />
       <End Role="DbReader" EntitySet="DbReaderSet" />
     </AssociationSet>
-    <AssociationSet Name="DbPublicationDbCourse" Association="LibraryDB.Store.DbPublicationDbCourse">
+    <AssociationSet Name="FK_DbPublicationDbCourse_DbPublication" Association="LibraryDB.Store.FK_DbPublicationDbCourse_DbPublication">
       <End Role="DbPublication" EntitySet="DbPublicationSet1" />
+      <End Role="DbPublicationDbCourse" EntitySet="DbPublicationDbCourse" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DbPublicationDbCourse_DbCourse" Association="LibraryDB.Store.FK_DbPublicationDbCourse_DbCourse">
       <End Role="DbCourse" EntitySet="DbCourseSet" />
+      <End Role="DbPublicationDbCourse" EntitySet="DbPublicationDbCourse" />
     </AssociationSet>
     <AssociationSet Name="FK_DisciplineDbPublication_Discipline" Association="LibraryDB.Store.FK_DisciplineDbPublication_Discipline">
       <End Role="Discipline" EntitySet="DbDisciplineSet" />
@@ -79,7 +84,7 @@
     <Property Name="Place" Type="nvarchar" Nullable="false" MaxLength="70" />
     <Property Name="IsTaken" Type="bit" Nullable="false" />
     <Property Name="Publication_Id" Type="int" Nullable="false" />
-    <Property Name="Reader_Id" Type="int" Nullable="false" />
+    <Property Name="Reader_Id" Type="int" Nullable="true" />
   </EntityType>
   <EntityType Name="DbReaderSet">
     <Key>
@@ -106,7 +111,6 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Course" Type="tinyint" Nullable="false" />
-    <Property Name="Publication_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="DbDisciplineSet">
     <Key>
@@ -123,6 +127,14 @@
     <Property Name="Publications_Id" Type="int" Nullable="false" />
     <Property Name="Authors_Id" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="DbPublicationDbCourse">
+    <Key>
+      <PropertyRef Name="Publication_Id" />
+      <PropertyRef Name="Course_Id" />
+    </Key>
+    <Property Name="Publication_Id" Type="int" Nullable="false" />
+    <Property Name="Course_Id" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="DisciplineDbPublication">
     <Key>
       <PropertyRef Name="Discipline_Id" />
@@ -132,7 +144,9 @@
     <Property Name="Publication_Id" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="DbPublicationDbBookLocation">
-    <End Role="DbPublication" Type="LibraryDB.Store.DbPublicationSet1" Multiplicity="1" />
+    <End Role="DbPublication" Type="LibraryDB.Store.DbPublicationSet1" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="DbBookLocation" Type="LibraryDB.Store.DbBookLocationSet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="DbPublication">
@@ -145,7 +159,7 @@
   </Association>
   <Association Name="DbBookLocationDbReader">
     <End Role="DbBookLocation" Type="LibraryDB.Store.DbBookLocationSet" Multiplicity="*" />
-    <End Role="DbReader" Type="LibraryDB.Store.DbReaderSet" Multiplicity="1" />
+    <End Role="DbReader" Type="LibraryDB.Store.DbReaderSet" Multiplicity="0..1" />
     <ReferentialConstraint>
       <Principal Role="DbReader">
         <PropertyRef Name="Id" />
@@ -155,20 +169,10 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="DbPublicationDbCourse">
-    <End Role="DbPublication" Type="LibraryDB.Store.DbPublicationSet1" Multiplicity="1" />
-    <End Role="DbCourse" Type="LibraryDB.Store.DbCourseSet" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="DbPublication">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="DbCourse">
-        <PropertyRef Name="Publication_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="DbPublicationDbStats">
-    <End Role="DbPublication" Type="LibraryDB.Store.DbPublicationSet1" Multiplicity="1" />
+    <End Role="DbPublication" Type="LibraryDB.Store.DbPublicationSet1" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="DbStats" Type="LibraryDB.Store.DbStatsSet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="DbPublication">
@@ -200,6 +204,30 @@
       </Principal>
       <Dependent Role="DbPublicationDbAuthor">
         <PropertyRef Name="Authors_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DbPublicationDbCourse_DbPublication">
+    <End Role="DbPublication" Type="LibraryDB.Store.DbPublicationSet1" Multiplicity="1" />
+    <End Role="DbPublicationDbCourse" Type="LibraryDB.Store.DbPublicationDbCourse" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DbPublication">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DbPublicationDbCourse">
+        <PropertyRef Name="Publication_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DbPublicationDbCourse_DbCourse">
+    <End Role="DbPublicationDbCourse" Type="LibraryDB.Store.DbPublicationDbCourse" Multiplicity="*" />
+    <End Role="DbCourse" Type="LibraryDB.Store.DbCourseSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="DbCourse">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DbPublicationDbCourse">
+        <PropertyRef Name="Course_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -320,12 +348,14 @@
           <Property Name="Group" Type="String" Nullable="false" Unicode="true" MaxLength="9" FixedLength="false" />
         </EntityType>
         <Association Name="DbPublicationDbBookLocation">
-          <End Type="LibraryDB.DbPublication" Role="DbPublication" Multiplicity="1" />
+          <End Type="LibraryDB.DbPublication" Role="DbPublication" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="LibraryDB.DbBookLocation" Role="DbBookLocation" Multiplicity="*" />
         </Association>
         <Association Name="DbBookLocationDbReader">
           <End Type="LibraryDB.DbBookLocation" Role="DbBookLocation" Multiplicity="*" />
-          <End Type="LibraryDB.DbReader" Role="DbReader" Multiplicity="1" />
+          <End Type="LibraryDB.DbReader" Role="DbReader" Multiplicity="0..1" />
         </Association>
         <EntityType Name="DbStats">
           <Key>
@@ -344,7 +374,7 @@
           <NavigationProperty Name="Publication" Relationship="LibraryDB.DbPublicationDbCourse" FromRole="DbCourse" ToRole="DbPublication" />
         </EntityType>
         <Association Name="DbPublicationDbCourse">
-          <End Type="LibraryDB.DbPublication" Role="DbPublication" Multiplicity="1" />
+          <End Type="LibraryDB.DbPublication" Role="DbPublication" Multiplicity="*" />
           <End Type="LibraryDB.DbCourse" Role="DbCourse" Multiplicity="*" />
         </Association>
         <EntityType Name="DbDiscipline">
@@ -360,8 +390,10 @@
           <End Type="LibraryDB.DbPublication" Role="DbPublication" Multiplicity="*" />
         </Association>
         <Association Name="DbPublicationDbStats">
-          <End Type="LibraryDB.DbPublication" Role="DbPublication" Multiplicity="1" />
-          <End Type="LibraryDB.DbStats" Role="DbStats" Multiplicity="*" />
+          <End Type="LibraryDB.DbPublication" Role="DbPublication" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="LibraryDB.DbStats" Role="DbStats" Multiplicity="*" ></End>
         </Association>
         </Schema>
     </edmx:ConceptualModels>
@@ -462,13 +494,14 @@
       <EndProperty Name="DbBookLocation">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
+      <Condition ColumnName="Reader_Id" IsNull="false" />
     </AssociationSetMapping>
-    <AssociationSetMapping Name="DbPublicationDbCourse" TypeName="LibraryDB.DbPublicationDbCourse" StoreEntitySet="DbCourseSet">
+    <AssociationSetMapping Name="DbPublicationDbCourse" TypeName="LibraryDB.DbPublicationDbCourse" StoreEntitySet="DbPublicationDbCourse">
       <EndProperty Name="DbPublication">
         <ScalarProperty Name="Id" ColumnName="Publication_Id" />
       </EndProperty>
       <EndProperty Name="DbCourse">
-        <ScalarProperty Name="Id" ColumnName="Id" />
+        <ScalarProperty Name="Id" ColumnName="Course_Id" />
       </EndProperty>
     </AssociationSetMapping>
     <AssociationSetMapping Name="DisciplineDbPublication" TypeName="LibraryDB.DisciplineDbPublication" StoreEntitySet="DisciplineDbPublication">

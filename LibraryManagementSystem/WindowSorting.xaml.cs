@@ -29,5 +29,10 @@ namespace LibraryManagementSystem
         {
 
         }
+
+        private void Search_OnClick(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

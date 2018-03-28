@@ -25,12 +25,14 @@
             <DataGridTextColumn Header="Название" Binding="{Binding Name}"/>
             <DataGridTextColumn Header="Авторы" Binding="{Binding DAuthors}"/>
             <DataGridTextColumn Header="Курсы" Binding="{Binding DCourses}"/>
+            <DataGridTextColumn Header="Дисциплины" Binding="{Binding DDisciplines}"/>
             <DataGridTextColumn Header="Вид" Binding="{Binding toEnumBP}"/>
             <DataGridTextColumn Header="Тип" Binding="{Binding toEnumPT}"/>
-            <DataGridTextColumn Header="Дата" Binding="{Binding DatePublished}"/>
+            <DataGridTextColumn Header="Дата" Binding="{Binding DDate}"/>
             <DataGridTextColumn Header="Издатель" Binding="{Binding Publisher}"/>
             <DataGridTextColumn Header="Всего" Binding="{Binding DCount}"/>
             <DataGridTextColumn Header="Выдано" Binding="{Binding DNowTakenCount}"/>
+            <DataGridTextColumn Header="Выдано раз" Binding="{Binding DTotalTakenCount}"/>
             <DataGridTextColumn Header="Ссылка" Binding="{Binding InternetLocation}"/>
         </DataGrid.Columns>
     </DataGrid>
