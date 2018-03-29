@@ -56,15 +56,14 @@
         </ListView>
 
         <TextBlock Text="Читатели:" Grid.Row="1"/>
-        <ListView Name="ListReaders" Grid.Row="1" Grid.Column="1" Margin="5 0" SelectionMode="Extended"
-                  d:DataContext="{d:DesignInstance local:WindowLocation}">
+        <ListView Name="ListReaders" Grid.Row="1" Grid.Column="1" Margin="5 0" SelectionMode="Extended">
 
             <ListView.View>
                 <GridView AllowsColumnReorder="True">
                     <GridViewColumn Header="Фамилия" DisplayMemberBinding="{Binding Last}"/>
                     <GridViewColumn Header="Имя" DisplayMemberBinding="{Binding First}"/>
                     <GridViewColumn Header="Отчество" DisplayMemberBinding="{Binding Patronimic}"/>
-                    <GridViewColumn Header="Роль" DisplayMemberBinding="{Binding AccessLevel}"/>
+                    <GridViewColumn Header="Роль" DisplayMemberBinding="{Binding toEnumAL}"/>
                     <GridViewColumn Header="Группа" DisplayMemberBinding="{Binding Group}"/>
                 </GridView>
             </ListView.View>

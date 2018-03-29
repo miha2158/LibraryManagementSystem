@@ -57,8 +57,6 @@ namespace LibraryManagementSystem
 
                 item.Stats.Clear();
                 item.Discipline.Clear();
-                db.SaveChanges();
-
                 db.DbPublicationSet1.Remove(item);
                 db.SaveChanges();
             }

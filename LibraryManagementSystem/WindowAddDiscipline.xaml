@@ -24,7 +24,7 @@
     </Window.Resources>
 
     <Grid>
-        <TextBox Name="NewDiscipline" Margin="30 50 50 50" VerticalAlignment="Top"/>
+        <TextBox Name="NewDiscipline" Margin="30 50 50 50" VerticalAlignment="Top" KeyDown="NewDiscipline_OnKeyDown"/>
         <Button VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="30 20" Content="Добавить" Padding="10 0" Click="ButtonBase_OnClick"/>
     </Grid>
 </Window>

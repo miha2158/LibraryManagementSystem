@@ -50,19 +50,29 @@ namespace LibraryManagementSystem
 
         private void Accept_OnClick(object sender, RoutedEventArgs e)
         {
-            PlacesComboBox.Items.Remove(PlacesComboBox.SelectedItem);
+            //PlacesComboBox.Items.Remove(PlacesComboBox.SelectedItem);
             using (var db = new LibraryDBContainer())
             {
                 EditItem = db.DbPublicationSet1.Find(EditItem.Id);
 
                 int.TryParse(RoomsBox.Text, out int num);
 
-                var p = new DbBookLocation(num, Place.Text)
+                DbBookLocation p;
+                if (EditItem.PhysicalLocations.ElementAt(PlacesComboBox.SelectedIndex) == null)
+                    p = new DbBookLocation(num, Place.Text)
+                    {
+                        IsTaken = ReaderRButton.IsChecked == true,
+                        Reader = ListReaders.SelectedIndex != -1 ? db.DbReaderSet.Find((ListReaders.SelectedItem as DbReader)?.Id) : null,
+                        Publication = EditItem
+                    };
+                else
                 {
-                    IsTaken = ReaderRButton.IsChecked == true,
-                    Reader = ListReaders.SelectedIndex != -1? db.DbReaderSet.Find((ListReaders.SelectedItem as DbReader)?.Id) : null,
-                    Publication = EditItem
-                };
+                    p = EditItem.PhysicalLocations.ElementAt(PlacesComboBox.SelectedIndex);
+                    p.Room = num;
+                    p.Place = Place.Text;
+                    p.IsTaken = ReaderRButton.IsChecked == true;
+                    p.Reader = ListReaders.SelectedIndex != -1 ? db.DbReaderSet.Find((ListReaders.SelectedItem as DbReader)?.Id) : null;
+                }
 
                 if (ReaderRButton.IsChecked == true)
                     db.DbStatsSet.Add(new DbStats
@@ -76,9 +86,9 @@ namespace LibraryManagementSystem
             }
 
 
-            if (PlacesComboBox.Items.Count == 0)
+            if (PlacesComboBox.SelectedIndex == PlacesComboBox.Items.Count)
                 Close();
-            PlacesComboBox.SelectedIndex = 0;
+            PlacesComboBox.SelectedIndex++;
         }
         private void AcceptAll_OnClick(object sender, RoutedEventArgs e)
         {
@@ -150,13 +160,42 @@ namespace LibraryManagementSystem
             RoomsBox.Text += s;
         }
 
-        public bool IsReady => RoomRButton.IsChecked == true && !string.IsNullOrWhiteSpace(RoomsBox.Text) && string.IsNullOrWhiteSpace(Place.Text) ||
+        public bool IsReady => RoomRButton.IsChecked == true && !string.IsNullOrWhiteSpace(RoomsBox.Text) && !string.IsNullOrWhiteSpace(Place.Text) ||
                                ReaderRButton.IsChecked == true && ListReaders.SelectedIndex != -1;
 
         private void PlacesComboBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (PlacesComboBox.Items.Count == 1)
                 AcceptAll.Visibility = Visibility.Collapsed;
+
+            using (var db = new LibraryDBContainer())
+            {
+                var t = db.DbPublicationSet1.Find(EditItem.Id).PhysicalLocations
+                          .ElementAt(PlacesComboBox.SelectedIndex);
+                t = db.DbBookLocationSet.Find(t.Id);
+                RoomsBox.Text = t.Room.ToString();
+                Place.Text = t.Place;
+
+                try
+                {
+                    ListReaders.SelectedIndex = db.DbReaderSet.Select(d => d.Id).ToList().IndexOf(t.Reader.Id);
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception);
+                }
+
+                if (t.IsTaken)
+                    ReaderRButton.IsChecked = true;
+                else
+                    RoomRButton.IsChecked = true;
+            }
+        }
+
+        private void WindowEditLocation_OnMouseMove(object sender, MouseEventArgs e)
+        {
+            Accept.IsEnabled = IsReady;
+            AcceptAll.IsEnabled = Accept.IsEnabled;
         }
     }
 }

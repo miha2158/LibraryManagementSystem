@@ -10,7 +10,8 @@
         Height="900" Width="680"
         FontSize="20"
         WindowStartupLocation="CenterOwner"
-        Loaded="This_OnLoaded">
+        Loaded="This_OnLoaded"
+        MouseMove="MouseMove_OnHandler">
 
     <Grid>
         <Grid.Resources>
@@ -70,8 +71,7 @@
         <TextBlock Text="Авторы:" Grid.Row="1" VerticalAlignment="Top"/>
         <Button Name="AddAuthor" Grid.Row="1" Grid.Column="2" Content="+" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="7 0"
                     HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="AddAuthor_OnClick"/>
-        <ListView Name="AuthorList" Grid.Row="1" Grid.Column="1" ItemsSource="{Binding All}" SelectionMode="Extended"
-                      d:DataContext="{d:DesignInstance local:DbAuthor}">
+        <ListView Name="AuthorList" Grid.Row="1" Grid.Column="1" SelectionMode="Extended">
             <ListView.View>
                 <GridView AllowsColumnReorder="True">
                     <GridViewColumn  Width="Auto">
@@ -100,8 +100,7 @@
         <TextBlock Grid.Row="4" Text="Дисциплины:"/>
         <Button Name="AddDiscipline" Grid.Row="4" Grid.Column="2" Content="+" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="7 0"
                 HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="AddDiscipline_OnClick"/>
-        <ListView Name="DisciplinesList" Grid.Row="4" Grid.Column="1" ItemsSource="{Binding AllDisciplines}"
-                  d:DataContext="{d:DesignInstance local:DbPublication}">
+        <ListView Name="DisciplinesList" Grid.Row="4" Grid.Column="1">
             <ListView.View>
                 <GridView>
                     <GridViewColumn>

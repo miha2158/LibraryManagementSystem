@@ -18,8 +18,6 @@ namespace LibraryManagementSystem
     {
         public WindowMain()
         {
-            //Ex.init();
-
             InitializeComponent();
             
             if (pPublications == null)
@@ -28,21 +26,52 @@ namespace LibraryManagementSystem
                 pUsers = new PageUsers();
             if (pAuthors == null)
                 pAuthors = new PageAuthors();
+
+            NormalTitle = Title;
         }
+        private void WindowMain_OnGotFocus(object sender, RoutedEventArgs e)
+        {
+            pPublications.Owner = this;
+            pAuthors.Owner = this;
+            pUsers.Owner = this;
+        }
+
+        public string NormalTitle;
 
         public Page OnScreenContent;
         public static PagePublications pPublications;
         public static PageUsers pUsers;
         public static PageAuthors pAuthors;
 
-        private void ToPagePublications(object sender, RoutedEventArgs e) => NavigateTo(pPublications);
-        private void ToPageUsers(object sender, RoutedEventArgs e) => NavigateTo(pUsers);
-        private void ToPageAuthors(object sender, RoutedEventArgs e) => NavigateTo(pAuthors);
+        private void ToPagePublications(object sender, RoutedEventArgs e)
+        {
+            pPublications.UpdateLayout();
+            NavigateTo(pPublications);
+        }
+        private void ToPageUsers(object sender, RoutedEventArgs e)
+        {
+            pUsers.UpdateLayout();
+            NavigateTo(pUsers);
+        }
+        private void ToPageAuthors(object sender, RoutedEventArgs e)
+        {
+            pAuthors.UpdateLayout();
+            NavigateTo(pAuthors);
+        }
 
         public void NavigateTo(Page destinationPage)
         {
-            destinationPage.UpdateLayout();
             MainView.Navigate(OnScreenContent = destinationPage);
+
+            switch (destinationPage)
+            {
+                case PagePublications pagePublications:
+                    Title = NormalTitle;
+                    break;
+                default:
+                    Title = $"{NormalTitle} - {destinationPage.Title}";
+                    break;
+            }
         }
 
         private void ActualWindow_OnLoaded(object sender, RoutedEventArgs e)
@@ -51,7 +80,8 @@ namespace LibraryManagementSystem
         }
         private void SearchBox_OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            DummySearchText.Visibility = SearchBox.Text.Length == 0 ? Visibility.Visible : Visibility.Collapsed;
+            DummySearchText.Visibility = string.IsNullOrWhiteSpace(SearchBox.Text) ? Visibility.Visible : Visibility.Collapsed;
+            Search.Visibility = string.IsNullOrWhiteSpace(SearchBox.Text) ? Visibility.Collapsed : Visibility.Visible;
         }
         private void DummySearchText_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -60,11 +90,10 @@ namespace LibraryManagementSystem
 
         private void SearchBox_OnKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key != Key.Enter)
+            if (e.Key != Key.Enter && string.IsNullOrWhiteSpace(SearchBox.Text))
                 return;
-
+            Search_OnClick(null, null);
         }
-
         private void NewPublication(object sender, RoutedEventArgs e)
         {
             switch (OnScreenContent)
@@ -93,31 +122,17 @@ namespace LibraryManagementSystem
             }
         }
 
-        private void EditPublication(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void Reports_OnClick(object sender, RoutedEventArgs e)
         {
             var p = new WindowReports(this);
             p.ShowDialog();
         }
-
         private void Filter_OnClick(object sender, RoutedEventArgs e)
         {
+            NavigateTo(pPublications);
             var p = new WindowSorting(this);
-            //var p = new WindowLocation(this);
             p.ShowDialog();
         }
-
-        private void WindowMain_OnGotFocus(object sender, RoutedEventArgs e)
-        {
-            pPublications.Owner = this;
-            pAuthors.Owner = this;
-            pUsers.Owner = this;
-        }
-
         private void ShowAll_OnClick(object sender, RoutedEventArgs e)
         {
             pPublications.UpdateLayout();
@@ -379,7 +394,6 @@ namespace LibraryManagementSystem
             pUsers.UpdateLayout();
             pAuthors.UpdateLayout();
         }
-
         private void Search_OnClick(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(SearchBox.Text))

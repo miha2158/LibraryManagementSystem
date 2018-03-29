@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -69,6 +70,7 @@ namespace LibraryManagementSystem
 
         private void This_OnLoaded(object sender, RoutedEventArgs e)
         {
+            MouseMove_OnHandler(null, null);
         }
         private void AddAuthor_OnClick(object sender, RoutedEventArgs e)
         {
@@ -104,6 +106,9 @@ namespace LibraryManagementSystem
 
         private void LocationButton_OnClick(object sender, RoutedEventArgs e)
         {
+            int num = 0;
+            int.TryParse(PubNumber.Text, out num);
+
             Hide();
             if (Publication == null)
             {
@@ -155,12 +160,13 @@ namespace LibraryManagementSystem
                     if (EpubCheckBox.IsChecked != true && PubNumberChechBox.IsChecked != true)
                         Publication.BookPublication = eBookPublication.None.e();
 
+                    Publication.PhysicalLocations = new List<DbBookLocation>(num);
+
                     db.SaveChanges();
                 }
 
                 if (PubNumberChechBox.IsChecked == true)
                 {
-                    int num = int.Parse(PubNumber.Text);
                     var p = new WindowEditLocation(this, Publication, num);
                     p.ShowDialog();
                 }
@@ -204,14 +210,15 @@ namespace LibraryManagementSystem
                     if (EpubCheckBox.IsChecked == true)
                         Publication.InternetLocation = EpubAdress.Text;
 
+                    Publication.Authors.Clear();
                     Publication.Authors = AuthorList.SelectedItems.Cast<DbAuthor>()
                                                     .Select(d => db.DbAuthorSet1.Find(d.Id)).ToList();
+                    Thread.Sleep(10);
                     db.SaveChanges();
                 }
 
                 if (PubNumberChechBox.IsChecked == true)
                 {
-                    int num = int.Parse(PubNumber.Text);
                     var p = new WindowEditLocation(this, Publication, num);
                     p.ShowDialog();
                 }
@@ -274,11 +281,17 @@ namespace LibraryManagementSystem
             DisciplinesList.ItemsSource = DbPublication.AllDisciplines;
         }
 
-        public bool IsReady => !string.IsNullOrWhiteSpace(NameBox.Text) && AuthorList.SelectedIndex != -1 &&
-                               DisciplinesList.SelectedIndex != -1 && !PublishDatePicker.SelectedDate.HasValue &&
-                               !string.IsNullOrWhiteSpace(Publisher.Text) &&
-                               (Course1.IsChecked == true || Course2.IsChecked == true || Course3.IsChecked == true || Course4.IsChecked == true) &&
-                               (EpubCheckBox.IsChecked == true && !string.IsNullOrWhiteSpace(EpubAdress.Text) ||
-                                PubNumberChechBox.IsChecked == true && !string.IsNullOrWhiteSpace(PubNumber.Text));
+        public bool IsReady => true;
+
+        private void MouseMove_OnHandler(object sender, MouseEventArgs e)
+        {
+            LocationButton.IsEnabled = !string.IsNullOrWhiteSpace(NameBox.Text) &&
+                                       !string.IsNullOrWhiteSpace(Publisher.Text) &&
+                                       (EpubCheckBox.IsChecked == true && !string.IsNullOrWhiteSpace(EpubAdress.Text) || PubNumberChechBox.IsChecked == true && !string.IsNullOrWhiteSpace(PubNumber.Text)) &&
+                                       (Course1.IsChecked == true || Course2.IsChecked == true || Course3.IsChecked == true || Course4.IsChecked == true) &&
+                                       AuthorList.SelectedIndex != -1 &&
+                                       DisciplinesList.SelectedIndex != -1 &&
+                                       PublishDatePicker.SelectedDate.HasValue;
+        }
     }
 }

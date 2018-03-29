@@ -8,7 +8,7 @@
         FontSize="20"
         Title="Фильтровать" 
         MinHeight="400" MinWidth="400"
-        Height="800" Width="600"
+        Height="950" Width="800"
         Loaded="This_OnLoaded"
         WindowStartupLocation="CenterOwner">
 
@@ -41,6 +41,7 @@
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="Margin" Value="5 5 10 5"/>
         </Style>
+        <BooleanToVisibilityConverter x:Key="VisibilityConverter"/>
     </Window.Resources>
 
     <Grid>
@@ -60,12 +61,12 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         
-        <CheckBox Content="По названию"/>
-        <TextBox/>
+        <CheckBox Content="По названию" IsChecked="{Binding IsEnabled, ElementName=NameBox}"/>
+        <TextBox Name="NameBox" IsEnabled="False"/>
 
-        <CheckBox Content="По Автору" Grid.Row="1"/>
+        <CheckBox Content="По Автору" Grid.Row="1" IsChecked="{Binding IsEnabled, ElementName=ListAuthor}"/>
         <ListView Name="ListAuthor" Grid.Row="1" Grid.Column="1" Margin="5 0" ItemsSource="{Binding Authors}" SelectionMode="Extended"
-                  d:DataContext="{d:DesignInstance local:WindowReports}">
+                  d:DataContext="{d:DesignInstance local:WindowReports}" IsEnabled="False">
             <ListView.View>
                 <GridView AllowsColumnReorder="True">
                     <GridViewColumn  Width="Auto">
@@ -80,11 +81,12 @@
                     <GridViewColumn Header="Фамилия" DisplayMemberBinding="{Binding Last}"/>
                     <GridViewColumn Header="Имя" DisplayMemberBinding="{Binding First}"/>
                     <GridViewColumn Header="Отчество" DisplayMemberBinding="{Binding Patronimic}"/>
+                    <GridViewColumn Header="Роль" DisplayMemberBinding="{Binding toEnumWT}"/>
                 </GridView>
             </ListView.View>
         </ListView>
 
-        <CheckBox Content="По Году издания" Grid.Row="2"/>
+        <CheckBox Content="По Году издания" Grid.Row="2" IsChecked="{Binding IsEnabled, ElementName=StartDate}"/>
         <Grid Grid.Row="2" Grid.Column="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -92,14 +94,16 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <DatePicker Name="StartDate" Margin="10" VerticalAlignment="Center"/>
+            <DatePicker Name="StartDate" Margin="10" VerticalAlignment="Center" DisplayDateEnd="{Binding SelectedDate, ElementName=FinishDate}"
+                        IsEnabled="False"/>
             <TextBlock HorizontalAlignment="Center" Margin="1" Grid.Column="1" Text="-" FontSize="35"/>
-            <DatePicker Name="FinishDate" Margin="10" Grid.Column="2" VerticalAlignment="Center"/>
+            <DatePicker Name="FinishDate" Margin="10" Grid.Column="2" VerticalAlignment="Center" IsEnabled="{Binding IsEnabled, ElementName=StartDate}"
+                        DisplayDateStart="{Binding SelectedDate, ElementName=StartDate}"/>
         </Grid>
 
-        <CheckBox Content="По издательству" Grid.Row="3"/>
-        <ListView Name="ListPublishers" Grid.Row="3" Grid.Column="1" Margin="5 0" SelectionMode="Extended" IsEnabled="{Binding ElementName=ReaderRButton, Path=IsChecked}">
-
+        <CheckBox Content="По издательству" Grid.Row="3" IsChecked="{Binding IsEnabled, ElementName=ListPublishers}"/>
+        <ListView Name="ListPublishers" Grid.Row="3" Grid.Column="1" Margin="5 0" SelectionMode="Extended" 
+                  IsEnabled="False">
             <ListView.View>
                 <GridView AllowsColumnReorder="True">
                     <GridViewColumn  Width="Auto">
@@ -116,9 +120,9 @@
             </ListView.View>
         </ListView>
 
-        <CheckBox Content="По Дисциплинам" Grid.Row="4"/>
-        <ListView Name="ListDisciplines" Grid.Row="4" Grid.Column="1" Margin="5 0" SelectionMode="Extended" IsEnabled="{Binding ElementName=ReaderRButton, Path=IsChecked}">
-
+        <CheckBox Content="По Дисциплинам" Grid.Row="4" IsChecked="{Binding IsEnabled, ElementName=ListDisciplines}"/>
+        <ListView Name="ListDisciplines" Grid.Row="4" Grid.Column="1" Margin="5 0" SelectionMode="Extended" 
+                  IsEnabled="False">
             <ListView.View>
                 <GridView AllowsColumnReorder="True">
                     <GridViewColumn  Width="Auto">
@@ -130,39 +134,46 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Дисциплина" />
+                    <GridViewColumn Header="Дисциплина" DisplayMemberBinding="{Binding Name}"/>
                 </GridView>
             </ListView.View>
         </ListView>
 
-        <CheckBox Content="По курсам" Grid.Row="5"/>
+        <CheckBox Content="По курсам" Grid.Row="5" IsChecked="{Binding IsEnabled, ElementName=Course1}"/>
         <StackPanel Orientation="Horizontal" Grid.Row="5" Grid.Column="1">
-            <CheckBox Name="Course1" Content="1"/>
-            <CheckBox Name="Course2" Content="2"/>
-            <CheckBox Name="Course3" Content="3"/>
-            <CheckBox Name="Course4" Content="4"/>
+            <CheckBox Name="Course1" Content="1" IsChecked="False" IsEnabled="False"/>
+            <CheckBox Name="Course2" Content="2" IsChecked="False" IsEnabled="{Binding IsEnabled, ElementName=Course1}"/>
+            <CheckBox Name="Course3" Content="3" IsChecked="False" IsEnabled="{Binding IsEnabled, ElementName=Course2}"/>
+            <CheckBox Name="Course4" Content="4" IsChecked="False" IsEnabled="{Binding IsEnabled, ElementName=Course3}"/>
         </StackPanel>
 
         <Grid Grid.Row="6" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition/>
                 <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <TextBlock Text="Тип:"/>
+            <TextBlock Text="Тип:" Visibility="Collapsed"/>
             <StackPanel VerticalAlignment="Center" Grid.Column="1">
-                <CheckBox Content="Электронная"/>
-                <CheckBox Content="Бумажная"/>
+                <CheckBox Name="EpubBox" Content="Электронная" IsChecked="True"/>
+                <CheckBox Name="PhysicalBox" Content="Бумажная" IsChecked="True"/>
             </StackPanel>
 
             <TextBlock Text="Вид:" Grid.Column="2"/>
             <StackPanel VerticalAlignment="Center" Grid.Column="3">
-                <CheckBox Content="Книга"/>
-                <CheckBox Content="Публикация"/>
+                <CheckBox Name="BookBox" Content="Книга" IsChecked="True"/>
+                <CheckBox Name="PublicationBox" Content="Публикация" IsChecked="True"/>
             </StackPanel>
 
+            <TextBlock Name="TypeText" Text="Тип:" Grid.Column="4" Visibility="{Binding ElementName=PublicationBox, Path=IsChecked, Converter={StaticResource VisibilityConverter}}"/>
+            <StackPanel VerticalAlignment="Center" Grid.Column="5" Visibility="{Binding Visibility, ElementName=TypeText}">
+                <CheckBox Name="SciBox" Content="Научная" IsChecked="True"/>
+                <CheckBox Name="EduBox" Content="Методическая" IsChecked="True"/>
+            </StackPanel>
         </Grid>
         
         <Button Margin="30 10" Grid.Row="7" Grid.ColumnSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Right" 

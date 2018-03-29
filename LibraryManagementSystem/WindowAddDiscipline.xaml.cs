@@ -40,5 +40,12 @@ namespace LibraryManagementSystem
             }
             Close();
         }
+
+        private void NewDiscipline_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key != Key.Enter)
+                return;
+            ButtonBase_OnClick(null, null);
+        }
     }
 }
