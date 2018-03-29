@@ -39,7 +39,7 @@ namespace LibraryManagementSystem
         {
             StartDate.SelectedDate = DateTime.Today.Subtract(new TimeSpan(365, 0, 0, 0));
             FinishDate.SelectedDate = DateTime.Today;
-            AuthorList.SelectAll();
+            //AuthorList.SelectAll();
             AuthorList.ItemsSource = Authors.OrderBy(d => d.WriterType);
             ReportType.SelectedIndex = 0;
         }
@@ -48,30 +48,29 @@ namespace LibraryManagementSystem
         {
             using (var db = new LibraryDBContainer())
             {
+                //выбраны книги или публиакции
+                bool bCheck = BookCheck.IsChecked == true;
+                bool pCheck = PubCheck.IsChecked == true;
 
-
-                var result = db.DbPublicationSet1
-                               .AsParallel()
-                               .ToArray()
-                               .Where(d =>
+                var result = db.DbPublicationSet1.ToArray();
+                result = result.Where(d =>
                                       {
-                                          bool a = BookCheck.IsChecked == true;
-                                          bool b = PubCheck.IsChecked == true;
-
-                                          if (a && b)
+                                          if (bCheck && pCheck)
                                               return true;
-                                          if (a)
+                                          if (bCheck)
                                               return d.BookPublication == eBookPublication.Book.e();
-                                          if (b)
+                                          if (pCheck)
                                               return d.BookPublication == eBookPublication.Publication.e();
                                           return false;
-                                      })
-                               .Where(d => d.Authors
-                                            .Any(f => AuthorList.SelectedItems
-                                                                .Cast<DbAuthor>()
-                                                                .Select(g => g.Id)
-                                                                .Contains(d.Id)));
+                                      }).ToArray();
+                {
+                    //выбор выделенных авторов
+                    var a1 = AuthorList.SelectedItems.Cast<DbAuthor>().Select(g => g.Id).ToList();
+                    var a2 = db.DbAuthorSet1.Where(f => a1.Contains(f.Id)).ToList();
+                    result = result.Where(d => d.Authors.Any(h => a2.Any(g => g == h))).ToArray();
+                }
 
+                //открытие excel
                 var app = new Application
                 {
                     DisplayAlerts = true,
@@ -85,11 +84,15 @@ namespace LibraryManagementSystem
                 {
                     case 0:
                     {
+                        //выбор только преподавателей
                         var res = result.Where(d => d.Authors.Any(f => f.toEnumWT == eWriterType.HseTeacher))
+                                         //выбор дат публикации
                                         .Where(d => PeriodButton.IsChecked == false ||
                                                     d.DatePublished >= StartDate.SelectedDate.Value &&
                                                     d.DatePublished <= FinishDate.SelectedDate.Value.AddDays(1))
+                                         //сотрировка по книгам/публикациям
                                         .OrderByDescending(d => d.BookPublication)
+                                         //сортировка по дате публикации
                                         .ThenBy(d => d.DDate)
                                         .ToArray();
 
@@ -97,6 +100,7 @@ namespace LibraryManagementSystem
                         wsheet.Cells[1, 2] = "Авторы";
                         wsheet.Cells[1, 3] = "Опубликовано";
 
+                        //запись в excel
                         for (int i = 0, offset = 2; i < res.Length; i++)
                         {
                             if (i == 0 || res[i].BookPublication != res[i - 1].BookPublication)
@@ -117,11 +121,15 @@ namespace LibraryManagementSystem
                     }
                     case 1:
                     {
-                        var selectDate = new Func<DbStats, bool>(f => f.DateTaken.Date >= StartDate.SelectedDate.Value &&
-                                                                      f.DateTaken <= FinishDate.SelectedDate.Value.AddDays(1) ||
-                                                                      PeriodButton.IsChecked == false);
+                        //отчёт по популярности
+                        //выбор по датам выдачи
+                        var selectDate = new Func<DbStats, bool>(f => PeriodButton.IsChecked == false ||
+                                                                      f.DateTaken.Date >= StartDate.SelectedDate.Value &&
+                                                                      f.DateTaken <= FinishDate.SelectedDate.Value.AddDays(1));
 
+                        //выбор выданных хоть раз
                         var res = result.Where(d => d.Stats.Count > 0)
+                                         //сортировка по количеству выдач
                                         .OrderBy(d => d.Stats.Count(selectDate))
                                         .Reverse()
                                         .ToArray();
@@ -130,6 +138,7 @@ namespace LibraryManagementSystem
                         wsheet.Cells[1, 2] = "Авторы";
                         wsheet.Cells[1, 3] = "Взято раз";
 
+                        //запись в excel
                         for (int i = 0; i < res.Length; i++)
                         {
                             var authors = res[i].Authors
@@ -146,8 +155,11 @@ namespace LibraryManagementSystem
                     }
                     case 2:
                     {
+                        //отчёт по не возвращённым книгам
+                        //выбор выданных книг
                         var res = result.SelectMany(d => d.PhysicalLocations)
                                         .Where(d => d.IsTaken)
+                                         //сортировка по последней выдаче
                                         .OrderBy(d => d.Publication.Stats.Last().DateTaken.ToNiceDate())
                                         .ToArray();
 
@@ -155,7 +167,8 @@ namespace LibraryManagementSystem
                         wsheet.Cells[1, 2] = "Авторы";
                         wsheet.Cells[1, 3] = "Взявший";
                         wsheet.Cells[1, 4] = "Взято";
-                        
+
+                        //запись в excel
                         for (int i = 0; i < res.Length; i++)
                         {
                             var el = res[i];

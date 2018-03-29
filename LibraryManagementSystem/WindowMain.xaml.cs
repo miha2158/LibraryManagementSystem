@@ -176,7 +176,7 @@ namespace LibraryManagementSystem
                     new DbDiscipline
                     {
                         Id = 3,
-                        Name = "Архитектура ОС",
+                        Name = "НИС",
                     }
                 };
                 foreach (var t in disciplines)
@@ -184,12 +184,12 @@ namespace LibraryManagementSystem
 
                 var publications = new[]
                 {
-                    new DbPublication("Основы Perl",
+                    new DbPublication("Принципы программирования",
                                       db.DbAuthorSet1.Local[2],
                                       ePublicationType.None,
                                       eBookPublication.Book,
                                       new DateTime(1985, 4, 1),
-                                      "oldschool")
+                                      "Росмэн")
                     {
                         Id = 1,
                         Course = new []
@@ -199,34 +199,10 @@ namespace LibraryManagementSystem
                         },
                         Discipline = new []
                         {
-                            disciplines[0],
-                            disciplines[2]
+                            disciplines[0]
                         }
                     },
-                    new DbPublication("Ruby programming guide",
-                                      new[]
-                                      {
-                                          db.DbAuthorSet1.Local[2],
-                                          db.DbAuthorSet1.Local[3]
-                                      },
-                                      ePublicationType.None,
-                                      eBookPublication.Book,
-                                      new DateTime(2001, 8, 1),
-                                      "newschool")
-                    {
-                        Id = 2,
-                        Course = new []
-                        {
-                            courses[2],
-                            courses[3]
-                        },
-                        Discipline = new []
-                        {
-                            disciplines[0],
-                            disciplines[1]
-                        }
-                    },
-                    new DbPublication("Python 3",
+                    new DbPublication("Справочник по C#",
                                       new[]
                                       {
                                           db.DbAuthorSet1.Local[1],
@@ -235,7 +211,7 @@ namespace LibraryManagementSystem
                                       ePublicationType.None,
                                       eBookPublication.Book,
                                       new DateTime(2011, 6, 1),
-                                      "newschool")
+                                      "Справочники")
                     {
                         Id = 3,
                         Course = new []
@@ -247,7 +223,49 @@ namespace LibraryManagementSystem
                             disciplines[0],
                         }
                     },
-                    new DbPublication("Why Java is better than javascript",
+                    new DbPublication("Pascal.NET programming guide",
+                                      new[]
+                                      {
+                                          db.DbAuthorSet1.Local[2],
+                                          db.DbAuthorSet1.Local[3]
+                                      },
+                                      ePublicationType.Educational,
+                                      eBookPublication.Publication,
+                                      new DateTime(2001, 8, 1),
+                                      "Питер")
+                    {
+                        Id = 2,
+                        Course = new []
+                        {
+                            courses[1],
+                            courses[3]
+                        },
+                        Discipline = new []
+                        {
+                            disciplines[0],
+                            disciplines[1]
+                        }
+                    },
+                    new DbPublication("Как писать божественный код",
+                                      db.DbAuthorSet1.Local[5],
+                                      ePublicationType.Scientific,
+                                      eBookPublication.Publication,
+                                      new DateTime(2018, 3, 1),
+                                      null)
+                    {
+                        Id = 6,
+                        InternetLocation = "https://youtube.com/",
+                        Course = new []
+                        {
+                            courses[2],
+                            courses[3]
+                        },
+                        Discipline = new []
+                        {
+                            disciplines[0],
+                        }
+                    },
+                    new DbPublication("Почему Perl 6 - лучший язык программирования",
                                       new[]
                                       {
                                           db.DbAuthorSet1.Local[3],
@@ -269,15 +287,15 @@ namespace LibraryManagementSystem
                             disciplines[1],
                         }
                     },
-                    new DbPublication("Как создать вебсайт с нуля",
+                    new DbPublication("Где учиться на программиста",
                                       db.DbAuthorSet1.Local[5],
                                       ePublicationType.Educational,
                                       eBookPublication.Publication,
                                       new DateTime(2016, 11, 1),
-                                      "Прогер")
+                                      null)
                     {
                         Id = 5,
-                        InternetLocation = "https://website.org/",
+                        InternetLocation = "https://wikipedia.org/",
                         Course = new []
                         {
                             courses[1],
@@ -286,25 +304,6 @@ namespace LibraryManagementSystem
                         Discipline = new []
                         {
                             disciplines[2],
-                        }
-                    },
-                    new DbPublication("Как победить facebook и Марка Цукерберга",
-                                      db.DbAuthorSet1.Local[5],
-                                      ePublicationType.Scientific,
-                                      eBookPublication.Publication,
-                                      new DateTime(2018, 3, 1),
-                                      null)
-                    {
-                        Id = 6,
-                        InternetLocation = "https://proger.ru/",
-                        Course = new []
-                        {
-                            courses[0],
-                            courses[3]
-                        },
-                        Discipline = new []
-                        {
-                            disciplines[0],
                         }
                     },
                 };
@@ -326,7 +325,7 @@ namespace LibraryManagementSystem
                     {
                         Id = 2,
                         Room = 321,
-                        Place = "снизу",
+                        Place = "где-то была",
                         IsTaken = false,
                         Publication = db.DbPublicationSet1.Local[2]
                     },
@@ -334,10 +333,10 @@ namespace LibraryManagementSystem
                     {
                         Id = 3,
                         Room = 501,
-                        Place = "приклеена под столом",
+                        Place = "в столе",
                         IsTaken = true,
                         Reader = db.DbReaderSet.Local[1],
-                        Publication = db.DbPublicationSet1.Local[2]
+                        Publication = db.DbPublicationSet1.Local[1]
                     },
 
                     new DbBookLocation
@@ -346,23 +345,23 @@ namespace LibraryManagementSystem
                         Room = 321,
                         Place = "на верхней полке шкафа",
                         IsTaken = false,
-                        Publication = db.DbPublicationSet1.Local[1]
+                        Publication = db.DbPublicationSet1.Local[2]
                     },
                     new DbBookLocation
                     {
                         Id = 5,
                         Room = 318,
-                        Place = "в левом шкафу справа",
+                        Place = "в правом шкафу слева",
                         IsTaken = false,
-                        Publication = db.DbPublicationSet1.Local[1]
+                        Publication = db.DbPublicationSet1.Local[0]
                     },
                     new DbBookLocation
                     {
                         Id = 6,
                         Room = 302,
-                        Place = "под ножкой стола",
+                        Place = "на столе",
                         IsTaken = false,
-                        Publication = db.DbPublicationSet1.Local[0]
+                        Publication = db.DbPublicationSet1.Local[1]
                     },
                     new DbBookLocation
                     {
@@ -378,11 +377,11 @@ namespace LibraryManagementSystem
 
                 var stats = new[]
                 {
-                    new DbStats {Id = 1, DateTaken = new DateTime(2016, 02, 03), Publication = db.DbPublicationSet1.Local[2]},
-                    new DbStats {Id = 2, DateTaken = new DateTime(2017, 07, 12), Publication = db.DbPublicationSet1.Local[2]},
-                    new DbStats {Id = 3, DateTaken = new DateTime(2017, 10, 29), Publication = db.DbPublicationSet1.Local[1]},
-                    new DbStats {Id = 3, DateTaken = new DateTime(2018, 03, 20), Publication = db.DbPublicationSet1.Local[1]},
-                    new DbStats {Id = 4, DateTaken = new DateTime(2018, 02, 05), Publication = db.DbPublicationSet1.Local[2]},
+                    new DbStats {Id = 1, DateTaken = new DateTime(2016, 01, 09), Publication = db.DbPublicationSet1.Local[2]},
+                    new DbStats {Id = 2, DateTaken = new DateTime(2017, 06, 10), Publication = db.DbPublicationSet1.Local[2]},
+                    new DbStats {Id = 3, DateTaken = new DateTime(2017, 11, 15), Publication = db.DbPublicationSet1.Local[1]},
+                    new DbStats {Id = 4, DateTaken = new DateTime(2018, 08, 20), Publication = db.DbPublicationSet1.Local[1]},
+                    new DbStats {Id = 5, DateTaken = new DateTime(2018, 03, 01), Publication = db.DbPublicationSet1.Local[2]},
                 };
                 foreach (var t in stats)
                     db.DbStatsSet.Add(t);

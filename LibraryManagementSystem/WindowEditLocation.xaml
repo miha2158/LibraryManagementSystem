@@ -98,7 +98,7 @@
 
         <StackPanel Grid.Row="6" Grid.ColumnSpan="2" Margin="30 10"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Orientation="Horizontal">
             <Button Name="AcceptAll" Content="Принять все" Padding="10 0" Margin="10 0" Click="AcceptAll_OnClick" IsEnabled="{Binding IsReady}"
-                    d:DataContext="{d:DesignInstance local:WindowEditLocation}" />
+                    d:DataContext="{d:DesignInstance local:WindowEditLocation}" Visibility="Collapsed" IsTabStop="False"/>
             <Button Name="Accept" Content="Принять" Padding="10 0" Margin="10 0" Click="Accept_OnClick" IsEnabled="{Binding IsReady}"
                     d:DataContext="{d:DesignInstance local:WindowEditLocation}" />
         </StackPanel>

@@ -276,7 +276,7 @@ namespace LibraryManagementSystem
 
         private void AddDiscipline_OnClick(object sender, RoutedEventArgs e)
         {
-            var p = new WindowAddDiscipline();
+            var p = new WindowAddDiscipline(this);
             p.ShowDialog();
             DisciplinesList.ItemsSource = DbPublication.AllDisciplines;
         }

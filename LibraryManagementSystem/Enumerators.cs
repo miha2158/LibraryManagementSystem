@@ -8,7 +8,7 @@ namespace LibraryManagementSystem
 {
     public enum eAccessLevel
     {
-        Sutdent,
+        Student,
         Teacher,
         Admin
     }

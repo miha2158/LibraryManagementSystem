@@ -48,7 +48,8 @@ namespace LibraryManagementSystem
         {
             var p = new WindowEditLocation(Owner, Display, Display.DCount);
             p.ShowDialog();
-            This_OnLoaded(null, null);
+            Close();
+            //This_OnLoaded(null, null);
         }
     }
 }

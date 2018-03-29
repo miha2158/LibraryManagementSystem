@@ -41,7 +41,7 @@ namespace LibraryManagementSystem
         }
         public DbReader(string First, string Last, string Patronimic, string Group) : this(First, Last, Patronimic)
         {
-            AccessLevel = eAccessLevel.Sutdent.e();
+            AccessLevel = eAccessLevel.Student.e();
             this.Group = Group;
         }
 
